@@ -1,10 +1,19 @@
 using Main.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
+using NLog;
+
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+
+#pragma warning disable CS0618 // Type or member is obsolete
+LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+#pragma warning restore CS0618 // Type or member is obsolete
+
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
+builder.Services.ConfigureLoggerService();
+
 builder.Services.AddControllers();
 
 WebApplication app = builder.Build();
