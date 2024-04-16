@@ -10,5 +10,6 @@ public class MappingProfile : Profile
     {
         CreateMap<DocumentType, DocumentTypeDto>();
         CreateMap<DocumentTypeForCreationDto, DocumentType>();
+        CreateMap<DocumentTypeForUpdateDto, DocumentType>();
     }
 }

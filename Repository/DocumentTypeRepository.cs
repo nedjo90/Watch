@@ -24,8 +24,18 @@ public class DocumentTypeRepository : RepositoryBase<DocumentType>, IDocumentTyp
                 .SingleOrDefault();
     }
 
-    public void CreateDocumentType(DocumentType documentType)
+    public void CreateDocumentType(DocumentType? documentType)
     {
         Create(documentType);
+    }
+
+    public IEnumerable<DocumentType> GetByIds(IEnumerable<Guid> ids, bool trackChanges)
+    {
+        return FindByCondition(x => ids.Contains(x.Id), trackChanges).ToList();
+    }
+
+    public void DeleteDocumentType(DocumentType documentType)
+    {
+        Delete(documentType);
     }
 }

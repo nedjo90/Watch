@@ -1,4 +1,4 @@
-using System.IO.Pipes;
+using System.Collections;
 using AutoMapper;
 using Contracts;
 using Entities.Exceptions;
@@ -23,7 +23,7 @@ internal sealed class DocumentTypeService : IDocumentTypeService
     public IEnumerable<DocumentTypeDto> GetAllDocumentTypes(bool trackChanges)
     {
         IEnumerable<DocumentType>? documentTypes = 
-            _repositoryManager.DocumentType?.GetAllDocumentTypes(trackChanges);
+            _repositoryManager.DocumentType.GetAllDocumentTypes(trackChanges);
         IEnumerable<DocumentTypeDto>? documentTypesDto =
             _mapper.Map<IEnumerable<DocumentTypeDto>>(documentTypes);
         return documentTypesDto;
@@ -40,14 +40,84 @@ internal sealed class DocumentTypeService : IDocumentTypeService
 
     public DocumentTypeDto CreateDocumentType(DocumentTypeForCreationDto documentTypeForCreationDto)
     {
-        DocumentType? documentTypeEntity = _mapper.Map<DocumentType>(documentTypeForCreationDto);
+        var documentTypeEntity = _mapper.Map<DocumentType>(documentTypeForCreationDto);
         
         _repositoryManager.DocumentType.CreateDocumentType(documentTypeEntity);
         _repositoryManager.Save();
 
-        DocumentTypeDto? documentTypeToReturn = _mapper.Map<DocumentTypeDto>(documentTypeEntity);
+        var documentTypeToReturn = _mapper.Map<DocumentTypeDto>(documentTypeEntity);
 
         return documentTypeToReturn;
+    }
 
+    public IEnumerable<DocumentTypeDto> GetByIds(IEnumerable<Guid> ids, bool trackChanges)
+    {
+        if (ids is null)
+            throw new IdParametersBadRequestException();
+        IEnumerable<DocumentType> documentTypeEntities =
+            _repositoryManager.DocumentType.GetByIds(ids, trackChanges);
+        if (ids.Count() != documentTypeEntities.Count())
+            throw new CollectionByIdsBadRequestException();
+        IEnumerable<DocumentTypeDto>? documentTypesToReturn =
+            _mapper.Map<IEnumerable<DocumentTypeDto>>(documentTypeEntities);
+        return documentTypesToReturn;
+    }
+
+    public (IEnumerable<DocumentTypeDto> documentTypeDtos, string ids) CreateDocumentTypeCollection
+        (IEnumerable<DocumentTypeForCreationDto> documentTypeCollection)
+    {
+        if (documentTypeCollection is null)
+            throw new DocumentTypeCollectionBadRequest();
+        IEnumerable<DocumentType>? documentTypeEntities = 
+            _mapper.Map<IEnumerable<DocumentType>>(documentTypeCollection);
+        foreach (DocumentType documentType in documentTypeEntities)
+        {
+            _repositoryManager.DocumentType.CreateDocumentType(documentType);
+        }
+        _repositoryManager.Save();
+
+        IEnumerable<DocumentTypeDto>? documentTypeCollectionToReturn =
+            _mapper.Map<IEnumerable<DocumentTypeDto>>(documentTypeEntities);
+        string ids = string.Join(",", documentTypeCollectionToReturn.Select(c => c.Id));
+        return (documentTypeCollectionToReturn, ids);
+    }
+
+    public void DeleteDocumentType(Guid documentTypeId, bool trackChanges)
+    {
+        DocumentType? documentType =
+            _repositoryManager.DocumentType.GetDocumentType(documentTypeId, trackChanges);
+        if (documentType is null)
+            throw new DocumentTypeNotFoundException(documentTypeId);
+        _repositoryManager.DocumentType.DeleteDocumentType(documentType);
+        _repositoryManager.Save();
+    }
+
+    public void DeleteDocumentTypeCollection(IEnumerable<DocumentTypeDto> documentTypeIdDtos, bool trackChanges)
+    {
+        if (documentTypeIdDtos is null)
+            throw new IdParametersBadRequestException();
+        IEnumerable<Guid> ids = documentTypeIdDtos.Select(documentTypeIdDto => documentTypeIdDto.Id).ToList();
+        if (ids is null)
+            throw new IdParametersBadRequestException();
+        IEnumerable<DocumentType> documentTypes = _repositoryManager.DocumentType.GetByIds(ids, trackChanges);
+        if (ids.Count() != documentTypes.Count())
+            throw new CollectionByIdsBadRequestException();
+        foreach (DocumentType documentType in documentTypes)
+        {
+            Console.WriteLine(documentType.Id);
+            _repositoryManager.DocumentType.DeleteDocumentType(documentType);
+        }
+        _repositoryManager.Save();
+    }
+
+    public void UpdateDocumentType(Guid documentTypeId, DocumentTypeForUpdateDto documentTypeForUpdateDto, bool trackChanges)
+    {
+        if (documentTypeForUpdateDto.Label is null)
+            throw new NullObjectException(nameof(documentTypeForUpdateDto.Label));
+        DocumentType? documentType = _repositoryManager.DocumentType.GetDocumentType(documentTypeId, trackChanges);
+        if (documentType is null)
+            throw new DocumentTypeNotFoundException(documentTypeId);
+        _mapper.Map(documentTypeForUpdateDto, documentType);
+        _repositoryManager.Save();
     }
 }
