@@ -1,3 +1,4 @@
+using AutoMapper;
 using Contracts;
 using Service.Contracts;
 
@@ -10,11 +11,11 @@ public sealed class ServiceManager : IServiceManager
  
 
     public ServiceManager
-        (IRepositoryManager repositoryManager, ILoggerManager loggerManager,IDocumentTypeService documentTypeService)
+        (IRepositoryManager repositoryManager, ILoggerManager loggerManager, IMapper mapper)
     {
         _documentTypeService =
             new Lazy<IDocumentTypeService>(() =>
-                new DocumentTypeService(repositoryManager, loggerManager));
+                new DocumentTypeService(repositoryManager, loggerManager, mapper));
     }
     
 }

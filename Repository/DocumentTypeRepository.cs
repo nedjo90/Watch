@@ -15,4 +15,17 @@ public class DocumentTypeRepository : RepositoryBase<DocumentType>, IDocumentTyp
             .OrderBy(c => c.Label)
             .ToList();
     }
+
+    public DocumentType GetDocumentType(Guid documentTypeId, bool trackChanges)
+    {
+        return 
+            FindByCondition
+                (c => c.Id.Equals(documentTypeId), trackChanges)
+                .SingleOrDefault();
+    }
+
+    public void CreateDocumentType(DocumentType documentType)
+    {
+        Create(documentType);
+    }
 }

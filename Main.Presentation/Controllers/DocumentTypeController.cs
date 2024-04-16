@@ -1,10 +1,11 @@
 using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
+using Shared;
 
 namespace Main.Presentation.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/documenttypes")]
 [ApiController]
 public class DocumentTypeController : ControllerBase
 {
@@ -18,14 +19,24 @@ public class DocumentTypeController : ControllerBase
     [HttpGet]
     public IActionResult GetDocumentTypes()
     {
-        try
-        {
-            IEnumerable<DocumentType> companies = _service.DocumentTypeService.GetAllDocumentTypes(false);
-            return Ok(companies);
-        }
-        catch
-        {
-            return StatusCode(500, "Internal server error");
-        }
+        IEnumerable<DocumentTypeDto> companies = _service.DocumentTypeService.GetAllDocumentTypes(false);
+        return Ok(companies);
+    }
+
+    [HttpGet("{id:guid}", Name = "DocumentTypeById")]
+    public IActionResult GetDocumentType(Guid id)
+    {
+        var documentType = _service.DocumentTypeService.GetDocumentType(id, false);
+        return Ok(documentType);
+    }
+
+    [HttpPost]
+    public IActionResult CreateDocumentType
+        ([FromBody] DocumentTypeForCreationDto documentType)
+    {
+        if (documentType is null)
+            return BadRequest("DocumentTypeForCreationDto object is null");
+        var createdDocumentType = _service.DocumentTypeService.CreateDocumentType(documentType);
+        return CreatedAtRoute("DocumentTypeById", new { Id = createdDocumentType.Id }, createdDocumentType);
     }
 }
