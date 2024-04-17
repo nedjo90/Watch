@@ -1,5 +1,8 @@
 using Contracts;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
+using Shared.RequestFeatures;
 
 namespace Repository;
 
@@ -9,19 +12,34 @@ public class DocumentTypeRepository : RepositoryBase<DocumentType>, IDocumentTyp
     {
     }
 
-    public IEnumerable<DocumentType> GetAllDocumentTypes(bool trackChanges)
+    public async Task<IEnumerable<DocumentType>> GetAllDocumentTypesAsync(bool trackChanges)
     {
-        return FindAll(trackChanges)
+        return await FindAll(trackChanges)
             .OrderBy(c => c.Label)
-            .ToList();
+            .ToListAsync();
     }
-
-    public DocumentType GetDocumentType(Guid documentTypeId, bool trackChanges)
+    
+    public async Task<PagedList<DocumentType>> GetAllDocumentTypesPagingAsync
+    (DocumentTypeParameters documentTypeParameters,
+        bool trackChanges)
     {
-        return 
+        IEnumerable<DocumentType> documentTypes = await FindAll(trackChanges)
+            .Search(documentTypeParameters.SearchTerm ?? string.Empty)
+            .OrderBy(c => c.Label)
+            .ToListAsync();
+        int count = await FindAll(trackChanges)
+            .Search(documentTypeParameters.SearchTerm ?? string.Empty)
+            .CountAsync();
+        return PagedList<DocumentType>
+            .ToPagedList(documentTypes, count,documentTypeParameters.PageNumber, documentTypeParameters.PageSize);
+    }
+    
+    public async Task<DocumentType?> GetDocumentTypeAsync(Guid documentTypeId, bool trackChanges)
+    {
+        return await
             FindByCondition
                 (c => c.Id.Equals(documentTypeId), trackChanges)
-                .SingleOrDefault();
+                .SingleOrDefaultAsync();
     }
 
     public void CreateDocumentType(DocumentType? documentType)
@@ -29,9 +47,9 @@ public class DocumentTypeRepository : RepositoryBase<DocumentType>, IDocumentTyp
         Create(documentType);
     }
 
-    public IEnumerable<DocumentType> GetByIds(IEnumerable<Guid> ids, bool trackChanges)
+    public async Task<IEnumerable<DocumentType>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges)
     {
-        return FindByCondition(x => ids.Contains(x.Id), trackChanges).ToList();
+        return await FindByCondition(x => ids.Contains(x.Id), trackChanges).ToListAsync();
     }
 
     public void DeleteDocumentType(DocumentType documentType)

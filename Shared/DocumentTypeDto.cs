@@ -1,7 +1,6 @@
 namespace Shared;
 
-public record DocumentTypeDto
+public record DocumentTypeDto : DocumentTypeForManipulationDto
 {
     public Guid Id { get; init; }
-    public string? Label { get; init; }
 }

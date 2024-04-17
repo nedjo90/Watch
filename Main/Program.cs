@@ -1,7 +1,10 @@
 using Contracts;
 using Main.Extensions;
+using Main.Presentation.ActionFilter;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Extensions.Options;
 using NLog;
 
 
@@ -23,11 +26,12 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
 });
-
+builder.Services.AddScoped<ValidationFilterAttribute>();
 builder.Services.AddControllers(configure =>
     {
         configure.RespectBrowserAcceptHeader = true;
         configure.ReturnHttpNotAcceptable = true;
+        configure.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
     })
     .AddXmlDataContractSerializerFormatters()
     .AddApplicationPart(typeof(Main.Presentation.AssemblyReference).Assembly);
@@ -53,3 +57,11 @@ app.UseCors("CorsPolicy");
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+
+
+
+NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter() =>
+    new ServiceCollection().AddLogging().AddMvc().AddNewtonsoftJson()
+        .Services.BuildServiceProvider()
+        .GetRequiredService<IOptions<MvcOptions>>().Value.InputFormatters
+        .OfType<NewtonsoftJsonPatchInputFormatter>().First();

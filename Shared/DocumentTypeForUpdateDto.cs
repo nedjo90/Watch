@@ -1,6 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Shared;
 
-public record DocumentTypeForUpdateDto(string Label)
+public record DocumentTypeForUpdateDto : DocumentTypeForManipulationDto
 {
-    
 }

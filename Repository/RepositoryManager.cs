@@ -16,8 +16,8 @@ public sealed class RepositoryManager : IRepositoryManager
     }
 
 
-    public void Save()
+    public async Task SaveAsync()
     {
-        _repositoryContext.SaveChanges();
+        await _repositoryContext.SaveChangesAsync();
     }
 }

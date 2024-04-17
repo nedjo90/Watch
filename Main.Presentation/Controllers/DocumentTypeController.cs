@@ -1,9 +1,16 @@
 using Entities.Exceptions;
 using Entities.Models;
+using Main.Presentation.ActionFilter;
 using Main.Presentation.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared;
+using Microsoft.AspNetCore.JsonPatch;
+using Newtonsoft.Json;
+using System.Text.Json;
+using Shared.RequestFeatures;
+using JsonSerializer = System.Text.Json.JsonSerializer;
+
 
 namespace Main.Presentation.Controllers;
 
@@ -17,71 +24,99 @@ public class DocumentTypeController : ControllerBase
     {
         _service = service;
     }
-
+    
     [HttpGet]
-    public IActionResult GetDocumentTypes()
+    public async Task<IActionResult> GetDocumentTypes()
     {
-        IEnumerable<DocumentTypeDto> companies = _service.DocumentTypeService.GetAllDocumentTypes(false);
+        IEnumerable<DocumentTypeDto> companies = 
+            await _service.DocumentTypeService.GetAllDocumentTypesAsync( false);
         return Ok(companies);
     }
-
-    [HttpGet("{id:guid}", Name = "DocumentTypeById")]
-    public IActionResult GetDocumentType(Guid id)
+    
+    [HttpGet("page")]
+    public async Task<IActionResult> GetDocumentTypesPaging([FromQuery]DocumentTypeParameters documentTypeParameters)
     {
-        var documentType = _service.DocumentTypeService.GetDocumentType(id, false);
+        (IEnumerable<DocumentTypeDto> documentTypeDtos, MetaData metadata) pagedResult = 
+            await _service.DocumentTypeService
+                .GetAllDocumentTypesPagingAsync(documentTypeParameters, false);
+        
+        Response.Headers["X-Pagination"] = JsonSerializer.Serialize(pagedResult.metadata);
+        return Ok(pagedResult.documentTypeDtos);
+    }
+    
+    [HttpGet("{id:guid}", Name = "DocumentTypeById")]
+    public async Task<IActionResult> GetDocumentType(Guid id)
+    {
+        DocumentTypeDto documentType = await _service.DocumentTypeService.GetDocumentTypeAsync(id, false);
         return Ok(documentType);
     }
 
-    [HttpGet("collection/({documentTypes})", Name = "DocumentTypeCollection")]
-    public IActionResult GetDocumentTypeCollection
+    [HttpGet("collection/({ids})", Name = "DocumentTypeCollection")]
+    public async Task<IActionResult> GetDocumentTypeCollection
     ([ModelBinder(BinderType = typeof(ArrayModelBinder))]IEnumerable<Guid> ids)
     {
-        IEnumerable<DocumentTypeDto> documentTypeDtos = _service.DocumentTypeService.GetByIds(ids, false);
+        IEnumerable<DocumentTypeDto> documentTypeDtos =
+            await _service.DocumentTypeService.GetByIdsAsync(ids, false);
         return Ok(documentTypeDtos);
     }
     
     [HttpPost]
-    public IActionResult CreateDocumentType
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> CreateDocumentType
         ([FromBody] DocumentTypeForCreationDto? documentType)
     {
-        if (documentType is null)
-            return BadRequest("DocumentTypeForCreationDto object is null");
-        var createdDocumentType = _service.DocumentTypeService.CreateDocumentType(documentType);
+        DocumentTypeDto createdDocumentType = 
+            await _service.DocumentTypeService.CreateDocumentTypeAsync(documentType);
         return CreatedAtRoute("DocumentTypeById", new { Id = createdDocumentType.Id }, createdDocumentType);
     }
     
     [HttpPost("collection")]
-    public IActionResult CreateDocumentTypeCollection
+    public async Task<IActionResult> CreateDocumentTypeCollection
         ([FromBody]IEnumerable<DocumentTypeForCreationDto> documentTypeCollection)
     {
         (IEnumerable<DocumentTypeDto> documentTypeDtos, string ids) result = 
-            _service.DocumentTypeService.CreateDocumentTypeCollection(documentTypeCollection);
-
-        //return Ok(createdDocumentTypeCollection);
+            await _service.DocumentTypeService.CreateDocumentTypeCollectionAsync(documentTypeCollection);
         return CreatedAtRoute
             ("DocumentTypeCollection", new { result.ids }, result.documentTypeDtos);
     }
 
     [HttpDelete("{id:guid}")]
-    public IActionResult DeleteDocumentType(Guid id)
+    public async Task<IActionResult> DeleteDocumentType(Guid id)
     {
-        _service.DocumentTypeService.DeleteDocumentType(id, false);
+        await _service.DocumentTypeService.DeleteDocumentTypeAsync(id, false);
         return NoContent();
     }
 
     [HttpDelete("collection")]
-    public IActionResult DeleteDocumentTypeCollection([FromBody] IEnumerable<DocumentTypeDto> documentTypes)
+    public async Task<IActionResult> DeleteDocumentTypeCollection
+        ([FromBody] IEnumerable<DocumentTypeDto> documentTypes)
     {
-        _service.DocumentTypeService.DeleteDocumentTypeCollection(documentTypes, false);
+        await _service.DocumentTypeService.DeleteDocumentTypeCollectionAsync(documentTypes, false);
         return NoContent();
     }
 
     [HttpPut("{id:guid}")]
-    public IActionResult UpdateDocumentType(Guid id, [FromBody] DocumentTypeForUpdateDto documentTypeForUpdateDto)
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> UpdateDocumentType
+        (Guid id, [FromBody] DocumentTypeForUpdateDto documentTypeForUpdateDto)
     {
-        if (documentTypeForUpdateDto is null)
-            throw new NullObjectException(documentTypeForUpdateDto.ToString());
-        _service.DocumentTypeService.UpdateDocumentType(id, documentTypeForUpdateDto, true);
+        await _service.DocumentTypeService.UpdateDocumentTypeAsync(id, documentTypeForUpdateDto, true);
+        return NoContent();
+    }
+
+    [HttpPatch("{id:guid}")]
+    public async Task<IActionResult> PartiallyUpdateDocumentType
+        (Guid id, [FromBody]JsonPatchDocument<DocumentTypeForUpdateDto> patchDoc)
+    {
+        if (patchDoc is null)
+            throw new NullObjectException($"patchDoc for {id}");
+        (DocumentTypeForUpdateDto documentTypeToPatch, DocumentType documentTypeEntity) result =
+            await _service.DocumentTypeService.GetDocumentTypeForPatchAsync(id, true);
+        patchDoc.ApplyTo(result.documentTypeToPatch, ModelState);
+        TryValidateModel(result.documentTypeToPatch);
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+        await _service.DocumentTypeService.SaveChangesForPatchAsync(result.documentTypeToPatch, result.documentTypeEntity);
         return NoContent();
     }
 }

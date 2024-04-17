@@ -20,6 +20,7 @@ public static class ServiceExtensions
                         builder.AllowAnyOrigin();
                         builder.AllowAnyMethod();
                         builder.AllowAnyHeader();
+                        builder.WithExposedHeaders("X-Pagination");
                     }
                 );
             }

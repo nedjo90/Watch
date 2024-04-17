@@ -1,18 +1,24 @@
 using Entities.Models;
 using Shared;
+using Shared.RequestFeatures;
 
 namespace Service.Contracts;
 
 public interface IDocumentTypeService
 {
-    IEnumerable<DocumentTypeDto> GetAllDocumentTypes(bool trackChanges);
-    DocumentTypeDto GetDocumentType(Guid documentType, bool trackChanges);
-    DocumentTypeDto CreateDocumentType(DocumentTypeForCreationDto documentTypeForCreationDto);
-    IEnumerable<DocumentTypeDto> GetByIds(IEnumerable<Guid> ids, bool trackChanges);
-    (IEnumerable<DocumentTypeDto> documentTypeDtos, string ids) CreateDocumentTypeCollection
+    Task<IEnumerable<DocumentTypeDto>> GetAllDocumentTypesAsync(bool trackChanges);
+    public Task<(IEnumerable<DocumentTypeDto> documentTypeDtos, MetaData metadata)> GetAllDocumentTypesPagingAsync
+    (DocumentTypeParameters documentTypeParameters, bool trackChanges);
+    Task<DocumentTypeDto> GetDocumentTypeAsync(Guid documentType, bool trackChanges);
+    Task<DocumentTypeDto> CreateDocumentTypeAsync(DocumentTypeForCreationDto documentTypeForCreationDto);
+    Task<IEnumerable<DocumentTypeDto>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
+    Task<(IEnumerable<DocumentTypeDto> documentTypeDtos, string ids)> CreateDocumentTypeCollectionAsync
         (IEnumerable<DocumentTypeForCreationDto> documentTypeCollection);
-    void DeleteDocumentType(Guid documentTypeId, bool trackChanges);
-    void DeleteDocumentTypeCollection(IEnumerable<DocumentTypeDto> ids, bool trackChanges);
-
-    void UpdateDocumentType(Guid documentTypeId, DocumentTypeForUpdateDto documentTypeForUpdateDto, bool trackChanges);
+    Task DeleteDocumentTypeAsync(Guid documentTypeId, bool trackChanges);
+    Task DeleteDocumentTypeCollectionAsync(IEnumerable<DocumentTypeDto> ids, bool trackChanges);
+    Task UpdateDocumentTypeAsync(Guid documentTypeId, DocumentTypeForUpdateDto documentTypeForUpdateDto,
+        bool trackChanges);
+    Task<(DocumentTypeForUpdateDto documentTypeToPatch, DocumentType documentTypeEntity)> GetDocumentTypeForPatchAsync(
+        Guid documentTypeId, bool trackChanges);
+    Task SaveChangesForPatchAsync(DocumentTypeForUpdateDto documentTypeToPatch, DocumentType documentTypeEntity);
 }
