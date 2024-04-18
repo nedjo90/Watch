@@ -1,62 +1,66 @@
 using System.Collections;
+using System.Dynamic;
 using AutoMapper;
 using Contracts;
 using Entities.Exceptions;
+using Entities.LinkModels;
 using Entities.Models;
 using Service.Contracts;
 using Shared;
+using Shared.DocumentType;
 using Shared.RequestFeatures;
 
 namespace Service;
 
-internal sealed class DocumentTypeService : IDocumentTypeService
+internal sealed class DocumentTypeService : ServiceBase, IDocumentTypeService
 {
-    private readonly IRepositoryManager _repositoryManager;
-    private readonly ILoggerManager _loggerManager;
-    private readonly IMapper _mapper;
-
-    public DocumentTypeService(IRepositoryManager repositoryManager, ILoggerManager loggerManager, IMapper mapper)
-    {
-        _repositoryManager = repositoryManager;
-        _loggerManager = loggerManager;
-        _mapper = mapper;
-    }
+    public DocumentTypeService(IRepositoryManager repositoryManager, ILoggerManager loggerManager, IMapper mapper, IDocumentTypeLinks documentTypeLinks) 
+        : base(repositoryManager, loggerManager, mapper, documentTypeLinks) {}
+    
     
     public async Task<IEnumerable<DocumentTypeDto>> GetAllDocumentTypesAsync(bool trackChanges)
     {
         IEnumerable<DocumentType> documentTypes =  
-            await _repositoryManager.DocumentType.GetAllDocumentTypesAsync( trackChanges);
+            await RepositoryManager.DocumentType.GetAllDocumentTypesAsync( trackChanges);
         IEnumerable<DocumentTypeDto>? documentTypesDto =
-            _mapper.Map<IEnumerable<DocumentTypeDto>>(documentTypes);
+            Mapper.Map<IEnumerable<DocumentTypeDto>>(documentTypes);
         return documentTypesDto;
     }
     
-    public async Task<(IEnumerable<DocumentTypeDto> documentTypeDtos, MetaData metadata)> GetAllDocumentTypesPagingAsync(
-        DocumentTypeParameters documentTypeParameters, bool trackChanges)
+    public async Task<(LinkResponse linkResponse, MetaData metadata)> GetAllDocumentTypesPagingAsync
+        (LinkParameters linkParameters, bool trackChanges)
     {
         PagedList<DocumentType> documentTypesWithMetaData =  
-            await _repositoryManager.DocumentType
-                .GetAllDocumentTypesPagingAsync(documentTypeParameters, trackChanges);
+            await RepositoryManager.DocumentType
+                .GetAllDocumentTypesPagingAsync(linkParameters.DocumentTypeParameters, trackChanges);
+        
         IEnumerable<DocumentTypeDto>? documentTypesDto =
-            _mapper.Map<IEnumerable<DocumentTypeDto>>(documentTypesWithMetaData);
-        return (documentTypesDto, documentTypesWithMetaData.MetaData);
+            Mapper.Map<IEnumerable<DocumentTypeDto>>(documentTypesWithMetaData);
+        
+        LinkResponse links = DocumentTypeLinks
+            .TryGenerateLinks(
+                documentTypesDto,
+                linkParameters.DocumentTypeParameters.Fields,
+            linkParameters.Context);
+        
+        return (linkResponse: links, metadata: documentTypesWithMetaData.MetaData);
     }
 
     public async Task<DocumentTypeDto> GetDocumentTypeAsync(Guid id, bool trackChanges)
     {
         DocumentType? documentType =
             await GetDocumentTypeAndCheckIfExitsAsync(id, trackChanges);
-        DocumentTypeDto documentTypeDto = _mapper.Map<DocumentTypeDto>(documentType);
+        DocumentTypeDto documentTypeDto = Mapper.Map<DocumentTypeDto>(documentType);
         return documentTypeDto;
     }
 
     public async Task<DocumentTypeDto> CreateDocumentTypeAsync(DocumentTypeForCreationDto documentTypeForCreationDto)
     {
-        DocumentType? documentTypeEntity = _mapper.Map<DocumentType>(documentTypeForCreationDto);
-        _repositoryManager.DocumentType.CreateDocumentType(documentTypeEntity);
-        await _repositoryManager.SaveAsync();
+        DocumentType? documentTypeEntity = Mapper.Map<DocumentType>(documentTypeForCreationDto);
+        RepositoryManager.DocumentType.CreateDocumentType(documentTypeEntity);
+        await RepositoryManager.SaveAsync();
 
-        DocumentTypeDto? documentTypeToReturn = _mapper.Map<DocumentTypeDto>(documentTypeEntity);
+        DocumentTypeDto? documentTypeToReturn = Mapper.Map<DocumentTypeDto>(documentTypeEntity);
 
         return documentTypeToReturn;
     }
@@ -66,11 +70,11 @@ internal sealed class DocumentTypeService : IDocumentTypeService
         if (ids is null)
             throw new IdParametersBadRequestException();
         IEnumerable<DocumentType> documentTypeEntities =
-            await _repositoryManager.DocumentType.GetByIdsAsync(ids, trackChanges);
+            await RepositoryManager.DocumentType.GetByIdsAsync(ids, trackChanges);
         if (ids.Count() != documentTypeEntities.Count())
             throw new CollectionByIdsBadRequestException();
         IEnumerable<DocumentTypeDto>? documentTypesToReturn =
-            _mapper.Map<IEnumerable<DocumentTypeDto>>(documentTypeEntities);
+            Mapper.Map<IEnumerable<DocumentTypeDto>>(documentTypeEntities);
         return documentTypesToReturn;
     }
 
@@ -80,15 +84,15 @@ internal sealed class DocumentTypeService : IDocumentTypeService
         if (documentTypeCollection is null)
             throw new DocumentTypeCollectionBadRequest();
         IEnumerable<DocumentType>? documentTypeEntities = 
-            _mapper.Map<IEnumerable<DocumentType>>(documentTypeCollection);
+            Mapper.Map<IEnumerable<DocumentType>>(documentTypeCollection);
         foreach (DocumentType documentType in documentTypeEntities)
         {
-            _repositoryManager.DocumentType.CreateDocumentType(documentType);
+            RepositoryManager.DocumentType.CreateDocumentType(documentType);
         }
-        await _repositoryManager.SaveAsync();
+        await RepositoryManager.SaveAsync();
 
         IEnumerable<DocumentTypeDto>? documentTypeCollectionToReturn =
-            _mapper.Map<IEnumerable<DocumentTypeDto>>(documentTypeEntities);
+            Mapper.Map<IEnumerable<DocumentTypeDto>>(documentTypeEntities);
         string ids = string.Join(",", documentTypeCollectionToReturn.Select(c => c.Id));
         return (documentTypeCollectionToReturn, ids);
     }
@@ -97,8 +101,8 @@ internal sealed class DocumentTypeService : IDocumentTypeService
     {
         DocumentType? documentType =
             await GetDocumentTypeAndCheckIfExitsAsync(documentTypeId, trackChanges);
-        _repositoryManager.DocumentType.DeleteDocumentType(documentType);
-        await _repositoryManager.SaveAsync();
+        RepositoryManager.DocumentType.DeleteDocumentType(documentType);
+        await RepositoryManager.SaveAsync();
     }
 
     public async Task DeleteDocumentTypeCollectionAsync(IEnumerable<DocumentTypeDto> documentTypeIdDtos, bool trackChanges)
@@ -109,12 +113,12 @@ internal sealed class DocumentTypeService : IDocumentTypeService
         if (ids is null)
             throw new IdParametersBadRequestException();
         IEnumerable<DocumentType> documentTypes =
-            await _repositoryManager.DocumentType.GetByIdsAsync(ids, trackChanges);
+            await RepositoryManager.DocumentType.GetByIdsAsync(ids, trackChanges);
         if (ids.Count() != documentTypes.Count())
             throw new CollectionByIdsBadRequestException();
         foreach (DocumentType documentType in documentTypes)
-            _repositoryManager.DocumentType.DeleteDocumentType(documentType);
-        await _repositoryManager.SaveAsync();
+            RepositoryManager.DocumentType.DeleteDocumentType(documentType);
+        await RepositoryManager.SaveAsync();
     }
     
 
@@ -126,8 +130,8 @@ internal sealed class DocumentTypeService : IDocumentTypeService
             throw new NullObjectException(nameof(documentTypeForUpdateDto.Label));
         DocumentType? documentType = 
             await GetDocumentTypeAndCheckIfExitsAsync(documentTypeId, trackChanges);
-        _mapper.Map(documentTypeForUpdateDto, documentType);
-        await _repositoryManager.SaveAsync();
+        Mapper.Map(documentTypeForUpdateDto, documentType);
+        await RepositoryManager.SaveAsync();
     }
 
     public async Task<(DocumentTypeForUpdateDto documentTypeToPatch, DocumentType documentTypeEntity)>
@@ -136,22 +140,24 @@ internal sealed class DocumentTypeService : IDocumentTypeService
         DocumentType? documentTypeEntity = 
             await GetDocumentTypeAndCheckIfExitsAsync(documentTypeId, trackChanges);
         DocumentTypeForUpdateDto? documentTypeToPatch =
-            _mapper.Map<DocumentTypeForUpdateDto>(documentTypeEntity);
+            Mapper.Map<DocumentTypeForUpdateDto>(documentTypeEntity);
         return (documentTypeToPatch, documentTypeEntity);
     }
 
     public async Task SaveChangesForPatchAsync(DocumentTypeForUpdateDto documentTypeToPatch, DocumentType documentTypeEntity)
     {
-        _mapper.Map(documentTypeToPatch, documentTypeEntity);
-        await _repositoryManager.SaveAsync();
+        Mapper.Map(documentTypeToPatch, documentTypeEntity);
+        await RepositoryManager.SaveAsync();
     }
     
     
     private async Task<DocumentType> GetDocumentTypeAndCheckIfExitsAsync(Guid id, bool trackChanges)
     {
-        DocumentType documentType = await _repositoryManager.DocumentType.GetDocumentTypeAsync(id, trackChanges);
+        DocumentType documentType = await RepositoryManager.DocumentType.GetDocumentTypeAsync(id, trackChanges);
         if (documentType is null)
             throw new DocumentTypeNotFoundException(id);
         return documentType;
     }
+
+    
 }

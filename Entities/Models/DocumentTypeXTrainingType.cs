@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Entities.Models;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public class DocumentTypeXTrainingType
+public class DocumentTypeXTrainingType : TableBase
 {
     [Column("DocumentTypeXTrainingTypeId")]
     public Guid Id { get; set; }

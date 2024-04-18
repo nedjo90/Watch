@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models;
 
-public class NotificationType
+public class NotificationType : TableBase
 {
     [Column("NotificationTypeId")]
     public Guid Id { get; set; }

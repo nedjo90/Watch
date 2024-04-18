@@ -29,6 +29,12 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("DocumentId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<Guid>("DocumentTypeId")
                         .HasColumnType("char(36)");
 
@@ -41,7 +47,10 @@ namespace Main.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("UploadDate")
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("UserId")
@@ -63,10 +72,22 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("DocumentStatusId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -80,10 +101,22 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("DocumentTypeId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -93,17 +126,29 @@ namespace Main.Migrations
                         new
                         {
                             Id = new Guid("80abbca8-664d-4b20-b5de-024705497d4a"),
-                            Label = "Carte d'identité"
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            CreatedDate = new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9720),
+                            Label = "Carte d'identité",
+                            UpdateBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            UpdateDate = new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9720)
                         },
                         new
                         {
                             Id = new Guid("86dba8c0-d178-41e7-938c-ed49778fb52a"),
-                            Label = "Carte vitale"
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            CreatedDate = new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9730),
+                            Label = "Carte vitale",
+                            UpdateBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            UpdateDate = new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9730)
                         },
                         new
                         {
                             Id = new Guid("021ca3c1-0deb-4afd-ae94-2159a8479811"),
-                            Label = "Carte bleu"
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            CreatedDate = new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9730),
+                            Label = "Carte bleu",
+                            UpdateBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            UpdateDate = new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9730)
                         });
                 });
 
@@ -114,6 +159,12 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("DocumentTypeXTrainingTypeId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<Guid>("DocumentTypeId")
                         .HasColumnType("char(36)");
 
@@ -122,6 +173,12 @@ namespace Main.Migrations
 
                     b.Property<Guid>("TrainingTypeId")
                         .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -142,6 +199,12 @@ namespace Main.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("longtext");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<Guid>("DocumentId")
                         .HasColumnType("char(36)");
 
@@ -149,6 +212,12 @@ namespace Main.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("StatusDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
@@ -167,6 +236,12 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("LateMissId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<DateTime>("DeclarationDate")
                         .HasColumnType("datetime(6)");
 
@@ -177,6 +252,12 @@ namespace Main.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("UserId")
@@ -198,6 +279,12 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("LateMissDocumentId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(60)
@@ -209,6 +296,12 @@ namespace Main.Migrations
                     b.Property<string>("Path")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("UploadDate")
                         .HasColumnType("datetime(6)");
@@ -227,10 +320,22 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("LateMissTypeId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -244,10 +349,22 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("LateMissTypeId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -261,11 +378,23 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("LateMissXLateMissStatusId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<Guid>("LateMissId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("LateMissStatusId")
                         .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -283,6 +412,12 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("NotificationId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
 
@@ -291,6 +426,12 @@ namespace Main.Migrations
 
                     b.Property<Guid>("NotificationTypeId")
                         .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -306,10 +447,22 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("NotificationTypeId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -323,10 +476,22 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("IdProfessionalStatus");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -340,10 +505,22 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("RoleId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -357,6 +534,12 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("TrainingId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime(6)");
 
@@ -365,6 +548,12 @@ namespace Main.Migrations
 
                     b.Property<Guid>("TrainingTypeId")
                         .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -380,10 +569,22 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("TrainingTypeId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -414,6 +615,12 @@ namespace Main.Migrations
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -451,6 +658,12 @@ namespace Main.Migrations
                     b.Property<Guid>("ProfessionalStatusId")
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProfessionalStatusId");
@@ -465,8 +678,20 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("UserXNotificationId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<Guid>("NotificationId")
                         .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
@@ -487,8 +712,20 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("UserXRoleId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<Guid>("RoleId")
                         .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
@@ -509,8 +746,20 @@ namespace Main.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("UserXTrainingId");
 
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<Guid>("TrainingId")
                         .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UpdateBy")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");

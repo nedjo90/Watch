@@ -3,9 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models;
 
-public class DocumentType
+public class DocumentType : TableBase
 {
     [Column("DocumentTypeId")]
+    [Key]
     public Guid Id { get; set; }
     [Required(ErrorMessage = "Document Type is a required field.")]
     [MaxLength(60, ErrorMessage = "Maximum length for the Document Type is 60 characters" )]

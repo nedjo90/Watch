@@ -1,9 +1,14 @@
 using Contracts;
 using LoggerService;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using Service;
 using Service.Contracts;
+using Service.DataShaping;
+using Shared;
+using Shared.DocumentType;
 
 namespace Main.Extensions;
 
@@ -50,6 +55,7 @@ public static class ServiceExtensions
     public static void ConfigureServiceManager(this IServiceCollection services)
     {
         services.AddScoped<IServiceManager, ServiceManager>();
+        services.AddScoped<IDataShaper<DocumentTypeDto>, DataShaper<DocumentTypeDto>>();
     }
 
     public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
@@ -58,5 +64,23 @@ public static class ServiceExtensions
             optionsAction.UseMySql(configuration.GetConnectionString("Default"),
                 ServerVersion.AutoDetect(configuration.GetConnectionString("Default")))
                 );
+    }
+    
+    public static void AddCustomMediaTypes(this IServiceCollection services)
+    {
+        services.Configure<MvcOptions>(config =>
+        {
+            SystemTextJsonOutputFormatter? systemTextJsonOutputFormatter = config.OutputFormatters
+                .OfType<SystemTextJsonOutputFormatter>()?.FirstOrDefault();
+            if (systemTextJsonOutputFormatter != null)
+                systemTextJsonOutputFormatter.SupportedMediaTypes
+                    .Add("application/vnd.watch.hateoas+json");
+            XmlDataContractSerializerOutputFormatter? xmlOutputFormatter = config.OutputFormatters
+                .OfType<XmlDataContractSerializerOutputFormatter>()?
+                .FirstOrDefault();
+            if (xmlOutputFormatter != null)
+                xmlOutputFormatter.SupportedMediaTypes
+                    .Add("application/vnd.watch.hateoas+xml");
+        });
     }
 }

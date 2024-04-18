@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models;
 
-public class Role
+public class Role : TableBase
 {
     [Column("RoleId")]
     public Guid Id { get; set; }

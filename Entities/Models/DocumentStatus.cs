@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models;
 
-public class DocumentStatus
+public class DocumentStatus : TableBase
 {
     [Column("DocumentStatusId")]
     public Guid Id { get; set; }

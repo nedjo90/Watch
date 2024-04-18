@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Main.Migrations
 {
     /// <inheritdoc />
-    public partial class DatabaseCreation : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +22,11 @@ namespace Main.Migrations
                 {
                     DocumentStatusId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Label = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -34,7 +40,11 @@ namespace Main.Migrations
                 {
                     DocumentTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Label = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -48,7 +58,11 @@ namespace Main.Migrations
                 {
                     LateMissTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Label = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -62,7 +76,11 @@ namespace Main.Migrations
                 {
                     LateMissTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Label = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -76,7 +94,11 @@ namespace Main.Migrations
                 {
                     NotificationTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Label = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -90,7 +112,11 @@ namespace Main.Migrations
                 {
                     IdProfessionalStatus = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Label = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -104,7 +130,11 @@ namespace Main.Migrations
                 {
                     RoleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Label = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -118,7 +148,11 @@ namespace Main.Migrations
                 {
                     TrainingTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Label = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -133,7 +167,11 @@ namespace Main.Migrations
                     NotificationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     IsRead = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    NotificationTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    NotificationTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -173,7 +211,11 @@ namespace Main.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PhoneNumber = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ProfessionalStatusId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    ProfessionalStatusId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -194,7 +236,11 @@ namespace Main.Migrations
                     DocumentTypeXTrainingTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     DocumentTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     TrainingTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    IsRequired = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsRequired = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -221,7 +267,11 @@ namespace Main.Migrations
                     TrainingId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     StartDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    TrainingTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    TrainingTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -244,9 +294,12 @@ namespace Main.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Path = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UploadDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DocumentTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -275,7 +328,11 @@ namespace Main.Migrations
                     StartDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     LateMissTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -301,7 +358,11 @@ namespace Main.Migrations
                 {
                     UserXNotificationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    NotificationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    NotificationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -327,7 +388,11 @@ namespace Main.Migrations
                 {
                     UserXRoleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    RoleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    RoleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -353,7 +418,11 @@ namespace Main.Migrations
                 {
                     UserXTrainingId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    TrainingId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    TrainingId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -382,7 +451,11 @@ namespace Main.Migrations
                     DocumentStatusId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     StatusDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Comment = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -412,7 +485,11 @@ namespace Main.Migrations
                     Label = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UploadDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LateMissId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    LateMissId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -432,7 +509,11 @@ namespace Main.Migrations
                 {
                     LateMissXLateMissStatusId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     LateMissId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    LateMissStatusId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    LateMissStatusId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -451,6 +532,16 @@ namespace Main.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "DocumentTypes",
+                columns: new[] { "DocumentTypeId", "CreatedBy", "CreatedDate", "Label", "UpdateBy", "UpdateDate" },
+                values: new object[,]
+                {
+                    { new Guid("021ca3c1-0deb-4afd-ae94-2159a8479811"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9730), "Carte bleu", new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9730) },
+                    { new Guid("80abbca8-664d-4b20-b5de-024705497d4a"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9720), "Carte d'identité", new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9720) },
+                    { new Guid("86dba8c0-d178-41e7-938c-ed49778fb52a"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9730), "Carte vitale", new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9730) }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Documents_DocumentTypeId",

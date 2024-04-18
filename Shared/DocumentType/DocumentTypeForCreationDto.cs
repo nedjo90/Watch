@@ -1,6 +1,4 @@
-using System.ComponentModel.DataAnnotations;
-
-namespace Shared;
+namespace Shared.DocumentType;
 
 public record DocumentTypeForCreationDto : DocumentTypeForManipulationDto
 {}

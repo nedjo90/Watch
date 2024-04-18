@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models;
 
-public class Document
+public class Document : TableBase
 {
     [Column("DocumentId")]
     public Guid Id { get; set; }
@@ -16,9 +16,6 @@ public class Document
     [Required(ErrorMessage = "Path is a required field.")]
     [MinLength(1, ErrorMessage = "Minimum length for the Path is 2 characters")]
     public string? Path { get; set; }
-    
-    [Required(ErrorMessage = "Upload Date is a required field.")]
-    public DateTime UploadDate { get; set; }
     
     [ForeignKey(nameof(DocumentType))]
     [Required(ErrorMessage = "Document Type Id is a required field.")]

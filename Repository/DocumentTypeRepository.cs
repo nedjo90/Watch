@@ -25,7 +25,7 @@ public class DocumentTypeRepository : RepositoryBase<DocumentType>, IDocumentTyp
     {
         IEnumerable<DocumentType> documentTypes = await FindAll(trackChanges)
             .Search(documentTypeParameters.SearchTerm ?? string.Empty)
-            .OrderBy(c => c.Label)
+            .Sort(documentTypeParameters.OrderBy ?? string.Empty)
             .ToListAsync();
         int count = await FindAll(trackChanges)
             .Search(documentTypeParameters.SearchTerm ?? string.Empty)

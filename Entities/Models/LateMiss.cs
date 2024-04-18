@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models;
 
-public class LateMiss
+public class LateMiss : TableBase
 {
     
     [Column("LateMissId")]

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Shared;
+namespace Shared.DocumentStatus;
 
-public abstract record DocumentTypeForManipulationDto
+public abstract record DocumentStatusForManipulation : TableBaseForManipulationDto
 {
     [Required(ErrorMessage = "Label is a required field.")]
     [MinLength(2, ErrorMessage = "Minimum Length for Label is 2 characters")]

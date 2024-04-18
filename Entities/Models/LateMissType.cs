@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
-    public class LateMissType
+    public class LateMissType : TableBase
     {
         [Column("LateMissTypeId")]
         public Guid Id { get; set; }

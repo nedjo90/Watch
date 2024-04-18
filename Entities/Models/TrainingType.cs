@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models;
 
-public class TrainingType
+public class TrainingType : TableBase
 {
     [Column("TrainingTypeId")]
     public Guid Id { get; set; }

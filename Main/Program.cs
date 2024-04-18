@@ -1,11 +1,15 @@
 using Contracts;
+using Entities.Models;
 using Main.Extensions;
 using Main.Presentation.ActionFilter;
+using Main.Utility;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Options;
 using NLog;
+using Service.DataShaping;
+using Shared;
 
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -35,6 +39,10 @@ builder.Services.AddControllers(configure =>
     })
     .AddXmlDataContractSerializerFormatters()
     .AddApplicationPart(typeof(Main.Presentation.AssemblyReference).Assembly);
+builder.Services.AddCustomMediaTypes();
+builder.Services.AddScoped<ValidateMediaTypeAttribute>();
+builder.Services.AddScoped<IDocumentTypeLinks, DocumentTypeLinks>();
+
 
 WebApplication app = builder.Build();
 
