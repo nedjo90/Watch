@@ -7,7 +7,6 @@ using Repository;
 using Service;
 using Service.Contracts;
 using Service.DataShaping;
-using Shared;
 using Shared.DocumentType;
 
 namespace Main.Extensions;

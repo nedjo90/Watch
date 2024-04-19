@@ -16,7 +16,7 @@ public class DocumentStatusRepository : RepositoryBase<DocumentStatus>, IDocumen
             .ToListAsync();
     }
 
-    public async Task<DocumentStatus?> GetDocumentStatusById(Guid documentStatusId, bool trackChanges)
+    public async Task<DocumentStatus?> GetDocumentStatusByIdAsync(Guid documentStatusId, bool trackChanges)
     {
         return await 
             FindByCondition(e => 
@@ -27,6 +27,21 @@ public class DocumentStatusRepository : RepositoryBase<DocumentStatus>, IDocumen
     
     public void CreateDocumentStatusAsync(DocumentStatus documentStatus)
     {
+        documentStatus.CreatedDate = DateTime.UtcNow;
         Create(documentStatus);
     }
+
+    public async Task<IEnumerable<DocumentStatus>> GetDocumentStatusCollection
+        (IEnumerable<Guid> guids, bool trackChanges)
+    {
+        return await 
+            FindByCondition(e => guids.Contains(e.Id), trackChanges)
+            .ToListAsync();
+    }
+
+    public void DeleteDocumentStatus(DocumentStatus documentStatus)
+    {
+        Delete(documentStatus);
+    }
+    
 }

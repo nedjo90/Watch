@@ -48,7 +48,7 @@ public class Entity : DynamicObject, IXmlSerializable, IDictionary<string, objec
 		{
 			string typeContent;
 			Type underlyingType;
-			var name = reader.Name;
+			string name = reader.Name;
 
 			reader.MoveToAttribute("type");
 			typeContent = reader.ReadContentAsString();
@@ -60,9 +60,9 @@ public class Entity : DynamicObject, IXmlSerializable, IDictionary<string, objec
 
 	public void WriteXml(XmlWriter writer)
 	{
-		foreach (var key in _expando.Keys)
+		foreach (string key in _expando.Keys)
 		{
-			var value = _expando[key];
+			object value = _expando[key];
 			WriteLinksToXml(key, value, writer);
 		}
 	}

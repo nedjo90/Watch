@@ -20,10 +20,7 @@ public class DocumentTypeController : ControllerBase
 {
     private readonly IServiceManager _service;
 
-    public DocumentTypeController(IServiceManager service)
-    {
-        _service = service;
-    }
+    public DocumentTypeController(IServiceManager service) => _service = service;
     
     [HttpGet(Name = "AllDocumentTypes")]
     public async Task<IActionResult> GetDocumentTypes()
@@ -52,7 +49,8 @@ public class DocumentTypeController : ControllerBase
     [HttpGet("{id:guid}", Name = "DocumentTypeById")]
     public async Task<IActionResult> GetDocumentType(Guid id)
     {
-        DocumentTypeDto documentType = await _service.DocumentTypeService.GetDocumentTypeAsync(id, false);
+        DocumentTypeDto documentType = 
+            await _service.DocumentTypeService.GetDocumentTypeAsync(id, false);
         return Ok(documentType);
     }
 
@@ -105,7 +103,8 @@ public class DocumentTypeController : ControllerBase
     public async Task<IActionResult> UpdateDocumentType
         (Guid id, [FromBody] DocumentTypeForUpdateDto documentTypeForUpdateDto)
     {
-        await _service.DocumentTypeService.UpdateDocumentTypeAsync(id, documentTypeForUpdateDto, true);
+        await _service.DocumentTypeService
+            .UpdateDocumentTypeAsync(id, documentTypeForUpdateDto, true);
         return NoContent();
     }
 
@@ -116,7 +115,8 @@ public class DocumentTypeController : ControllerBase
         if (patchDoc is null)
             throw new NullObjectException($"patchDoc for {id}");
         (DocumentTypeForUpdateDto documentTypeToPatch, DocumentType documentTypeEntity) result =
-            await _service.DocumentTypeService.GetDocumentTypeForPatchAsync(id, true);
+            await _service.DocumentTypeService
+                .GetDocumentTypeForPatchAsync(id, true);
         patchDoc.ApplyTo(result.documentTypeToPatch, ModelState);
         TryValidateModel(result.documentTypeToPatch);
         if (!ModelState.IsValid)
@@ -125,5 +125,5 @@ public class DocumentTypeController : ControllerBase
         return NoContent();
     }
 
-
+    
 }

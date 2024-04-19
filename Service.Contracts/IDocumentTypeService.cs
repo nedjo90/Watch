@@ -10,7 +10,7 @@ namespace Service.Contracts;
 public interface IDocumentTypeService
 {
     Task<IEnumerable<DocumentTypeDto>> GetAllDocumentTypesAsync(bool trackChanges);
-    public Task<(LinkResponse linkResponse, MetaData metadata)> GetAllDocumentTypesPagingAsync
+    Task<(LinkResponse linkResponse, MetaData metadata)> GetAllDocumentTypesPagingAsync
     (LinkParameters linkParameters, bool trackChanges);
     Task<DocumentTypeDto> GetDocumentTypeAsync(Guid documentType, bool trackChanges);
     Task<DocumentTypeDto> CreateDocumentTypeAsync(DocumentTypeForCreationDto documentTypeForCreationDto);

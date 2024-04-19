@@ -5,7 +5,7 @@ namespace Entities.Models;
 public abstract class TableBase
 {
     [Required(ErrorMessage = "CreatedDate is a required field.")]
-    public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedDate { get; set; }
     [Required(ErrorMessage = "CreatedBy is a required field.")]
     public Guid CreatedBy { get; set; }
 

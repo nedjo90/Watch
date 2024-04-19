@@ -96,7 +96,7 @@ public class DocumentTypeLinks : IDocumentTypeLinks
                     "DocumentType",
                     new { id, fields }),
                 "partially_update_document_type",
-                "PUT")
+                "PATCH")
         ];
         return links;
     }
@@ -109,7 +109,7 @@ public class DocumentTypeLinks : IDocumentTypeLinks
                 _linkGenerator
                     .GetUriByAction(
                         httpContext,
-                        "GetDocumentType", 
+                        "GetDocumentTypes", 
                         "DocumentType",
                         new {}), 
                 "self", 

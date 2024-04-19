@@ -12,5 +12,7 @@ public class DocumentStatusMapping : Profile
     {
         CreateMap<DocumentStatus, DocumentStatusDto>();
         CreateMap<DocumentStatusForCreationDto, DocumentStatus>();
+        CreateMap<DocumentStatusForUpdateDto, DocumentStatus>();
+        CreateMap<DocumentStatusForUpdateDto, DocumentStatus>().ReverseMap();
     }
 }
