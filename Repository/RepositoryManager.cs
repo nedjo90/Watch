@@ -1,9 +1,8 @@
 using Contracts;
-using Repository.Extensions;
 
 namespace Repository;
 
-public sealed class RepositoryManager : IRepositoryManager
+public class RepositoryManager :  IRepositoryManager
 {
     private readonly RepositoryContext _repositoryContext;
     private readonly Lazy<IDocumentTypeRepository> _documentTypeRepository;
@@ -24,8 +23,7 @@ public sealed class RepositoryManager : IRepositoryManager
         _professionalStatusRepository =
             new Lazy<IProfessionalStatusRepository>(() => new ProfessionalStatusRepository(repositoryContext));
     }
-
-
+    
     public async Task SaveAsync()
     {
         await _repositoryContext.SaveChangesAsync();

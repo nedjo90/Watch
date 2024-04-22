@@ -28,5 +28,4 @@ public sealed class ServiceManager : IServiceManager
             new Lazy<IProfessionalStatusService>(() =>
                 new ProfessionalStatusService(repositoryManager, loggerManager, mapper, documentTypeLinks));
     }
-    
 }

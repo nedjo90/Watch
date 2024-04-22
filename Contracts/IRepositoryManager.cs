@@ -6,6 +6,7 @@ public interface IRepositoryManager
     public IDocumentStatusRepository DocumentStatus { get; }
     
     public IProfessionalStatusRepository ProfessionalStatus { get; }
-    public ILateMissStatusRepository LateMissStatusRepository { get; }
+    
     Task SaveAsync();
+  
 }

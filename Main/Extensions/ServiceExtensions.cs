@@ -1,4 +1,5 @@
 using Contracts;
+using Entities.Models;
 using LoggerService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -49,11 +50,13 @@ public static class ServiceExtensions
     public static void ConfigureRepositoryManager(this IServiceCollection services)
     {
         services.AddScoped<IRepositoryManager, RepositoryManager>();
+        services.AddScoped(typeof(IRepositoryManagerGeneric<>), typeof(RepositoryManagerGeneric<>));
     }
 
     public static void ConfigureServiceManager(this IServiceCollection services)
     {
         services.AddScoped<IServiceManager, ServiceManager>();
+        services.AddScoped(typeof(IServiceManagerGeneric<,,>), typeof(ServiceManagerGeneric<,,>));
         services.AddScoped<IDataShaper<DocumentTypeDto>, DataShaper<DocumentTypeDto>>();
     }
 
