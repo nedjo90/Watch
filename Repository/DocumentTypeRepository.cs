@@ -47,7 +47,7 @@ public class DocumentTypeRepository : RepositoryBase<DocumentType>, IDocumentTyp
         Create(documentType);
     }
 
-    public async Task<IEnumerable<DocumentType>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges)
+    public async Task<IEnumerable<DocumentType>> GetDocumentTypeCollectionAsync(IEnumerable<Guid> ids, bool trackChanges)
     {
         return await FindByCondition(x => ids.Contains(x.Id), trackChanges).ToListAsync();
     }

@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+
 namespace Entities.Exceptions;
 
 public abstract class BadRequestException : Exception

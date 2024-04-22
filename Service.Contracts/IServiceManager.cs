@@ -2,6 +2,7 @@ namespace Service.Contracts;
 
 public interface IServiceManager
 {
-    IDocumentTypeService DocumentTypeService { get; }
-    IDocumentStatusService DocumentStatusService { get; }
+    IDocumentTypeService DocumentType { get; }
+    IDocumentStatusService DocumentStatus { get; }
+    IProfessionalStatusService ProfessionalStatus { get; }
 }

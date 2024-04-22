@@ -65,12 +65,12 @@ internal sealed class DocumentTypeService : ServiceBase, IDocumentTypeService
         return documentTypeToReturn;
     }
 
-    public async Task<IEnumerable<DocumentTypeDto>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges)
+    public async Task<IEnumerable<DocumentTypeDto>> GetDocumentTypeCollectionAsync(IEnumerable<Guid> ids, bool trackChanges)
     {
         if (ids is null)
             throw new IdParametersBadRequestException();
         IEnumerable<DocumentType> documentTypeEntities =
-            await RepositoryManager.DocumentType.GetByIdsAsync(ids, trackChanges);
+            await RepositoryManager.DocumentType.GetDocumentTypeCollectionAsync(ids, trackChanges);
         if (ids.Count() != documentTypeEntities.Count())
             throw new CollectionByIdsBadRequestException();
         IEnumerable<DocumentTypeDto>? documentTypesToReturn =
@@ -102,7 +102,6 @@ internal sealed class DocumentTypeService : ServiceBase, IDocumentTypeService
     {
         DocumentType? documentType =
             await GetDocumentTypeAndCheckIfExitsAsync(documentTypeId, trackChanges);
-        
         RepositoryManager.DocumentType.DeleteDocumentType(documentType);
         await RepositoryManager.SaveAsync();
     }
@@ -115,7 +114,7 @@ internal sealed class DocumentTypeService : ServiceBase, IDocumentTypeService
         if (ids is null)
             throw new IdParametersBadRequestException();
         IEnumerable<DocumentType> documentTypes =
-            await RepositoryManager.DocumentType.GetByIdsAsync(ids, trackChanges);
+            await RepositoryManager.DocumentType.GetDocumentTypeCollectionAsync(ids, trackChanges);
         if (ids.Count() != documentTypes.Count())
             throw new CollectionByIdsBadRequestException();
         foreach (DocumentType documentType in documentTypes)

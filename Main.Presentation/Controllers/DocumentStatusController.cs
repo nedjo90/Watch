@@ -21,7 +21,7 @@ public class DocumentStatusController : ControllerBase
     public async Task<IActionResult> GetAllDocumentStatus()
     {
         IEnumerable<DocumentStatusDto> documentStatusDto =
-            await _serviceManager.DocumentStatusService.GetAllDocumentStatusAsync(false);
+            await _serviceManager.DocumentStatus.GetAllDocumentStatusAsync(false);
         return Ok(documentStatusDto);
     }
 
@@ -29,7 +29,7 @@ public class DocumentStatusController : ControllerBase
     public async Task<IActionResult> GetDocumentStatus(Guid id)
     {
         DocumentStatusDto documentStatusDto =
-            await _serviceManager.DocumentStatusService.GetDocumentStatusByIdAsync(id, false);
+            await _serviceManager.DocumentStatus.GetDocumentStatusByIdAsync(id, false);
         return Ok(documentStatusDto);
     }
 
@@ -38,7 +38,7 @@ public class DocumentStatusController : ControllerBase
         ([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
     {
         IEnumerable<DocumentStatusDto> documentStatusCollection =
-            await _serviceManager.DocumentStatusService.GetDocumentStatusCollectionAsync(ids, false);
+            await _serviceManager.DocumentStatus.GetDocumentStatusCollectionAsync(ids, false);
         return Ok(documentStatusCollection);
     }
     
@@ -48,7 +48,7 @@ public class DocumentStatusController : ControllerBase
         ([FromBody]DocumentStatusForCreationDto? documentTypeForCreationDto)
     {
         DocumentStatusDto createdDocumentStatus =
-            await _serviceManager.DocumentStatusService.CreateDocumentStatusAsync(documentTypeForCreationDto);
+            await _serviceManager.DocumentStatus.CreateDocumentStatusAsync(documentTypeForCreationDto);
         return CreatedAtRoute("DocumentStatusById", new {Id = createdDocumentStatus.Id}, createdDocumentStatus);
     }
     
@@ -57,7 +57,7 @@ public class DocumentStatusController : ControllerBase
         ([FromBody] IEnumerable<DocumentStatusForCreationDto> documentStatusForCreationCollection)
     {
         (IEnumerable<DocumentStatusDto> documentStatusCollection, string ids) result =
-            await _serviceManager.DocumentStatusService.CreateDocumentStatusCollection(
+            await _serviceManager.DocumentStatus.CreateDocumentStatusCollection(
                 documentStatusForCreationCollection);
         return CreatedAtRoute("DocumentStatusCollection", new { result.ids}, result.documentStatusCollection);
     }
@@ -66,7 +66,7 @@ public class DocumentStatusController : ControllerBase
     public async Task<IActionResult> DeleteDocumentStatus(Guid id)
     {
         await _serviceManager
-            .DocumentStatusService
+            .DocumentStatus
             .DeleteDocumentStatusAsync(id, false);
         return NoContent();
     }
@@ -76,7 +76,7 @@ public class DocumentStatusController : ControllerBase
         ([FromBody]IEnumerable<DocumentStatusDto> documentStatusCollection)
     {
         await _serviceManager
-            .DocumentStatusService
+            .DocumentStatus
             .DeleteDocumentStatusCollectionAsync(documentStatusCollection, false);
         return NoContent();
     }
@@ -86,7 +86,7 @@ public class DocumentStatusController : ControllerBase
     public async Task<IActionResult> UpdateDocumentStatus
         (Guid id, [FromBody] DocumentStatusForUpdateDto documentStatusForUpdateDto)
     {
-        await _serviceManager.DocumentStatusService
+        await _serviceManager.DocumentStatus
             .UpdateDocumentStatusAsync(id,documentStatusForUpdateDto, true);
         return NoContent();
     }
@@ -98,11 +98,11 @@ public class DocumentStatusController : ControllerBase
         if (patchDoc is null)
             throw new NullObjectException($"patchDoc for {id}");
         (DocumentStatusForUpdateDto documentStatusToPatch, DocumentStatus entity)
-            result = await _serviceManager.DocumentStatusService.GetDocumentStatusForPatchAsync(id, true);
+            result = await _serviceManager.DocumentStatus.GetDocumentStatusForPatchAsync(id, true);
         patchDoc.ApplyTo(result.documentStatusToPatch);
         if (!ModelState.IsValid)
             return UnprocessableEntity(ModelState);
-        await _serviceManager.DocumentStatusService.SaveChangesForPatchAsync(result.documentStatusToPatch,
+        await _serviceManager.DocumentStatus.SaveChangesForPatchAsync(result.documentStatusToPatch,
             result.entity);
         return NoContent();
     }

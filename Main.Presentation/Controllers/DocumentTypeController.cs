@@ -26,7 +26,7 @@ public class DocumentTypeController : ControllerBase
     public async Task<IActionResult> GetDocumentTypes()
     {
         IEnumerable<DocumentTypeDto> companies = 
-            await _service.DocumentTypeService.GetAllDocumentTypesAsync( false);
+            await _service.DocumentType.GetAllDocumentTypesAsync( false);
         return Ok(companies);
     }
     
@@ -38,7 +38,7 @@ public class DocumentTypeController : ControllerBase
             new LinkParameters(documentTypeParameters, HttpContext);
         
         (LinkResponse linkResponse, MetaData metadata) pagedResult = 
-            await _service.DocumentTypeService
+            await _service.DocumentType
                 .GetAllDocumentTypesPagingAsync(linkParams, false);
         Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metadata));
         return pagedResult.linkResponse.HasLinks ?
@@ -50,7 +50,7 @@ public class DocumentTypeController : ControllerBase
     public async Task<IActionResult> GetDocumentType(Guid id)
     {
         DocumentTypeDto documentType = 
-            await _service.DocumentTypeService.GetDocumentTypeAsync(id, false);
+            await _service.DocumentType.GetDocumentTypeAsync(id, false);
         return Ok(documentType);
     }
 
@@ -59,7 +59,7 @@ public class DocumentTypeController : ControllerBase
     ([ModelBinder(BinderType = typeof(ArrayModelBinder))]IEnumerable<Guid> ids)
     {
         IEnumerable<DocumentTypeDto> documentTypeDtos =
-            await _service.DocumentTypeService.GetByIdsAsync(ids, false);
+            await _service.DocumentType.GetDocumentTypeCollectionAsync(ids, false);
         return Ok(documentTypeDtos);
     }
     
@@ -69,7 +69,7 @@ public class DocumentTypeController : ControllerBase
         ([FromBody] DocumentTypeForCreationDto? documentType)
     {
         DocumentTypeDto createdDocumentType = 
-            await _service.DocumentTypeService.CreateDocumentTypeAsync(documentType);
+            await _service.DocumentType.CreateDocumentTypeAsync(documentType);
         return CreatedAtRoute("DocumentTypeById", new { Id = createdDocumentType.Id }, createdDocumentType);
     }
     
@@ -78,7 +78,7 @@ public class DocumentTypeController : ControllerBase
         ([FromBody]IEnumerable<DocumentTypeForCreationDto> documentTypeCollection)
     {
         (IEnumerable<DocumentTypeDto> documentTypeDtos, string ids) result = 
-            await _service.DocumentTypeService.CreateDocumentTypeCollectionAsync(documentTypeCollection);
+            await _service.DocumentType.CreateDocumentTypeCollectionAsync(documentTypeCollection);
         return CreatedAtRoute
             ("DocumentTypeCollection", new { result.ids }, result.documentTypeDtos);
     }
@@ -86,7 +86,7 @@ public class DocumentTypeController : ControllerBase
     [HttpDelete("{id:guid}", Name = "DeleteDocumentTypeById")]
     public async Task<IActionResult> DeleteDocumentType(Guid id)
     {
-        await _service.DocumentTypeService.DeleteDocumentTypeAsync(id, false);
+        await _service.DocumentType.DeleteDocumentTypeAsync(id, false);
         return NoContent();
     }
 
@@ -94,7 +94,7 @@ public class DocumentTypeController : ControllerBase
     public async Task<IActionResult> DeleteDocumentTypeCollection
         ([FromBody] IEnumerable<DocumentTypeDto> documentTypes)
     {
-        await _service.DocumentTypeService.DeleteDocumentTypeCollectionAsync(documentTypes, false);
+        await _service.DocumentType.DeleteDocumentTypeCollectionAsync(documentTypes, false);
         return NoContent();
     }
 
@@ -103,7 +103,7 @@ public class DocumentTypeController : ControllerBase
     public async Task<IActionResult> UpdateDocumentType
         (Guid id, [FromBody] DocumentTypeForUpdateDto documentTypeForUpdateDto)
     {
-        await _service.DocumentTypeService
+        await _service.DocumentType
             .UpdateDocumentTypeAsync(id, documentTypeForUpdateDto, true);
         return NoContent();
     }
@@ -115,13 +115,13 @@ public class DocumentTypeController : ControllerBase
         if (patchDoc is null)
             throw new NullObjectException($"patchDoc for {id}");
         (DocumentTypeForUpdateDto documentTypeToPatch, DocumentType documentTypeEntity) result =
-            await _service.DocumentTypeService
+            await _service.DocumentType
                 .GetDocumentTypeForPatchAsync(id, true);
         patchDoc.ApplyTo(result.documentTypeToPatch, ModelState);
         TryValidateModel(result.documentTypeToPatch);
         if (!ModelState.IsValid)
             return UnprocessableEntity(ModelState);
-        await _service.DocumentTypeService.SaveChangesForPatchAsync(result.documentTypeToPatch, result.documentTypeEntity);
+        await _service.DocumentType.SaveChangesForPatchAsync(result.documentTypeToPatch, result.documentTypeEntity);
         return NoContent();
     }
 

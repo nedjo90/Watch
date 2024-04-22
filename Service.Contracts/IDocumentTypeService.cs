@@ -14,7 +14,7 @@ public interface IDocumentTypeService
     (LinkParameters linkParameters, bool trackChanges);
     Task<DocumentTypeDto> GetDocumentTypeAsync(Guid documentType, bool trackChanges);
     Task<DocumentTypeDto> CreateDocumentTypeAsync(DocumentTypeForCreationDto documentTypeForCreationDto);
-    Task<IEnumerable<DocumentTypeDto>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
+    Task<IEnumerable<DocumentTypeDto>> GetDocumentTypeCollectionAsync(IEnumerable<Guid> ids, bool trackChanges);
     Task<(IEnumerable<DocumentTypeDto> documentTypeDtos, string ids)> CreateDocumentTypeCollectionAsync
         (IEnumerable<DocumentTypeForCreationDto> documentTypeCollection);
     Task DeleteDocumentTypeAsync(Guid documentTypeId, bool trackChanges);

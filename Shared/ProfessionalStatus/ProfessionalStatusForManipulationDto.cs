@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Shared.ProfessionalStatus;
 
-public abstract record ProfessionalStatusForManipulationDto
+public abstract record ProfessionalStatusForManipulationDto : TableBaseForManipulationDto
 {
     [Required(ErrorMessage = "Label is a required field.")]
     [MinLength(2, ErrorMessage = "Minimum Length for Label is 2 characters")]

@@ -27,7 +27,6 @@ public class DocumentStatusRepository : RepositoryBase<DocumentStatus>, IDocumen
     
     public void CreateDocumentStatusAsync(DocumentStatus documentStatus)
     {
-        documentStatus.CreatedDate = DateTime.UtcNow;
         Create(documentStatus);
     }
 

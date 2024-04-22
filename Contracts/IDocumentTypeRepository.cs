@@ -10,6 +10,6 @@ public interface IDocumentTypeRepository
         bool trackChanges);
     Task<DocumentType?> GetDocumentTypeAsync(Guid documentTypeId, bool trackChanges);
     void CreateDocumentType(DocumentType? documentType);
-    Task<IEnumerable<DocumentType>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
+    Task<IEnumerable<DocumentType>> GetDocumentTypeCollectionAsync(IEnumerable<Guid> ids, bool trackChanges);
     void DeleteDocumentType(DocumentType documentType);
 }
