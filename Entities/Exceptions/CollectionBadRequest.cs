@@ -2,7 +2,7 @@ namespace Entities.Exceptions;
 
 public class CollectionBadRequest : BadRequestException
 {
-    public CollectionBadRequest(string message) : base($"{message} collection sent from a client is null.")
+    public CollectionBadRequest() : base($"Collection sent from a client is null or invalid.")
     {
     }
 }

@@ -83,7 +83,7 @@ internal sealed class DocumentTypeService : ServiceBase, IDocumentTypeService
         (IEnumerable<DocumentTypeForCreationDto> documentTypeCollection)
     {
         if (documentTypeCollection is null)
-            throw new CollectionBadRequest("Document Type");
+            throw new CollectionBadRequest();
         IEnumerable<DocumentType>? documentTypeEntities = 
             Mapper.Map<IEnumerable<DocumentType>>(documentTypeCollection);
         foreach (DocumentType documentType in documentTypeEntities)

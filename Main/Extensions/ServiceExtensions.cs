@@ -56,7 +56,7 @@ public static class ServiceExtensions
     public static void ConfigureServiceManager(this IServiceCollection services)
     {
         services.AddScoped<IServiceManager, ServiceManager>();
-        services.AddScoped(typeof(IServiceManagerGeneric<,,>), typeof(ServiceManagerGeneric<,,>));
+        services.AddScoped(typeof(IServiceManagerBasicGeneric<,,,>), typeof(ServiceManagerBasicGeneric<,,,>));
         services.AddScoped<IDataShaper<DocumentTypeDto>, DataShaper<DocumentTypeDto>>();
     }
 

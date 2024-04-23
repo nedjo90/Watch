@@ -35,7 +35,7 @@ internal sealed class ProfessionalStatusService : ServiceBase ,IProfessionalStat
         (IEnumerable<ProfessionalStatusForCreation> professionalStatusCollection, bool trackChanges)
     {
         if (professionalStatusCollection is null)
-            throw new CollectionBadRequest("Professional Status");
+            throw new CollectionBadRequest();
         IEnumerable<ProfessionalStatus> entities =
             Mapper.Map<IEnumerable<ProfessionalStatus>>(professionalStatusCollection);
         foreach (ProfessionalStatus entity in entities)

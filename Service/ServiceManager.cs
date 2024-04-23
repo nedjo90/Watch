@@ -1,7 +1,6 @@
 using AutoMapper;
 using Contracts;
 using Service.Contracts;
-using Shared;
 
 namespace Service;
 

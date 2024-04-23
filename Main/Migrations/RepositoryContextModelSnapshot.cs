@@ -127,28 +127,28 @@ namespace Main.Migrations
                         {
                             Id = new Guid("80abbca8-664d-4b20-b5de-024705497d4a"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            CreatedDate = new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9720),
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Label = "Carte d'identité",
                             UpdateBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            UpdateDate = new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9720)
+                            UpdateDate = new DateTime(2024, 4, 23, 12, 14, 48, 750, DateTimeKind.Utc).AddTicks(4690)
                         },
                         new
                         {
                             Id = new Guid("86dba8c0-d178-41e7-938c-ed49778fb52a"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            CreatedDate = new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9730),
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Label = "Carte vitale",
                             UpdateBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            UpdateDate = new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9730)
+                            UpdateDate = new DateTime(2024, 4, 23, 12, 14, 48, 750, DateTimeKind.Utc).AddTicks(4700)
                         },
                         new
                         {
                             Id = new Guid("021ca3c1-0deb-4afd-ae94-2159a8479811"),
                             CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            CreatedDate = new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9730),
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Label = "Carte bleu",
                             UpdateBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            UpdateDate = new DateTime(2024, 4, 18, 13, 37, 31, 9, DateTimeKind.Utc).AddTicks(9730)
+                            UpdateDate = new DateTime(2024, 4, 23, 12, 14, 48, 750, DateTimeKind.Utc).AddTicks(4700)
                         });
                 });
 
@@ -318,7 +318,7 @@ namespace Main.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)")
-                        .HasColumnName("LateMissTypeId");
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("char(36)");
@@ -445,7 +445,7 @@ namespace Main.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)")
-                        .HasColumnName("NotificationTypeId");
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("char(36)");
@@ -567,7 +567,7 @@ namespace Main.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)")
-                        .HasColumnName("TrainingTypeId");
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("char(36)");

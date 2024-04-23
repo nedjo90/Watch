@@ -1,5 +1,4 @@
 using AutoMapper;
-using AutoMapper.Internal;
 using Entities.Models;
 using Shared.LateMissStatus;
 
@@ -11,6 +10,7 @@ public class LateMissStatusMapping : Profile
     {
         CreateMap<LateMissStatus, LateMissStatusDto>();
         CreateMap<LateMissStatusForCreationDto, LateMissStatus>();
-
+        CreateMap<LateMissStatusForUpdateDto, LateMissStatus>();
+        CreateMap<LateMissStatusForUpdateDto, LateMissStatus>().ReverseMap();
     }
 }

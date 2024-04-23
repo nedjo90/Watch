@@ -1,6 +1,6 @@
+using Shared.Basic;
+using Shared.BasicGeneric;
+
 namespace Shared.LateMissStatus;
 
-public record LateMissStatusDto : LateMissStatusForManipulationDto
-{
-    public Guid Id { get; set; }
-}
+public record LateMissStatusDto : BasicGenericDto {}

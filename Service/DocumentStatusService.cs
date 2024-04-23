@@ -55,7 +55,7 @@ internal sealed class DocumentStatusService : ServiceBase, IDocumentStatusServic
         (IEnumerable<DocumentStatusForCreationDto> documentStatusCollection)
     {
         if (documentStatusCollection is null)
-            throw new CollectionBadRequest("Document Status ");
+            throw new CollectionBadRequest();
         IEnumerable<DocumentStatus> documentStatusEntities = 
             Mapper.Map<IEnumerable<DocumentStatus>>(documentStatusCollection);
         foreach (DocumentStatus entity in documentStatusEntities)
@@ -126,7 +126,7 @@ internal sealed class DocumentStatusService : ServiceBase, IDocumentStatusServic
         (IEnumerable<Guid> guids, bool trackChanges)
     {
         if (guids is null)
-            throw new CollectionBadRequest("Document status ids");
+            throw new CollectionBadRequest();
         IEnumerable<DocumentStatus> entities = 
             await RepositoryManager.DocumentStatus
                 .GetDocumentStatusCollection(guids, trackChanges);
