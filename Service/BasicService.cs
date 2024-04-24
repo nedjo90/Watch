@@ -1,15 +1,16 @@
 using AutoMapper;
 using Contracts;
 using Entities.Exceptions;
+using Entities.LinkModels;
 using Entities.Models;
 using Service.Contracts;
-using Shared.Basic;
 using Shared.BasicGeneric;
+using Shared.RequestFeatures;
 
 namespace Service;
 
 internal class BasicService<TEntity, TMainDto, TCreationDto, TUpdateDto> 
-    : ServiceBaseGeneric<TEntity>, 
+    : ServiceBaseGeneric<TEntity, TMainDto>, 
         IBasicService<TEntity, TMainDto, TCreationDto, TUpdateDto>
     where TEntity : BasicGenericEntity
     where TMainDto : BasicGenericDto
@@ -19,8 +20,8 @@ internal class BasicService<TEntity, TMainDto, TCreationDto, TUpdateDto>
     public BasicService(IRepositoryManagerGeneric<TEntity> repositoryManagerGeneric,
         ILoggerManager loggerManager,
         IMapper mapper, 
-        IDocumentTypeLinks documentTypeLinks) 
-        : base(repositoryManagerGeneric, loggerManager, mapper, documentTypeLinks)
+        IBasicGenericLinks<TMainDto> basicGenericLinks) 
+        : base(repositoryManagerGeneric, loggerManager, mapper, basicGenericLinks)
     {
     }
 
@@ -53,6 +54,25 @@ internal class BasicService<TEntity, TMainDto, TCreationDto, TUpdateDto>
         IEnumerable<TMainDto> mainDtos =
             Mapper.Map<IEnumerable<TMainDto>>(entities);
         return mainDtos;
+    }
+    
+    public async Task<(LinkResponse linkResponse, MetaData metadata)> GetAllPagingAsync
+        (LinkParameters linkParameters,string url, bool trackChanges)
+    {
+        PagedList<TEntity> basicGenericEntitiesWithMetaData =  
+            await RepositoryManagerGeneric.BasicGenericRepository
+                .GetAllPagingAsync(linkParameters.BasicGenericParameters, trackChanges);
+        
+        IEnumerable<TMainDto>? mainDtos =
+            Mapper.Map<IEnumerable<TMainDto>>(basicGenericEntitiesWithMetaData);
+        
+        LinkResponse links = BasicGenericLinks
+            .TryGenerateLinks(
+                mainDtos,
+                linkParameters.BasicGenericParameters.Fields,
+                linkParameters.Context, url);
+        
+        return (linkResponse: links, metadata: basicGenericEntitiesWithMetaData.MetaData);
     }
 
     public async Task<TMainDto> CreateAsync(TCreationDto creationDto)

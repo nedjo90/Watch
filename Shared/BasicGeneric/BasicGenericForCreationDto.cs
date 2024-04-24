@@ -1,4 +1,4 @@
-namespace Shared.Basic;
+namespace Shared.BasicGeneric;
 
 public abstract record BasicGenericForCreationDto : BasicGenericForManipulationDto
 {

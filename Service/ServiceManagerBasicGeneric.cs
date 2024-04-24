@@ -2,7 +2,6 @@ using AutoMapper;
 using Contracts;
 using Entities.Models;
 using Service.Contracts;
-using Shared.Basic;
 using Shared.BasicGeneric;
 
 namespace Service;
@@ -20,12 +19,12 @@ public class ServiceManagerBasicGeneric<TEntity, TMainDto, TCreationDto, TUpdate
     public ServiceManagerBasicGeneric(IRepositoryManagerGeneric<TEntity> repositoryManagerGeneric,
             ILoggerManager loggerManager,
             IMapper mapper, 
-            IDocumentTypeLinks documentTypeLinks)
+            IBasicGenericLinks<TMainDto> basicGenericLinks)
     {
         _basicService = new Lazy<IBasicService<TEntity, TMainDto, TCreationDto, TUpdateDto>>(() =>
             new BasicService<TEntity, TMainDto, TCreationDto, TUpdateDto>(repositoryManagerGeneric,
                 loggerManager,
                 mapper,
-                documentTypeLinks));
+                basicGenericLinks));
     }
 }

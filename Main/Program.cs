@@ -38,7 +38,6 @@ builder.Services.AddControllers(configure =>
     .AddApplicationPart(typeof(Main.Presentation.AssemblyReference).Assembly);
 builder.Services.AddCustomMediaTypes();
 builder.Services.AddScoped<ValidateMediaTypeAttribute>();
-builder.Services.AddScoped<IDocumentTypeLinks, DocumentTypeLinks>();
 
 
 WebApplication app = builder.Build();

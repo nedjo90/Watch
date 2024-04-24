@@ -1,10 +1,15 @@
+using Entities.Models;
+using Shared.RequestFeatures;
+
 namespace Contracts;
 
-public interface IBasicGenericRepository<T> where T : class
+public interface IBasicGenericRepository<TEntity> 
+    where TEntity : BasicGenericEntity
 {
-    Task<IEnumerable<T>> GetAllAsync(bool trackChanges);
-    Task<T?> GetById(Guid id, bool trackChanges);
-    void CreateAsync(T newLabel);
-    Task<IEnumerable<T>> GetCollectionAsync(IEnumerable<Guid> ids, bool trackChanges);
-    void DeleteEntity(T entity);
+    Task<IEnumerable<TEntity>> GetAllAsync(bool trackChanges = false);
+    Task<TEntity?> GetById(Guid id, bool trackChanges = false);
+    void CreateAsync(TEntity newLabel);
+    Task<IEnumerable<TEntity>> GetCollectionAsync(IEnumerable<Guid> ids, bool trackChanges = false);
+    void DeleteEntity(TEntity entity);
+    Task<PagedList<TEntity>> GetAllPagingAsync(BasicGenericParameters basicGenericParameters, bool trackChanges = false);
 }

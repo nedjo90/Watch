@@ -1,10 +1,10 @@
 namespace Shared.RequestFeatures;
 
-public class DocumentTypeParameters : RequestParameters
+public class BasicGenericParameters : RequestParameters
 {
     public string? SearchTerm { get; set; }
 
-    public DocumentTypeParameters()
+    public BasicGenericParameters()
     {
         OrderBy = "Label";
     }

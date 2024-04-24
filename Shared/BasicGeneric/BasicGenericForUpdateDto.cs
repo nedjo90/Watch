@@ -1,6 +1,3 @@
-namespace Shared.Basic;
+namespace Shared.BasicGeneric;
 
-public abstract record BasicGenericForUpdateDto : BasicGenericForManipulationDto
-{
-    
-}
+public abstract record BasicGenericForUpdateDto : BasicGenericForManipulationDto;

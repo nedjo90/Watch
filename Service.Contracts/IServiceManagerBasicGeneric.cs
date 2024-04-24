@@ -1,5 +1,4 @@
 using Entities.Models;
-using Shared.Basic;
 using Shared.BasicGeneric;
 
 namespace Service.Contracts;

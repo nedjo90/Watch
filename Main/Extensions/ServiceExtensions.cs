@@ -1,6 +1,7 @@
 using Contracts;
 using Entities.Models;
 using LoggerService;
+using Main.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,6 @@ using Repository;
 using Service;
 using Service.Contracts;
 using Service.DataShaping;
-using Shared.DocumentType;
 
 namespace Main.Extensions;
 
@@ -57,7 +57,8 @@ public static class ServiceExtensions
     {
         services.AddScoped<IServiceManager, ServiceManager>();
         services.AddScoped(typeof(IServiceManagerBasicGeneric<,,,>), typeof(ServiceManagerBasicGeneric<,,,>));
-        services.AddScoped<IDataShaper<DocumentTypeDto>, DataShaper<DocumentTypeDto>>();
+        services.AddScoped(typeof(IDataShaper<>), typeof(DataShaper<>));
+        services.AddScoped(typeof(IBasicGenericLinks<>), typeof(BasicGenericLinks<>));
     }
 
     public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
