@@ -75,15 +75,26 @@ public static class ServiceExtensions
         {
             SystemTextJsonOutputFormatter? systemTextJsonOutputFormatter = config.OutputFormatters
                 .OfType<SystemTextJsonOutputFormatter>()?.FirstOrDefault();
+
             if (systemTextJsonOutputFormatter != null)
+            {
                 systemTextJsonOutputFormatter.SupportedMediaTypes
                     .Add("application/vnd.watch.hateoas+json");
+                systemTextJsonOutputFormatter.SupportedMediaTypes
+                    .Add("application/vnd.watch.apiroot+json");
+            }
+            
             XmlDataContractSerializerOutputFormatter? xmlOutputFormatter = config.OutputFormatters
                 .OfType<XmlDataContractSerializerOutputFormatter>()?
                 .FirstOrDefault();
+
             if (xmlOutputFormatter != null)
+            {
                 xmlOutputFormatter.SupportedMediaTypes
                     .Add("application/vnd.watch.hateoas+xml");
+                xmlOutputFormatter.SupportedMediaTypes
+                    .Add("application/vnd.watch.apiroot+xml");
+            }
         });
     }
 }

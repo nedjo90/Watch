@@ -22,29 +22,28 @@ public abstract class BasicGenericController<TEntity, TMainDto, TCreationDto, TU
     private readonly IServiceManagerBasicGeneric
         <TEntity, TMainDto, TCreationDto, TUpdateDto> _service;
 
-    private string? _controllerName;
 
     protected BasicGenericController
-        (IServiceManagerBasicGeneric<TEntity, TMainDto, TCreationDto, TUpdateDto> serviceManagerBasicGeneric, string controllerName)
+        (IServiceManagerBasicGeneric<TEntity, TMainDto, TCreationDto, TUpdateDto> serviceManagerBasicGeneric)
     {
-        _controllerName = controllerName;
         _service = serviceManagerBasicGeneric;
     }
     
     [HttpGet]
+    [HttpHead]
+    [ResponseCache(Duration = 60)]
     public async Task<IActionResult> GetAllAsync()
     {
         IEnumerable<TMainDto> mainDtos =
-            await _service.BasicService.GetAllAsync(false);
+            await _service.BasicService.GetAllAsync();
         return Ok(mainDtos);
     }
     
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetByIdAsync(Guid id)
     {
-        Console.WriteLine(ControllerContext.HttpContext.Request.Path);
         TMainDto mainDto =
-            await _service.BasicService.GetByIdAsync(id, false);
+            await _service.BasicService.GetByIdAsync(id);
         return Ok(mainDto);
     }
     
@@ -52,11 +51,8 @@ public abstract class BasicGenericController<TEntity, TMainDto, TCreationDto, TU
     public async Task<IActionResult> GetCollectionAsync
         ([ModelBinder(BinderType = typeof(ArrayModelBinder))]IEnumerable<Guid> ids)
     {
-        Console.WriteLine("");
-        Console.WriteLine(ControllerContext.RouteData.Values["action"]?.ToString());
-        Console.WriteLine("");
         IEnumerable<TMainDto> mainDtos =
-            await _service.BasicService.GetCollectionAsync(ids, false);
+            await _service.BasicService.GetCollectionAsync(ids);
         return Ok(mainDtos);
     }
     
@@ -66,7 +62,7 @@ public abstract class BasicGenericController<TEntity, TMainDto, TCreationDto, TU
         [FromBody] TCreationDto creationDto)
     {
         TMainDto mainDto = await _service.BasicService.CreateAsync(creationDto);
-        return CreatedAtRoute(new { Id = mainDto.Id }, mainDto);
+        return CreatedAtRoute(new { mainDto.Id }, mainDto);
     }
     
     [HttpPost("collection")]
@@ -82,7 +78,7 @@ public abstract class BasicGenericController<TEntity, TMainDto, TCreationDto, TU
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
-        await _service.BasicService.DeleteAsync(id, false);
+        await _service.BasicService.DeleteAsync(id);
         return NoContent();
     }
     
@@ -90,7 +86,7 @@ public abstract class BasicGenericController<TEntity, TMainDto, TCreationDto, TU
     public async Task<IActionResult> DeleteCollectionAsync
         ([FromBody]IEnumerable<TMainDto> mainDtos)
     {
-        await _service.BasicService.DeleteCollectionAsync(mainDtos, false);
+        await _service.BasicService.DeleteCollectionAsync(mainDtos);
         return NoContent();
     }
     
@@ -99,7 +95,7 @@ public abstract class BasicGenericController<TEntity, TMainDto, TCreationDto, TU
     public async Task<IActionResult> UpdateAsync
         (Guid id, [FromBody] TUpdateDto updateDto)
     {
-        await _service.BasicService.UpdateAsync(id, updateDto, true);
+        await _service.BasicService.UpdateAsync(id, updateDto);
         return NoContent();
     }
     
@@ -110,7 +106,7 @@ public abstract class BasicGenericController<TEntity, TMainDto, TCreationDto, TU
         if (patchDoc is null)
             throw new NullObjectException($"patchDoc for {id}");
         (TUpdateDto updateDto, TEntity entity) result =
-            await _service.BasicService.PatchAsync(id, true);
+            await _service.BasicService.PatchAsync(id);
         patchDoc.ApplyTo(result.updateDto, ModelState);
         TryValidateModel(result.updateDto);
         if (!ModelState.IsValid)
@@ -121,6 +117,7 @@ public abstract class BasicGenericController<TEntity, TMainDto, TCreationDto, TU
     }
     
     [HttpGet("page")]
+    [HttpHead("page")]
     [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
     public async Task<IActionResult> GetDocumentTypesPaging([FromQuery]BasicGenericParameters basicGenericParameters)
     {
@@ -129,9 +126,16 @@ public abstract class BasicGenericController<TEntity, TMainDto, TCreationDto, TU
 
         (LinkResponse linkResponse, MetaData metadata) pagedResult =
             await _service.BasicService.GetAllPagingAsync(linkParams, $"https://localhost:7184/api/{ControllerContext.ActionDescriptor.ControllerName.ToLower()}");
-        Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metadata));
+        Response.Headers["X-Pagination"] = JsonSerializer.Serialize(pagedResult.metadata);
         return pagedResult.linkResponse.HasLinks ?
             Ok(pagedResult.linkResponse.LinkedEntities)
             : Ok(pagedResult.linkResponse.ShapedEntities);
+    }
+    
+    [HttpOptions]
+    public IActionResult GetCompaniesOptions()
+    {
+        Response.Headers["Allow"] = "GET, PUT, DELETE, POST, PATCH, OPTIONS";
+        return Ok();
     }
 }
