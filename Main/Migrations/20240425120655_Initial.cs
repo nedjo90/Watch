@@ -20,17 +20,17 @@ namespace Main.Migrations
                 name: "DocumentStatus",
                 columns: table => new
                 {
-                    DocumentStatusId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Label = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Label = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DocumentStatus", x => x.DocumentStatusId);
+                    table.PrimaryKey("PK_DocumentStatus", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -38,17 +38,17 @@ namespace Main.Migrations
                 name: "DocumentTypes",
                 columns: table => new
                 {
-                    DocumentTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Label = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Label = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DocumentTypes", x => x.DocumentTypeId);
+                    table.PrimaryKey("PK_DocumentTypes", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -110,35 +110,17 @@ namespace Main.Migrations
                 name: "ProfessionalStatus",
                 columns: table => new
                 {
-                    IdProfessionalStatus = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Label = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProfessionalStatus", x => x.IdProfessionalStatus);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Roles",
-                columns: table => new
-                {
-                    RoleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Label = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.RoleId);
+                    table.PrimaryKey("PK_ProfessionalStatus", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -224,7 +206,7 @@ namespace Main.Migrations
                         name: "FK_Users_ProfessionalStatus_ProfessionalStatusId",
                         column: x => x.ProfessionalStatusId,
                         principalTable: "ProfessionalStatus",
-                        principalColumn: "IdProfessionalStatus",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -249,7 +231,7 @@ namespace Main.Migrations
                         name: "FK_DocumentTypeXTrainingType_DocumentTypes_DocumentTypeId",
                         column: x => x.DocumentTypeId,
                         principalTable: "DocumentTypes",
-                        principalColumn: "DocumentTypeId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DocumentTypeXTrainingType_TrainingTypes_TrainingTypeId",
@@ -308,7 +290,7 @@ namespace Main.Migrations
                         name: "FK_Documents_DocumentTypes_DocumentTypeId",
                         column: x => x.DocumentTypeId,
                         principalTable: "DocumentTypes",
-                        principalColumn: "DocumentTypeId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Documents_Users_UserId",
@@ -383,36 +365,6 @@ namespace Main.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "UserXRole",
-                columns: table => new
-                {
-                    UserXRoleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    RoleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UpdateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UpdateBy = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserXRole", x => x.UserXRoleId);
-                    table.ForeignKey(
-                        name: "FK_UserXRole_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "RoleId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserXRole_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "UserXTraining",
                 columns: table => new
                 {
@@ -464,7 +416,7 @@ namespace Main.Migrations
                         name: "FK_DocumentXDocumentStatus_DocumentStatus_DocumentStatusId",
                         column: x => x.DocumentStatusId,
                         principalTable: "DocumentStatus",
-                        principalColumn: "DocumentStatusId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DocumentXDocumentStatus_Documents_DocumentId",
@@ -535,12 +487,12 @@ namespace Main.Migrations
 
             migrationBuilder.InsertData(
                 table: "DocumentTypes",
-                columns: new[] { "DocumentTypeId", "CreatedBy", "CreatedDate", "Label", "UpdateBy", "UpdateDate" },
+                columns: new[] { "Id", "CreatedBy", "CreatedDate", "Label", "UpdateBy", "UpdateDate" },
                 values: new object[,]
                 {
-                    { new Guid("021ca3c1-0deb-4afd-ae94-2159a8479811"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Carte bleu", new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2024, 4, 23, 12, 14, 48, 750, DateTimeKind.Utc).AddTicks(4700) },
-                    { new Guid("80abbca8-664d-4b20-b5de-024705497d4a"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Carte d'identité", new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2024, 4, 23, 12, 14, 48, 750, DateTimeKind.Utc).AddTicks(4690) },
-                    { new Guid("86dba8c0-d178-41e7-938c-ed49778fb52a"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Carte vitale", new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2024, 4, 23, 12, 14, 48, 750, DateTimeKind.Utc).AddTicks(4700) }
+                    { new Guid("021ca3c1-0deb-4afd-ae94-2159a8479811"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Carte bleu", new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2024, 4, 25, 12, 6, 55, 135, DateTimeKind.Utc).AddTicks(1590) },
+                    { new Guid("80abbca8-664d-4b20-b5de-024705497d4a"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Carte d'identité", new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2024, 4, 25, 12, 6, 55, 135, DateTimeKind.Utc).AddTicks(1550) },
+                    { new Guid("86dba8c0-d178-41e7-938c-ed49778fb52a"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Carte vitale", new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2024, 4, 25, 12, 6, 55, 135, DateTimeKind.Utc).AddTicks(1580) }
                 });
 
             migrationBuilder.CreateIndex(
@@ -624,16 +576,6 @@ namespace Main.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserXRole_RoleId",
-                table: "UserXRole",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserXRole_UserId",
-                table: "UserXRole",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserXTraining_TrainingId",
                 table: "UserXTraining",
                 column: "TrainingId");
@@ -663,9 +605,6 @@ namespace Main.Migrations
                 name: "UserXNotification");
 
             migrationBuilder.DropTable(
-                name: "UserXRole");
-
-            migrationBuilder.DropTable(
                 name: "UserXTraining");
 
             migrationBuilder.DropTable(
@@ -682,9 +621,6 @@ namespace Main.Migrations
 
             migrationBuilder.DropTable(
                 name: "Notifications");
-
-            migrationBuilder.DropTable(
-                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Trainings");

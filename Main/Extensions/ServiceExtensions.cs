@@ -1,6 +1,5 @@
 using AspNetCoreRateLimit;
 using Contracts;
-using Entities.Models;
 using LoggerService;
 using Main.Utility;
 using Marvin.Cache.Headers;
@@ -17,7 +16,11 @@ namespace Main.Extensions;
 
 public static class ServiceExtensions
 {
-
+    public static void ConfigureSwagger(this IServiceCollection services)
+    {
+        services.AddSwaggerGen();
+    }
+    
     public static void ConfigureController(this IServiceCollection services)
     {
         services.AddControllers(configure =>
@@ -28,7 +31,7 @@ public static class ServiceExtensions
                 configure.CacheProfiles.ConfigureCacheProfile();
             })
             .AddXmlDataContractSerializerFormatters()
-            .AddApplicationPart(typeof(Main.Presentation.AssemblyReference).Assembly);
+            .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
     }
     public static void ConfigureCors(this IServiceCollection services)
     {
@@ -90,7 +93,7 @@ public static class ServiceExtensions
         services.Configure<MvcOptions>(config =>
         {
             SystemTextJsonOutputFormatter? systemTextJsonOutputFormatter = config.OutputFormatters
-                .OfType<SystemTextJsonOutputFormatter>()?.FirstOrDefault();
+                .OfType<SystemTextJsonOutputFormatter>().FirstOrDefault();
 
             if (systemTextJsonOutputFormatter != null)
             {
@@ -101,7 +104,7 @@ public static class ServiceExtensions
             }
             
             XmlDataContractSerializerOutputFormatter? xmlOutputFormatter = config.OutputFormatters
-                .OfType<XmlDataContractSerializerOutputFormatter>()?
+                .OfType<XmlDataContractSerializerOutputFormatter>()
                 .FirstOrDefault();
 
             if (xmlOutputFormatter != null)
@@ -135,15 +138,15 @@ public static class ServiceExtensions
 
     public static void ConfigureRateLimitingOptions(this IServiceCollection services)
     {
-        List<RateLimitRule> rateLimitRules = new List<RateLimitRule>
-        {
+        List<RateLimitRule> rateLimitRules =
+        [
             new RateLimitRule
             {
                 Endpoint = "*",
                 Limit = 1000,
                 Period = "1h"
             }
-        };
+        ];
         services.Configure<IpRateLimitOptions>(opt => 
         {
             opt.GeneralRules = rateLimitRules; 

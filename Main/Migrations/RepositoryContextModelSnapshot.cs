@@ -70,7 +70,7 @@ namespace Main.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)")
-                        .HasColumnName("DocumentStatusId");
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("char(36)");
@@ -99,7 +99,7 @@ namespace Main.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)")
-                        .HasColumnName("DocumentTypeId");
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("char(36)");
@@ -130,7 +130,7 @@ namespace Main.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Label = "Carte d'identité",
                             UpdateBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            UpdateDate = new DateTime(2024, 4, 23, 12, 14, 48, 750, DateTimeKind.Utc).AddTicks(4690)
+                            UpdateDate = new DateTime(2024, 4, 25, 12, 6, 55, 135, DateTimeKind.Utc).AddTicks(1550)
                         },
                         new
                         {
@@ -139,7 +139,7 @@ namespace Main.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Label = "Carte vitale",
                             UpdateBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            UpdateDate = new DateTime(2024, 4, 23, 12, 14, 48, 750, DateTimeKind.Utc).AddTicks(4700)
+                            UpdateDate = new DateTime(2024, 4, 25, 12, 6, 55, 135, DateTimeKind.Utc).AddTicks(1580)
                         },
                         new
                         {
@@ -148,7 +148,7 @@ namespace Main.Migrations
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Label = "Carte bleu",
                             UpdateBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            UpdateDate = new DateTime(2024, 4, 23, 12, 14, 48, 750, DateTimeKind.Utc).AddTicks(4700)
+                            UpdateDate = new DateTime(2024, 4, 25, 12, 6, 55, 135, DateTimeKind.Utc).AddTicks(1590)
                         });
                 });
 
@@ -474,7 +474,7 @@ namespace Main.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)")
-                        .HasColumnName("IdProfessionalStatus");
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("char(36)");
@@ -496,35 +496,6 @@ namespace Main.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProfessionalStatus");
-                });
-
-            modelBuilder.Entity("Entities.Models.Role", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)")
-                        .HasColumnName("RoleId");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("varchar(60)");
-
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Entities.Models.Training", b =>
@@ -703,40 +674,6 @@ namespace Main.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserXNotification");
-                });
-
-            modelBuilder.Entity("Entities.Models.UserXRole", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)")
-                        .HasColumnName("UserXRoleId");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserXRole");
                 });
 
             modelBuilder.Entity("Entities.Models.UserXTraining", b =>
@@ -931,25 +868,6 @@ namespace Main.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.Models.UserXRole", b =>
-                {
-                    b.HasOne("Entities.Models.Role", "Role")
-                        .WithMany("UserXRoleCollection")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Models.User", "User")
-                        .WithMany("UserXRoleCollection")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Entities.Models.UserXTraining", b =>
                 {
                     b.HasOne("Entities.Models.Training", "Training")
@@ -999,11 +917,6 @@ namespace Main.Migrations
                     b.Navigation("UserXNotificationCollection");
                 });
 
-            modelBuilder.Entity("Entities.Models.Role", b =>
-                {
-                    b.Navigation("UserXRoleCollection");
-                });
-
             modelBuilder.Entity("Entities.Models.TrainingType", b =>
                 {
                     b.Navigation("DocumentTypeXTrainingTypeCollection");
@@ -1012,8 +925,6 @@ namespace Main.Migrations
             modelBuilder.Entity("Entities.Models.User", b =>
                 {
                     b.Navigation("UserXNotificationCollection");
-
-                    b.Navigation("UserXRoleCollection");
 
                     b.Navigation("UserXTrainingCollection");
                 });

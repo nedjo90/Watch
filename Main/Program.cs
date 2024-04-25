@@ -1,12 +1,8 @@
-using AspNetCoreRateLimit;
 using Contracts;
 using Main.Extensions;
 using Main.Presentation.ActionFilter;
-using Main.Utility;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.Extensions.Options;
 using NLog;
 
 
@@ -40,6 +36,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ValidationFilterAttribute>();
 builder.Services.AddScoped<ValidateMediaTypeAttribute>();
 
+builder.Services.ConfigureSwagger();
 
 WebApplication app = builder.Build();
 
@@ -61,6 +58,9 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 //app.UseIpRateLimiting();
 //voir mise en place la limitation
 app.UseCors("CorsPolicy");
+app.UseSwagger();
+app.UseSwaggerUI();
+
 app.UseResponseCaching();
 app.UseHttpCacheHeaders();
 app.UseAuthorization();

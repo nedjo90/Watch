@@ -37,7 +37,7 @@ public class RootController : ControllerBase
         return NoContent();
     }
 
-    public List<Link> BasicGenericLinks()
+    private List<Link> BasicGenericLinks()
     {
         List<Link> list = new List<Link>();
         IEnumerable<Type> types = GetChildControllers(typeof(BasicGenericController<,,,>));
@@ -61,7 +61,7 @@ public class RootController : ControllerBase
         return list;
     }
     
-    public IEnumerable<Type> GetChildControllers(Type parentControllerType)
+    private IEnumerable<Type> GetChildControllers(Type parentControllerType)
     {
         Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
         List<Type> children = new List<Type>();
