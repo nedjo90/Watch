@@ -3,6 +3,7 @@ using Entities.LinkModels;
 using Entities.Models;
 using Main.Presentation.ActionFilter;
 using Main.Presentation.ModelBinders;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
@@ -31,7 +32,8 @@ public abstract class BasicGenericController<TEntity, TMainDto, TCreationDto, TU
     
     [HttpGet]
     [HttpHead]
-    [ResponseCache(Duration = 60)]
+    [HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 180)]
+    [HttpCacheValidation(MustRevalidate = false)]
     public async Task<IActionResult> GetAllAsync()
     {
         IEnumerable<TMainDto> mainDtos =

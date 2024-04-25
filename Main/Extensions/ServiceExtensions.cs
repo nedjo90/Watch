@@ -1,10 +1,13 @@
+using AspNetCoreRateLimit;
 using Contracts;
 using Entities.Models;
 using LoggerService;
 using Main.Utility;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Repository;
 using Service;
 using Service.Contracts;
@@ -14,6 +17,19 @@ namespace Main.Extensions;
 
 public static class ServiceExtensions
 {
+
+    public static void ConfigureController(this IServiceCollection services)
+    {
+        services.AddControllers(configure =>
+            {
+                configure.RespectBrowserAcceptHeader = true;
+                configure.ReturnHttpNotAcceptable = true;
+                configure.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
+                configure.CacheProfiles.ConfigureCacheProfile();
+            })
+            .AddXmlDataContractSerializerFormatters()
+            .AddApplicationPart(typeof(Main.Presentation.AssemblyReference).Assembly);
+    }
     public static void ConfigureCors(this IServiceCollection services)
     {
         services.AddCors(
@@ -97,4 +113,59 @@ public static class ServiceExtensions
             }
         });
     }
+
+    public static void ConfigureResponseCaching(this IServiceCollection services)
+    {
+        services.AddResponseCaching();
+    }
+
+    public static void ConfigureHttpCacheHeaders(this IServiceCollection services)
+    {
+        services.AddHttpCacheHeaders(
+            expirationOption =>
+        {
+            expirationOption.MaxAge = 65;
+            expirationOption.CacheLocation = CacheLocation.Private;
+        },
+        validationOption =>
+        {
+            validationOption.MustRevalidate = true;
+        });
+    }
+
+    public static void ConfigureRateLimitingOptions(this IServiceCollection services)
+    {
+        List<RateLimitRule> rateLimitRules = new List<RateLimitRule>
+        {
+            new RateLimitRule
+            {
+                Endpoint = "*",
+                Limit = 1000,
+                Period = "1h"
+            }
+        };
+        services.Configure<IpRateLimitOptions>(opt => 
+        {
+            opt.GeneralRules = rateLimitRules; 
+        });
+        services.AddSingleton<IRateLimitCounterStore,
+        MemoryCacheRateLimitCounterStore>();
+        services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+        services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+        services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+    }
+
+    private static NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter()
+    {
+        return new ServiceCollection().AddLogging().AddMvc().AddNewtonsoftJson()
+            .Services.BuildServiceProvider()
+            .GetRequiredService<IOptions<MvcOptions>>().Value.InputFormatters
+            .OfType<NewtonsoftJsonPatchInputFormatter>().First();
+    }
+
+    private static void ConfigureCacheProfile(this IDictionary<string, CacheProfile> profile)
+    {
+        profile.Add("120SecondsDuration", new CacheProfile{Duration = 120});
+    }
+        
 }

@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using Contracts;
 using Main.Extensions;
 using Main.Presentation.ActionFilter;
@@ -27,16 +28,16 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
 });
-builder.Services.AddScoped<ValidationFilterAttribute>();
-builder.Services.AddControllers(configure =>
-    {
-        configure.RespectBrowserAcceptHeader = true;
-        configure.ReturnHttpNotAcceptable = true;
-        configure.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
-    })
-    .AddXmlDataContractSerializerFormatters()
-    .AddApplicationPart(typeof(Main.Presentation.AssemblyReference).Assembly);
+builder.Services.ConfigureController();
+builder.Services.ConfigureResponseCaching();
+builder.Services.ConfigureHttpCacheHeaders();
+
+
 builder.Services.AddCustomMediaTypes();
+builder.Services.AddMemoryCache();
+builder.Services.ConfigureRateLimitingOptions();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ValidationFilterAttribute>();
 builder.Services.AddScoped<ValidateMediaTypeAttribute>();
 
 
@@ -49,7 +50,7 @@ if (app.Environment.IsProduction())
     app.UseHsts();
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+//app.UseStaticFiles();
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.All
@@ -57,15 +58,14 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 
 
 
+//app.UseIpRateLimiting();
+//voir mise en place la limitation
 app.UseCors("CorsPolicy");
+app.UseResponseCaching();
+app.UseHttpCacheHeaders();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
 
 
 
-NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter() =>
-    new ServiceCollection().AddLogging().AddMvc().AddNewtonsoftJson()
-        .Services.BuildServiceProvider()
-        .GetRequiredService<IOptions<MvcOptions>>().Value.InputFormatters
-        .OfType<NewtonsoftJsonPatchInputFormatter>().First();
