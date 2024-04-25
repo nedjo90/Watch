@@ -63,10 +63,6 @@ public class User : TableBase
     [Required(ErrorMessage = "ProfessionalStatusId is a required field.")]
     public Guid ProfessionalStatusId { get; set; }
     public ProfessionalStatus? ProfessionalStatus { get; set; }
-    
-    //navigation
-    public ICollection<UserXRole?>? UserXRoleCollection { get; set; }
-
     //navigation
     public ICollection<UserXNotification?>? UserXNotificationCollection { get; set; }
     

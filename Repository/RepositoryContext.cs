@@ -18,7 +18,6 @@ public class RepositoryContext : DbContext
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<NotificationType> NotificationTypes { get; set; }
     public DbSet<ProfessionalStatus> ProfessionalStatus { get; set; }
-    public DbSet<Role> Roles { get; set; }
     public DbSet<Training> Trainings { get; set; }
     public DbSet<TrainingType> TrainingTypes { get; set; }
     public DbSet<User> Users { get; set; }

@@ -32,8 +32,8 @@ public abstract class BasicGenericController<TEntity, TMainDto, TCreationDto, TU
     
     [HttpGet]
     [HttpHead]
-    [HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 180)]
-    [HttpCacheValidation(MustRevalidate = false)]
+    // [HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 600)]
+    // [HttpCacheValidation(MustRevalidate = false)]
     public async Task<IActionResult> GetAllAsync()
     {
         IEnumerable<TMainDto> mainDtos =
