@@ -1,6 +1,8 @@
 using AutoMapper;
 using Contracts;
 using Entities.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Service.Contracts;
 using Shared.BasicGeneric;
 
@@ -14,11 +16,15 @@ public class ServiceManagerBasicGeneric<TEntity, TMainDto, TCreationDto, TUpdate
     where TUpdateDto : BasicGenericForUpdateDto
 {
     private readonly Lazy<IBasicService<TEntity, TMainDto, TCreationDto, TUpdateDto>> _basicService;
+    private readonly Lazy<IAuthenticationService> _authenticationService;
     public IBasicService<TEntity, TMainDto, TCreationDto, TUpdateDto> BasicService => _basicService.Value;
+    public IAuthenticationService AuthenticationService => _authenticationService.Value;
 
     public ServiceManagerBasicGeneric(IRepositoryManagerGeneric<TEntity> repositoryManagerGeneric,
             ILoggerManager loggerManager,
-            IMapper mapper, 
+            IMapper mapper,
+            UserManager<User> userManager,
+            IConfiguration configuration,  
             IBasicGenericLinks<TMainDto> basicGenericLinks)
     {
         _basicService = new Lazy<IBasicService<TEntity, TMainDto, TCreationDto, TUpdateDto>>(() =>
@@ -26,5 +32,8 @@ public class ServiceManagerBasicGeneric<TEntity, TMainDto, TCreationDto, TUpdate
                 loggerManager,
                 mapper,
                 basicGenericLinks));
+        _authenticationService = new Lazy<IAuthenticationService>(() =>
+            new AuthenticationService(
+                loggerManager, mapper ,userManager, configuration));
     }
 }

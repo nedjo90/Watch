@@ -3,7 +3,7 @@ using Entities.LinkModels;
 using Entities.Models;
 using Main.Presentation.ActionFilter;
 using Main.Presentation.ModelBinders;
-using Marvin.Cache.Headers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
@@ -32,6 +32,7 @@ public abstract class BasicGenericController<TEntity, TMainDto, TCreationDto, TU
     
     [HttpGet]
     [HttpHead]
+    [Authorize]
     // [HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 600)]
     // [HttpCacheValidation(MustRevalidate = false)]
     public async Task<IActionResult> GetAllAsync()

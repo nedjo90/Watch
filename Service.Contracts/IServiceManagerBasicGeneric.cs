@@ -10,4 +10,5 @@ public interface IServiceManagerBasicGeneric<TEntity, TMainDto, TCreationDto,TUp
     where TUpdateDto : BasicGenericForUpdateDto
 {
     IBasicService<TEntity, TMainDto, TCreationDto, TUpdateDto> BasicService { get; }
+    IAuthenticationService AuthenticationService { get; }
 }

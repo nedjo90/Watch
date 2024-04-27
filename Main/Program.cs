@@ -28,6 +28,9 @@ builder.Services.ConfigureController();
 builder.Services.ConfigureResponseCaching();
 builder.Services.ConfigureHttpCacheHeaders();
 
+builder.Services.AddAuthentication();
+builder.Services.ConfigureIdentity();
+builder.Services.ConfigureJwt(builder.Configuration);
 
 builder.Services.AddCustomMediaTypes();
 builder.Services.AddMemoryCache();
@@ -63,6 +66,7 @@ app.UseSwaggerUI();
 
 app.UseResponseCaching();
 app.UseHttpCacheHeaders();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

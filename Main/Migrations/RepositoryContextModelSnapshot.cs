@@ -53,14 +53,9 @@ namespace Main.Migrations
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DocumentTypeId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Documents");
                 });
@@ -121,72 +116,6 @@ namespace Main.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DocumentTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("80abbca8-664d-4b20-b5de-024705497d4a"),
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Label = "Carte d'identité",
-                            UpdateBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            UpdateDate = new DateTime(2024, 4, 25, 12, 6, 55, 135, DateTimeKind.Utc).AddTicks(1550)
-                        },
-                        new
-                        {
-                            Id = new Guid("86dba8c0-d178-41e7-938c-ed49778fb52a"),
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Label = "Carte vitale",
-                            UpdateBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            UpdateDate = new DateTime(2024, 4, 25, 12, 6, 55, 135, DateTimeKind.Utc).AddTicks(1580)
-                        },
-                        new
-                        {
-                            Id = new Guid("021ca3c1-0deb-4afd-ae94-2159a8479811"),
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Label = "Carte bleu",
-                            UpdateBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            UpdateDate = new DateTime(2024, 4, 25, 12, 6, 55, 135, DateTimeKind.Utc).AddTicks(1590)
-                        });
-                });
-
-            modelBuilder.Entity("Entities.Models.DocumentTypeXTrainingType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)")
-                        .HasColumnName("DocumentTypeXTrainingTypeId");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<Guid>("DocumentTypeId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<bool>("IsRequired")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<Guid>("TrainingTypeId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DocumentTypeId");
-
-                    b.HasIndex("TrainingTypeId");
-
-                    b.ToTable("DocumentTypeXTrainingType");
                 });
 
             modelBuilder.Entity("Entities.Models.DocumentXDocumentStatus", b =>
@@ -260,14 +189,9 @@ namespace Main.Migrations
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("LateMissTypeId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("LateMisses");
                 });
@@ -369,40 +293,6 @@ namespace Main.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LateMissTypes");
-                });
-
-            modelBuilder.Entity("Entities.Models.LateMissXLateMissStatus", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)")
-                        .HasColumnName("LateMissXLateMissStatusId");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<Guid>("LateMissId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("LateMissStatusId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LateMissId");
-
-                    b.HasIndex("LateMissStatusId");
-
-                    b.ToTable("LateMissXLateMissStatus");
                 });
 
             modelBuilder.Entity("Entities.Models.Notification", b =>
@@ -564,150 +454,242 @@ namespace Main.Migrations
 
             modelBuilder.Entity("Entities.Models.User", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)")
-                        .HasColumnName("UserId");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("varchar(60)");
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("varchar(60)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("varchar(60)");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("varchar(60)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("varchar(60)");
+                        .HasColumnType("longtext");
 
-                    b.Property<string>("NativeCity")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("varchar(60)");
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("NativeCountry")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("varchar(60)");
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ProfilPicture")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("PostCode")
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3ae51554-d08d-4cf2-99f7-74b1aa4665ab",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "42d1964f-fa9a-4b10-86b0-875ea6baf080",
+                            Name = "Moderator",
+                            NormalizedName = "MODERATOR"
+                        },
+                        new
+                        {
+                            Id = "a44c7a67-4b04-4600-a566-5af0f735d503",
+                            Name = "Professor",
+                            NormalizedName = "PROFESSOR"
+                        },
+                        new
+                        {
+                            Id = "5aff3191-4be5-498f-aad7-1085d2df9676",
+                            Name = "Student",
+                            NormalizedName = "STUDENT"
+                        },
+                        new
+                        {
+                            Id = "28aaa1dd-247b-4d4f-8683-76bf67383e0d",
+                            Name = "Candidate",
+                            NormalizedName = "CANDIDATE"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("varchar(60)");
-
-                    b.Property<Guid>("ProfessionalStatusId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfessionalStatusId");
+                    b.HasIndex("RoleId");
 
-                    b.ToTable("Users");
+                    b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Entities.Models.UserXNotification", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)")
-                        .HasColumnName("UserXNotificationId");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("char(36)");
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext");
 
-                    b.Property<Guid>("NotificationId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("NotificationId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserXNotification");
+                    b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Entities.Models.UserXTraining", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)")
-                        .HasColumnName("UserXTrainingId");
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("longtext");
 
-                    b.Property<Guid>("TrainingId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<Guid>("UpdateBy")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TrainingId");
+                    b.HasKey("LoginProvider", "ProviderKey");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserXTraining");
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Document", b =>
@@ -718,34 +700,7 @@ namespace Main.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("DocumentType");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Entities.Models.DocumentTypeXTrainingType", b =>
-                {
-                    b.HasOne("Entities.Models.DocumentType", "DocumentType")
-                        .WithMany("DocumentTypeXTrainingTypeCollection")
-                        .HasForeignKey("DocumentTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Models.TrainingType", "TrainingType")
-                        .WithMany("DocumentTypeXTrainingTypeCollection")
-                        .HasForeignKey("TrainingTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DocumentType");
-
-                    b.Navigation("TrainingType");
                 });
 
             modelBuilder.Entity("Entities.Models.DocumentXDocumentStatus", b =>
@@ -775,15 +730,7 @@ namespace Main.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("LateMissType");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entities.Models.LateMissDocument", b =>
@@ -795,25 +742,6 @@ namespace Main.Migrations
                         .IsRequired();
 
                     b.Navigation("LateMiss");
-                });
-
-            modelBuilder.Entity("Entities.Models.LateMissXLateMissStatus", b =>
-                {
-                    b.HasOne("Entities.Models.LateMiss", "LateMiss")
-                        .WithMany("LateMissXLateMissStatusCollection")
-                        .HasForeignKey("LateMissId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Models.LateMissStatus", "LateMissStatus")
-                        .WithMany("LateMissXLateMissStatusCollection")
-                        .HasForeignKey("LateMissStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LateMiss");
-
-                    b.Navigation("LateMissStatus");
                 });
 
             modelBuilder.Entity("Entities.Models.Notification", b =>
@@ -838,53 +766,55 @@ namespace Main.Migrations
                     b.Navigation("TrainingType");
                 });
 
-            modelBuilder.Entity("Entities.Models.User", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Entities.Models.ProfessionalStatus", "ProfessionalStatus")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
-                        .HasForeignKey("ProfessionalStatusId")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ProfessionalStatus");
                 });
 
-            modelBuilder.Entity("Entities.Models.UserXNotification", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Entities.Models.Notification", "Notification")
-                        .WithMany("UserXNotificationCollection")
-                        .HasForeignKey("NotificationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Models.User", "User")
-                        .WithMany("UserXNotificationCollection")
+                    b.HasOne("Entities.Models.User", null)
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Notification");
-
-                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.Models.UserXTraining", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Entities.Models.Training", "Training")
+                    b.HasOne("Entities.Models.User", null)
                         .WithMany()
-                        .HasForeignKey("TrainingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Models.User", "User")
-                        .WithMany("UserXTrainingCollection")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.Navigation("Training");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("User");
+                    b.HasOne("Entities.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Entities.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Entities.Models.Document", b =>
@@ -895,38 +825,6 @@ namespace Main.Migrations
             modelBuilder.Entity("Entities.Models.DocumentStatus", b =>
                 {
                     b.Navigation("DocumentXDocumentStatusCollection");
-                });
-
-            modelBuilder.Entity("Entities.Models.DocumentType", b =>
-                {
-                    b.Navigation("DocumentTypeXTrainingTypeCollection");
-                });
-
-            modelBuilder.Entity("Entities.Models.LateMiss", b =>
-                {
-                    b.Navigation("LateMissXLateMissStatusCollection");
-                });
-
-            modelBuilder.Entity("Entities.Models.LateMissStatus", b =>
-                {
-                    b.Navigation("LateMissXLateMissStatusCollection");
-                });
-
-            modelBuilder.Entity("Entities.Models.Notification", b =>
-                {
-                    b.Navigation("UserXNotificationCollection");
-                });
-
-            modelBuilder.Entity("Entities.Models.TrainingType", b =>
-                {
-                    b.Navigation("DocumentTypeXTrainingTypeCollection");
-                });
-
-            modelBuilder.Entity("Entities.Models.User", b =>
-                {
-                    b.Navigation("UserXNotificationCollection");
-
-                    b.Navigation("UserXTrainingCollection");
                 });
 #pragma warning restore 612, 618
         }

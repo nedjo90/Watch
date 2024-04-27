@@ -22,12 +22,4 @@ public class LateMiss : TableBase
     [Required(ErrorMessage = "LateMissTypeId is a required field.")]
     public Guid LateMissTypeId { get; set; }
     public LateMissType? LateMissType { get; set; }
-    
-    [ForeignKey(nameof(User))]
-    [Required(ErrorMessage = "UserId is a required field.")]
-    public Guid UserId { get; set; }
-    public User? User { get; set; }
-    
-    //Navigation
-    public ICollection<LateMissXLateMissStatus?>? LateMissXLateMissStatusCollection { get; set; }
 }

@@ -20,5 +20,5 @@ public class Notification : TableBase
     public NotificationType? NotificationType { get; set; }
     
     //navigation
-    public ICollection<UserXNotification?>? UserXNotificationCollection { get; set; }
+
 }

@@ -22,10 +22,7 @@ public class Document : TableBase
     public Guid DocumentTypeId { get; set; }
     public DocumentType? DocumentType { get; set; }
     
-    [ForeignKey(nameof(User))]
-    [Required(ErrorMessage = "User Id is a required field.")]
-    public Guid UserId { get; set; }
-    public User? User { get; set; }
+  
     
     //navigation
     public ICollection<DocumentXDocumentStatus?>? DocumentXDocumentStatusCollection { get; set; }

@@ -5,5 +5,4 @@ namespace Entities.Models;
 
 public class LateMissStatus : BasicGenericEntity
 {
-    public ICollection<LateMissXLateMissStatus?>? LateMissXLateMissStatusCollection { get; set; }
 }

@@ -5,5 +5,4 @@ namespace Entities.Models;
 
 public class TrainingType : BasicGenericEntity
 {
-    public ICollection<DocumentTypeXTrainingType?>? DocumentTypeXTrainingTypeCollection { get; set; }
 }

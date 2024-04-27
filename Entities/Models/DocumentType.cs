@@ -6,5 +6,4 @@ namespace Entities.Models;
 public class DocumentType : BasicGenericEntity
 {
     //navigation
-    public ICollection<DocumentTypeXTrainingType?>? DocumentTypeXTrainingTypeCollection { get; set; }
 }
