@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Main.Migrations
 {
     /// <inheritdoc />
@@ -46,6 +48,9 @@ namespace Main.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ProfilPicture = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    RefreshToken = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
@@ -491,6 +496,18 @@ namespace Main.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "49e3956d-a9aa-4eff-9c4b-4ba198d2e11e", null, "Professor", "PROFESSOR" },
+                    { "4e10a039-300b-49f9-91a0-72506a3e6fb7", null, "Administrator", "ADMINISTRATOR" },
+                    { "79261ce7-975e-4b06-8199-6372fb3de406", null, "Student", "STUDENT" },
+                    { "8a4155d5-c06e-4b25-bd77-ca32fba71e3a", null, "Moderator", "MODERATOR" },
+                    { "de96bb47-403a-44b0-aac9-894921bb2ea1", null, "Candidate", "CANDIDATE" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

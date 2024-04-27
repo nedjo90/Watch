@@ -39,6 +39,28 @@ public class AuthenticationService : IAuthenticationService
 
     }
 
+    public async Task<Dictionary<string, Dictionary<string, Dictionary<string, string>>>> RegisterUserCollection(IEnumerable<UserForRegistrationDto> userForRegistrationDto)
+    {
+        Dictionary<string, Dictionary<string, Dictionary<string, string>>> results =
+            new Dictionary<string, Dictionary<string, Dictionary<string, string>>>
+            {
+                ["Failed"] = new Dictionary<string, Dictionary<string, string>>()
+            };
+        foreach (UserForRegistrationDto userDto in userForRegistrationDto)
+        {
+            IdentityResult result = await RegisterUser(userDto);
+            if (!result.Succeeded)
+            {
+                results["Failed"].Add(userDto.UserName, new Dictionary<string, string>());
+                foreach (IdentityError error in result.Errors)
+                {
+                    results["Failed"][userDto.UserName].Add(error.Code, error.Description);
+                }
+            }
+        }
+        return results;
+    }
+
     public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuthenticationDto)
     {
         _user = await _userManager.FindByNameAsync(userForAuthenticationDto.UserName);

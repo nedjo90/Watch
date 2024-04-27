@@ -506,6 +506,12 @@ namespace Main.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
 
@@ -556,31 +562,31 @@ namespace Main.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3ae51554-d08d-4cf2-99f7-74b1aa4665ab",
+                            Id = "4e10a039-300b-49f9-91a0-72506a3e6fb7",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "42d1964f-fa9a-4b10-86b0-875ea6baf080",
+                            Id = "8a4155d5-c06e-4b25-bd77-ca32fba71e3a",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         },
                         new
                         {
-                            Id = "a44c7a67-4b04-4600-a566-5af0f735d503",
+                            Id = "49e3956d-a9aa-4eff-9c4b-4ba198d2e11e",
                             Name = "Professor",
                             NormalizedName = "PROFESSOR"
                         },
                         new
                         {
-                            Id = "5aff3191-4be5-498f-aad7-1085d2df9676",
+                            Id = "79261ce7-975e-4b06-8199-6372fb3de406",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "28aaa1dd-247b-4d4f-8683-76bf67383e0d",
+                            Id = "de96bb47-403a-44b0-aac9-894921bb2ea1",
                             Name = "Candidate",
                             NormalizedName = "CANDIDATE"
                         });

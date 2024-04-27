@@ -1,6 +1,7 @@
 using Main.Presentation.ActionFilter;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Service.Contracts;
 using Shared.User;
 
@@ -42,10 +43,20 @@ public class AuthenticationController : ControllerBase
             {
                 ModelState.TryAddModelError(error.Code, error.Description);
             }
-
             return BadRequest(ModelState);
         }
 
+        return StatusCode(201);
+    }
+    
+    [HttpPost("collection")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> RegisterUserCollection([FromBody]IEnumerable<UserForRegistrationDto> userForRegistrationDto)
+    {
+        Dictionary<string, Dictionary<string, Dictionary<string, string>>> results =
+            await _service.AuthenticationService.RegisterUserCollection(userForRegistrationDto);
+        if (results["Failed"].Count != 0)
+            return BadRequest(results);
         return StatusCode(201);
     }
 }

@@ -12,7 +12,7 @@ using Repository;
 namespace Main.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240427103846_Initial")]
+    [Migration("20240427135915_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -509,6 +509,12 @@ namespace Main.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
 
@@ -555,6 +561,38 @@ namespace Main.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "4e10a039-300b-49f9-91a0-72506a3e6fb7",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "8a4155d5-c06e-4b25-bd77-ca32fba71e3a",
+                            Name = "Moderator",
+                            NormalizedName = "MODERATOR"
+                        },
+                        new
+                        {
+                            Id = "49e3956d-a9aa-4eff-9c4b-4ba198d2e11e",
+                            Name = "Professor",
+                            NormalizedName = "PROFESSOR"
+                        },
+                        new
+                        {
+                            Id = "79261ce7-975e-4b06-8199-6372fb3de406",
+                            Name = "Student",
+                            NormalizedName = "STUDENT"
+                        },
+                        new
+                        {
+                            Id = "de96bb47-403a-44b0-aac9-894921bb2ea1",
+                            Name = "Candidate",
+                            NormalizedName = "CANDIDATE"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
