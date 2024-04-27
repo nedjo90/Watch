@@ -1,6 +1,6 @@
 using AutoMapper;
 using Entities.Models;
-using Shared.User;
+using Shared.Login;
 
 namespace Main.Mapping;
 

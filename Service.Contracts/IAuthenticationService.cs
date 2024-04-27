@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using Shared.User;
+using Shared.Login;
 
 namespace Service.Contracts;
 
@@ -9,5 +9,5 @@ public interface IAuthenticationService
     Task<Dictionary<string, Dictionary<string, Dictionary<string, string>>>> 
         RegisterUserCollection(IEnumerable<UserForRegistrationDto> userForRegistrationDto);
     Task<bool> ValidateUser(UserForAuthenticationDto userForAuthenticationDto);
-    Task<string> CreateToken();
+    Task<TokenDto> CreateToken(bool populateExp);
 }

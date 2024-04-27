@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Service.Contracts;
-using Shared.User;
+using Shared.Login;
 
 namespace Main.Presentation.Controllers;
 
@@ -24,11 +24,8 @@ public class AuthenticationController : ControllerBase
     {
         if (!await _service.AuthenticationService.ValidateUser(user))
             return Unauthorized();
-        return Ok(
-            new
-            {
-                Token = await _service.AuthenticationService.CreateToken()
-            });
+        TokenDto tokenDto = await _service.AuthenticationService.CreateToken(true);
+        return Ok(tokenDto);
     }
     
     [HttpPost]
