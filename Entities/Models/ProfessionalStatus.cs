@@ -5,4 +5,6 @@ namespace Entities.Models;
 
 public class ProfessionalStatus : BasicGenericEntity
 {
+    public ICollection<User> Users { get; set; }
+    public ICollection<ProfessionalStatusHistory> ProfessionalStatusHistories { get; set; }
 }

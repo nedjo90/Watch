@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models;
 
-public class Training : TableBase
+public class Training
 {
     [Column("TrainingId")]
     public Guid Id { get; set; }
@@ -14,9 +14,11 @@ public class Training : TableBase
     [Required(ErrorMessage = "Training End Date is a required field.")]
     public DateTime EndDate { get; set; }
     
-    [ForeignKey(nameof(TrainingType))]
-    [Required(ErrorMessage = "TrainingTypeId is a required field.")]
+    //[ForeignKey(nameof(TrainingType))]
+    //[Required(ErrorMessage = "TrainingTypeId is a required field.")]
     public Guid TrainingTypeId { get; set; }
     public TrainingType? TrainingType { get; set; }
-    
+
+    public ICollection<User> Users { get; set; }
+    public ICollection<TrainingHistory> TrainingHistories { get; set; }
 }

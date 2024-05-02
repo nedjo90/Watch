@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models;
 
-public class LateMiss : TableBase
+public class LateMiss
 {
     
     [Column("LateMissId")]
@@ -18,8 +18,19 @@ public class LateMiss : TableBase
     [Required(ErrorMessage = "Late or Miss End Date is a required field.")]
     public DateTime EndDate { get; set; }
     
-    [ForeignKey(nameof(LateMissType))]
-    [Required(ErrorMessage = "LateMissTypeId is a required field.")]
     public Guid LateMissTypeId { get; set; }
-    public LateMissType? LateMissType { get; set; }
+
+    public LateMissType LateMissType { get; set; }
+
+    public Guid LateMissStatusId { get; set; }
+
+    public LateMissStatus LateMissStatus { get; set; }
+    
+    public string? UserId { get; set; }
+
+    public User? User { get; set; }
+    
+    public ICollection<LateMissDocument> LateMissDocuments { get; set; }
+    public ICollection<LateMissHistory> LateMissHistories { get; set; }
+
 }

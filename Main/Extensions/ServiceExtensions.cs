@@ -1,6 +1,7 @@
 using System.Text;
 using AspNetCoreRateLimit;
 using Contracts;
+using Entities.ConfigurationModels;
 using Entities.Models;
 using LoggerService;
 using Main.Utility;
@@ -180,6 +181,8 @@ public static class ServiceExtensions
 
     public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
     {
+        var jwtConfiguration = new JwtConfiguration();
+        configuration.Bind(jwtConfiguration.Section, configuration);
         IConfigurationSection jwtSettings = configuration.GetSection("JwtSettings");
         services.AddAuthentication(options =>
             {
@@ -194,11 +197,17 @@ public static class ServiceExtensions
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtSettings["ValidIssuer"],
-                    ValidAudience = jwtSettings["ValidAudience"],
+                    
+                    ValidIssuer = jwtConfiguration.ValidIssuer,
+                    ValidAudience = jwtConfiguration.ValidAudience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Secret"]!))
                 };
             });
+    }
+
+    public static void AddJwtConfiguration(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
     }
     
     private static NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter()

@@ -7,5 +7,6 @@ namespace Entities.Models;
 public class DocumentStatus : BasicGenericEntity
 {
     //navigation
-    public ICollection<DocumentXDocumentStatus?>? DocumentXDocumentStatusCollection { get; set; }
+    public ICollection<Document> Documents { get; set; }
+    public ICollection<DocumentStatusHistory> DocumentStatusHistories { get; set; }
 }

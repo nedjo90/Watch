@@ -1,8 +1,10 @@
 using AutoMapper;
 using Contracts;
+using Entities.ConfigurationModels;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Service.Contracts;
 using Shared.BasicGeneric;
 
@@ -24,7 +26,7 @@ public class ServiceManagerBasicGeneric<TEntity, TMainDto, TCreationDto, TUpdate
             ILoggerManager loggerManager,
             IMapper mapper,
             UserManager<User> userManager,
-            IConfiguration configuration,  
+            IOptionsMonitor<JwtConfiguration> configuration,  
             IBasicGenericLinks<TMainDto> basicGenericLinks)
     {
         _basicService = new Lazy<IBasicService<TEntity, TMainDto, TCreationDto, TUpdateDto>>(() =>

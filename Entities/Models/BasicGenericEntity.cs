@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models;
 
-public abstract class BasicGenericEntity : TableBase
+public abstract class BasicGenericEntity
 {
     [Column("Id")]
     public Guid Id { get; set; }

@@ -31,6 +31,7 @@ builder.Services.ConfigureHttpCacheHeaders();
 builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJwt(builder.Configuration);
+builder.Services.AddJwtConfiguration(builder.Configuration);
 
 builder.Services.AddCustomMediaTypes();
 builder.Services.AddMemoryCache();

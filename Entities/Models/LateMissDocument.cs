@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models;
 
-public class LateMissDocument  : TableBase
+public class LateMissDocument
 {
     [Column("LateMissDocumentId")]
     public Guid Id {get; set;}
@@ -16,12 +16,11 @@ public class LateMissDocument  : TableBase
     [MaxLength(60, ErrorMessage = "Maximum length for the Label is 60 characters" )]
     [MinLength(2, ErrorMessage = "Minimum length for the Label is 2 characters")]
     public string? Label { get; set; }
-    
-    [Required(ErrorMessage = "Upload Date is a required field.")]
-    public DateTime UploadDate { get; set; }
-    
-    [ForeignKey(nameof(LateMiss))]
-    [Required(ErrorMessage = "LateMissId is a required field.")]
+    //[ForeignKey(nameof(LateMiss))]
+    //[Required(ErrorMessage = "LateMissId is a required field.")]
     public Guid LateMissId { get; set; }
-    public LateMiss? LateMiss { get; set; }
+    
+    public LateMiss LateMiss { get; set; }
+
+    public ICollection<LateMissDocumentHistory> LateMissDocumentHistories { get; set; }
 }

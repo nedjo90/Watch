@@ -5,4 +5,6 @@ namespace Entities.Models;
 
 public class LateMissStatus : BasicGenericEntity
 {
+    public ICollection<LateMiss> LateMisses { get; set; }
+    public ICollection<LateMissStatusHistory> LateMissStatusHistories { get; set; }
 }

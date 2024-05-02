@@ -1,7 +1,6 @@
 using Main.Presentation.ActionFilter;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Service.Contracts;
 using Shared.Login;
 
@@ -27,6 +26,7 @@ public class AuthenticationController : ControllerBase
         TokenDto tokenDto = await _service.AuthenticationService.CreateToken(true);
         return Ok(tokenDto);
     }
+    
     
     [HttpPost]
     [ServiceFilter(typeof(ValidationFilterAttribute))]

@@ -10,4 +10,5 @@ public interface IAuthenticationService
         RegisterUserCollection(IEnumerable<UserForRegistrationDto> userForRegistrationDto);
     Task<bool> ValidateUser(UserForAuthenticationDto userForAuthenticationDto);
     Task<TokenDto> CreateToken(bool populateExp);
+    Task<TokenDto> RefreshToken(TokenDto tokenDto);
 }
