@@ -1,6 +1,8 @@
-using Shared.BasicGeneric;
+
 
 namespace Shared.TrainingType;
 
-public record TrainingTypeDto : BasicGenericDto
-{}
+public record TrainingTypeDto : TrainingTypeForManipulation
+{
+    public Guid Id { get; init; }
+}

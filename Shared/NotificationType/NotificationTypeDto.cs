@@ -1,6 +1,7 @@
-using Shared.BasicGeneric;
 
 namespace Shared.NotificationType;
 
-public record NotificationTypeDto : BasicGenericDto
-{}
+public record NotificationTypeDto : NotificationTypeForManipulationDto
+{
+    public Guid Id { get; set; }
+}

@@ -1,8 +1,7 @@
-using Shared.BasicGeneric;
 
 namespace Shared.DocumentType;
 
-public record DocumentTypeForCreationDto : BasicGenericForCreationDto
+public record DocumentTypeForCreationDto : DocumentTypeForManipulationDto
 {
     
 }

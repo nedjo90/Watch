@@ -1,8 +1,7 @@
-using Shared.BasicGeneric;
 
 namespace Shared.NotificationType;
 
-public record NotificationTypeForUpdateDto : BasicGenericForUpdateDto
+public record NotificationTypeForUpdateDto : NotificationTypeForManipulationDto
 {
     
 }

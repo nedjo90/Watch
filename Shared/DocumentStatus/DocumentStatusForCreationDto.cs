@@ -1,8 +1,7 @@
-using Shared.BasicGeneric;
 
 namespace Shared.DocumentStatus;
 
-public record DocumentStatusForCreationDto : BasicGenericForCreationDto
+public record DocumentStatusForCreationDto : DocumentStatusForManipulationDto
 {
     
 }

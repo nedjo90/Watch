@@ -1,8 +1,7 @@
-using Shared.BasicGeneric;
 
 namespace Shared.LateMissStatus;
 
-public record LateMissStatusForUpdateDto : BasicGenericForUpdateDto
+public record LateMissStatusForUpdateDto : LateMissStatusForManipulationDto
 {
     
 }

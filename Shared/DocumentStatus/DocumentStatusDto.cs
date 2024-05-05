@@ -1,6 +1,9 @@
-using Shared.BasicGeneric;
-
 namespace Shared.DocumentStatus;
 
-public record DocumentStatusDto : BasicGenericDto
-{}
+public record DocumentStatusDto
+{
+    public Guid? Id {
+        get;
+        set;
+    }
+}

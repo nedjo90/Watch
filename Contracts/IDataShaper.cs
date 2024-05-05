@@ -3,8 +3,8 @@ using Entities.Models;
 
 namespace Contracts;
 
-public interface IDataShaper<TEntity>
+public interface IDataShaper<in T>
 {
-    IEnumerable<ShapedEntity> ShapeData(IEnumerable<TEntity> entities, string fieldsString);
-    ShapedEntity ShapeData(TEntity entity, string fieldsString);
+    IEnumerable<ShapedEntity> ShapeData(IEnumerable<T> entities, string fieldsString);
+    ShapedEntity ShapeData(T entity, string fieldsString);
 }

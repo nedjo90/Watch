@@ -40,7 +40,7 @@ public class RootController : ControllerBase
     private List<Link> BasicGenericLinks()
     {
         List<Link> list = new List<Link>();
-        IEnumerable<Type> types = GetChildControllers(typeof(BasicGenericController<,,,>));
+        IEnumerable<Type> types = GetChildControllers(typeof(Assembly));
         
         foreach (Type type in types)
         {

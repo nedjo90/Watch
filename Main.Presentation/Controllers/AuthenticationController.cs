@@ -32,6 +32,8 @@ public class AuthenticationController : ControllerBase
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistrationDto)
     {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
         IdentityResult result =
             await _service.AuthenticationService.RegisterUser(userForRegistrationDto);
         if (!result.Succeeded)

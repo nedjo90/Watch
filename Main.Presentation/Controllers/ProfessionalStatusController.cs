@@ -7,12 +7,6 @@ namespace Main.Presentation.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProfessionalStatusController : BasicGenericController<ProfessionalStatus,ProfessionalStatusDto,ProfessionalStatusForCreationDto, ProfessionalStatusForUpdateDto>
+public class ProfessionalStatusController
 {
-    public ProfessionalStatusController
-        (IServiceManagerBasicGeneric
-            <ProfessionalStatus, ProfessionalStatusDto, ProfessionalStatusForCreationDto, ProfessionalStatusForUpdateDto> serviceManagerBasicGeneric) 
-        : base(serviceManagerBasicGeneric)
-    {
-    }
 }

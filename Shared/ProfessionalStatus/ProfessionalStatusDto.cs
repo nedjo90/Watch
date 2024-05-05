@@ -1,6 +1,8 @@
-using Shared.BasicGeneric;
+
 
 namespace Shared.ProfessionalStatus;
 
-public record ProfessionalStatusDto : BasicGenericDto
-{}
+public record ProfessionalStatusDto : ProfessionalStatusForManipulationDto
+{
+    public Guid Id { get; set; }
+}

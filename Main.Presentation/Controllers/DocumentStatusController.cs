@@ -7,12 +7,7 @@ namespace Main.Presentation.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class DocumentStatusController : BasicGenericController<DocumentStatus,DocumentStatusDto,DocumentStatusForCreationDto, DocumentStatusForUpdateDto>
+public class DocumentStatusController
 {
-    public DocumentStatusController
-        (IServiceManagerBasicGeneric
-            <DocumentStatus, DocumentStatusDto, DocumentStatusForCreationDto, DocumentStatusForUpdateDto> serviceManagerBasicGeneric) 
-        : base(serviceManagerBasicGeneric)
-    {
-    }
+
 }

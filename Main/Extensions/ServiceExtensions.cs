@@ -4,7 +4,6 @@ using Contracts;
 using Entities.ConfigurationModels;
 using Entities.Models;
 using LoggerService;
-using Main.Utility;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -75,15 +74,12 @@ public static class ServiceExtensions
     public static void ConfigureRepositoryManager(this IServiceCollection services)
     {
         services.AddScoped<IRepositoryManager, RepositoryManager>();
-        services.AddScoped(typeof(IRepositoryManagerGeneric<>), typeof(RepositoryManagerGeneric<>));
     }
 
     public static void ConfigureServiceManager(this IServiceCollection services)
     {
         services.AddScoped<IServiceManager, ServiceManager>();
-        services.AddScoped(typeof(IServiceManagerBasicGeneric<,,,>), typeof(ServiceManagerBasicGeneric<,,,>));
         services.AddScoped(typeof(IDataShaper<>), typeof(DataShaper<>));
-        services.AddScoped(typeof(IBasicGenericLinks<>), typeof(BasicGenericLinks<>));
     }
 
     public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)

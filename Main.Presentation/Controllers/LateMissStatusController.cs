@@ -7,12 +7,7 @@ namespace Main.Presentation.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class LateMissStatusController : BasicGenericController<LateMissStatus,LateMissStatusDto,LateMissStatusForCreationDto, LateMissStatusForUpdateDto>
+public class LateMissStatusController
 {
-    public LateMissStatusController
-        (IServiceManagerBasicGeneric
-            <LateMissStatus, LateMissStatusDto, LateMissStatusForCreationDto, LateMissStatusForUpdateDto> serviceManagerBasicGeneric) 
-        : base(serviceManagerBasicGeneric)
-    {
-    }
+    
 }
