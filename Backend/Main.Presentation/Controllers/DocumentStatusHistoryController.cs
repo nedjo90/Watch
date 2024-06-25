@@ -1,0 +1,32 @@
+using Entities.Models;
+using Microsoft.AspNetCore.Mvc;
+using Service.Contracts;
+using Shared.DataTransfertObject.DocumentStatusHistory;
+
+namespace Main.Presentation.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class DocumentStatusHistoryController : ControllerBase
+{
+    private readonly IServiceManager _service;
+
+    public DocumentStatusHistoryController(IServiceManager service)
+    {
+        _service = service;
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetAllAsync()
+    {
+        IEnumerable<DocumentStatusHistoryDto> professionalStatusHistoryDto =
+            await _service.DocumentStatusHistoryService.GetAllAsync(false);
+        return Ok(professionalStatusHistoryDto);
+    }
+    [HttpOptions]
+    public IActionResult GetOptions()
+    {
+        Response.Headers["Allow"] = "GET, PUT, DELETE, POST, PATCH, OPTIONS";
+        return Ok();
+    }
+}
