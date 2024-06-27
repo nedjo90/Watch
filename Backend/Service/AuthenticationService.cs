@@ -43,6 +43,8 @@ public class AuthenticationService : IAuthenticationService
         {
             if (!await _roleManager.RoleExistsAsync(role))
                 throw new RoleBadRequestException($"{role} is not a valid role");
+            if (role != "Candidate")
+                throw new ForbiddenForRegistrationRole();
         }
         User? user = _mapper.Map<User>(userForRegistration);
         IdentityResult result = await _userManager.CreateAsync(user,

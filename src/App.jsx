@@ -13,7 +13,7 @@ function App()
         <div>
             <NavBar></NavBar>
             <div
-                className={`bg-${BG} text-light`} style={{maxWidth: '100%', minHeight: "100vh"}}>
+                className={`bg-${BG} text-light`} style={{minHeight: "100vh"}}>
                 <RoutesPath/>
             </div>
         </div>

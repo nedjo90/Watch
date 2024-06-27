@@ -46,6 +46,7 @@ public static class ExceptionMiddlewareExtensions
                         {
                             NotFoundException => StatusCodes.Status404NotFound,
                             BadRequestException => StatusCodes.Status400BadRequest,
+                            ForbiddenRequestException => StatusCodes.Status403Forbidden,
                             _ => StatusCodes.Status500InternalServerError
                         };
                         await context.Response.WriteAsync(
