@@ -6,12 +6,18 @@ namespace Shared.DataTransfertObject.Authentication;
 public record UserForRegistrationDto
 {
     [Required(ErrorMessage = "First name is required")]
+    [MinLength(2, ErrorMessage = "First name must be at least 2 characters")]
+    [MaxLength(50, ErrorMessage = "First name must be less than 50 characters")]
     public string? FirstName { get; init; }
 
     [Required(ErrorMessage = "Last name is required")]
+    [MinLength(2, ErrorMessage = "Last name must be at least 2 characters")]
+    [MaxLength(50, ErrorMessage = "Last name must be less than 50 characters")]
     public string? LastName { get; init; }
 
     [Required(ErrorMessage = "Username is required")]
+    [MinLength(2, ErrorMessage = "Username must be at least 2 characters")]
+    [MaxLength(50, ErrorMessage = "Username must be less than 50 characters")]
     public string? UserName { get; init; }
 
     [Required(ErrorMessage = "Password is required")]
@@ -22,14 +28,14 @@ public record UserForRegistrationDto
     public string? ConfirmPassword { get; init; }
 
     [Required(ErrorMessage = "Email is required")]
+    [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Please enter a valid email address")]
     public string? Email { get; init; }
 
     [Required(ErrorMessage = "Email is required")]
     [Compare(nameof(Email), ErrorMessage = "The email and confirmation Email do not match.")]
     public string? ConfirmEmail { get; init; }
-
-    [Required(ErrorMessage = "Phone number is required")]
-    public string? PhoneNumber { get; init; }
+    
+    public string? PhoneNumber { get; init; } = "+33000000000";
 
     public string ProfilPicture { get; init; } = "none.png";
 

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Form from 'react-bootstrap/Form';
 import {
-    Button,
+    Button
 } from 'react-bootstrap';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import {VARIANT} from '../../App.jsx';
@@ -10,58 +10,23 @@ import formStyles from '../../styles/form-styles.module.css';
 import {UsernameInput} from '../form/usernameinput.jsx';
 import {EmailInput} from '../form/emailinput.jsx';
 import {EmailConfirmationInput} from '../form/emailconfirmationinput.jsx';
-import {Passwordinput} from '../form/passwordinput.jsx';
+import {PasswordInput} from '../form/passwordinput.jsx';
 import {PasswordConfirmationInput} from '../form/passwordconfirmationinput.jsx';
 import {FirstnameInput} from '../form/firstnameinput.jsx';
-import {Lastnameinput} from '../form/lastnameinput.jsx';
+import {LastnameInput} from '../form/lastnameInput.jsx';
 import {Birthdaydatepicker} from '../form/birthdaydatepicker.jsx';
 import {CountryInput} from '../form/countryinput.jsx';
 import {FullAddressInput} from '../form/fulladdressinput.jsx';
 import {useDispatch} from 'react-redux';
+import {ErrorContainer} from '../../styles/styled-components.js';
+import {submitForm} from '../../reducer/signup/signupreducer.js';
 
 export const SignUpForm = () =>
 {
     const dispatch = useDispatch();
-    const [isLoading, setIsLoading] = useState(false);
-    const [options, setOptions] = useState([]);
+
     const [selectedCity, setSelectedCity] = useState([]);
     const [birthday, setBirthday] = useState(new Date());
-
-    const handleSearch = (search) =>
-    {
-        setIsLoading(true);
-
-        LocalisationService.getCity(search)
-        .then((data) =>
-              {
-                  const arr = data.features.map(city =>
-                                                {
-                                                    return {
-                                                        city: city.properties.name,
-                                                        postcode: city.properties.postcode
-                                                    };
-                                                });
-                  setOptions(arr);
-                  setIsLoading(false);
-              })
-        .catch((error) =>
-               {
-                   console.error('Error fetching data:', error);
-                   setIsLoading(false);
-               });
-    };
-
-    const handleChange = (selected) =>
-    {
-        if (selected.length > 0)
-        {
-            setSelectedCity(selected[0]);
-        }
-        else
-        {
-            setSelectedCity([]);
-        }
-    };
 
     return (<div className={formStyles.formContainer}>
         <h1 className={formStyles.formTitle}>Registration</h1>
@@ -71,24 +36,20 @@ export const SignUpForm = () =>
                     <UsernameInput/>
                     <EmailInput/>
                     <EmailConfirmationInput/>
-                    <Passwordinput/>
+                    <PasswordInput/>
                     <PasswordConfirmationInput/>
                 </div>
                 <div>
                     <FirstnameInput/>
-                    <Lastnameinput/>
+                    <LastnameInput/>
                     <Birthdaydatepicker/>
                     <CountryInput/>
-                    <FullAddressInput handleSearch={handleSearch}
-                                      handleChange={handleChange}
-                                      isLoading={isLoading}
-                                      options={options}
-                    />
+                    <FullAddressInput/>
                 </div>
 
             </div>
             <Button className={formStyles.formButton} variant={VARIANT}
-                    type="submit">Sign Up</Button>
+                    onClick={() => {dispatch(submitForm());}}>Sign Up</Button>
         </Form>
     </div>);
 };
