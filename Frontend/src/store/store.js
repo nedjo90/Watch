@@ -5,7 +5,7 @@ import signInReducer from '../reducer/signin/signinreducer.js';
 const store = configureStore({
                                  reducer: {
                                      signUp: signUpReducer,
-                                     signIn: signInReducer
+                                     signIn: signInReducer,
                                  }
                              });
 

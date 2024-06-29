@@ -14,7 +14,14 @@ export const createUser = async (body) =>
     return await axios.post(`${baseUrl}authentication`, body);
 };
 
+export const login = async (body) =>{
+    return await axios.post(
+        `${baseUrl}authentication/login`, body
+    )
+}
+
 export default {
     getAllProfessionalStatus,
-    createUser
+    createUser,
+    login
 };
