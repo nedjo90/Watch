@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {dividerClasses} from '@mui/material';
 
 export const ErrorContainer = styled.div`
     display: flex;

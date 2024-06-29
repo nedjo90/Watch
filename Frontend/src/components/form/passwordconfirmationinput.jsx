@@ -1,6 +1,6 @@
 import formStyles from '../../styles/form-styles.module.css';
 import Form from 'react-bootstrap/Form';
-import React from 'react';
+import React, {useState} from 'react';
 import {
     useDispatch,
     useSelector
@@ -12,31 +12,41 @@ import {ErrorForm} from './errorform.jsx';
 import {
     getPasswordConfirmation,
     getIsSubmit,
-    getIsValidPasswordConfirmation
+    getIsValidPasswordConfirmation,
+    getPasswordHide,
+    getPassword
 } from '../../reducer/signup/signupselectors.js';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 export const PasswordConfirmationInput = () =>
 {
     const dispatch = useDispatch();
     const passwordConfirmation = useSelector(getPasswordConfirmation);
-    const isValidPasswordConfirmation = useSelector(getIsValidPasswordConfirmation);
+    const passwordHide = useSelector(getPasswordHide);
+    const isValidPasswordConfirmation = useSelector(
+        getIsValidPasswordConfirmation);
     const isSubmit = useSelector(getIsSubmit);
+
     return (<div>
-            <Form.Group className={formStyles.formGroup}>
-                <Form.Label
-                    className={formStyles.formLabel}>
-                    Password confirmation</Form.Label>
+        <Form.Group className={formStyles.formGroup}>
+            <Form.Label
+                className={formStyles.formLabel}>
+                Password confirmation</Form.Label>
+            <div
+                style={{position: 'relative'}}>
                 <Form.Control
                     value={passwordConfirmation} onChange={(event) =>
                 {
                     dispatch(setPasswordConfirmation(event.target.value));
                 }}
+                    style={{color: `${isValidPasswordConfirmation ? "black" : "red"}`}}
                     placeholder="password confirmation"
                     className={formStyles.formTextInput}
-                    type="password">
+                    type={passwordHide ? 'password' : 'text'}>
                 </Form.Control>
-            </Form.Group>
-            <ErrorForm isValid={isValidPasswordConfirmation} isSubmit={isSubmit}
-                       message="Password confirmation does not match"></ErrorForm>
-        </div>);
+            </div>
+        </Form.Group>
+        <ErrorForm isValid={isValidPasswordConfirmation} isSubmit={isSubmit}
+                   message="Password confirmation does not match"></ErrorForm>
+    </div>);
 };

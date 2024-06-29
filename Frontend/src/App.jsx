@@ -1,4 +1,4 @@
-import {RoutesPath} from './Routes/routespath.jsx';
+import {RoutesPath} from './routes/routespath.jsx';
 import {NavBar} from './components/general/navbar.jsx';
 
 //bootstrap constant
@@ -10,10 +10,10 @@ function App()
 {
 
     return (
-        <div>
+        <div style={{width: '100vw', minHeight: "100vh"}}>
             <NavBar></NavBar>
             <div
-                className={`bg-${BG} text-light`} style={{maxWidth: '100%', minHeight: "100vh"}}>
+                className={`bg-${BG} text-light`} style={{maxWidth: '100vw', minHeight: "100vh"}}>
                 <RoutesPath/>
             </div>
         </div>

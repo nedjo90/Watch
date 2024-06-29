@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const getCity = async (search) =>
+const getFullAddress = async (search) =>
 {
     const searchTerm = search.replace(' ', '%20');
     const response = await axios.get(
@@ -9,5 +9,5 @@ const getCity = async (search) =>
 };
 
 export default {
-    getCity
+    getFullAddress
 };

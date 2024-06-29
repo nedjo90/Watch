@@ -29,6 +29,7 @@ export const Birthdaydatepicker = () =>
     const dispatch = useDispatch();
     const isValidBirthday = useSelector(getIsValidBirthday);
     const isSubmit = useSelector(getIsSubmit);
+    console.log();
     return (
         <div>
             <Form.Group className={formStyles.formGroup}>

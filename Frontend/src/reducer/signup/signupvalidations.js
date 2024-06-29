@@ -18,15 +18,45 @@ export const isValidLastName = (lastName) =>
 };
 export const isValidEmail = (email) =>
 {
-    return email.match('[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,15}');
+    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,15}$/;
+    const test = email.match(regex);
+    return !!test;
 };
 
 export const isValidPassword = (password) =>
 {
-    return password.match('/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;');
+    const test = password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/);
+    return !!test;
 };
 export const isValidBirthday = (date) =>
 {
+    return dayjs(date, 'DD/MM/YYYY')
+    .isValid();
+};
 
-    return dayjs(date, 'DD/MM/YYYY').isValid();
+export const isValidProfessionalStatusId = (list, id) => {
+    return !!(list.find(pro => pro.id === id));
+}
+
+export const isValidFullAddress = (fullAddress) =>
+{
+    return fullAddress.address.length > 0
+        && fullAddress.city.length > 0
+        && fullAddress.postcode.length > 0
+        && fullAddress.country.length > 0;
+};
+
+export const allInputAreValid = (signUp) =>
+{
+    return (signUp.isValidUsername
+        && signUp.isValidEmail
+        && signUp.isSameEmail
+        && signUp.isValidPassword
+        && signUp.isSamePassword
+        && signUp.isValidFirstName
+        && signUp.isValidLastName
+        && signUp.isValidBirthday
+        && signUp.isValidFullAddress
+        && signUp.isValidProfessionalStatusId
+    );
 };

@@ -6,7 +6,7 @@ import {
     HOME,
     SIGN_IN,
     SIGN_UP
-} from '../../Routes/routespath.jsx';
+} from '../../routes/routespath.jsx';
 import {DATA_BS_THEME} from '../../App.jsx';
 
 export const NavBar = () =>

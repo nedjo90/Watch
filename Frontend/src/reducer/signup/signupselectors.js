@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect';
 
-const getSignUpState = (state) => state.signUp;
+export const getSignUpState = (state) => state.signUp;
 
 export const getIsSubmit = createSelector(
     [getSignUpState],
@@ -44,11 +44,15 @@ export const getEmailConfirmation = createSelector(
 
 export const getIsValidEmailConfirmation = createSelector(
     [getSignUpState],
-    (signUp) => signUp.isValidEmailConfirmation);
+    (signUp) => signUp.isSameEmail);
 
 export const getPassword = createSelector(
     [getSignUpState],
     (signUp) => signUp.password);
+
+export const getPasswordHide = createSelector(
+    [getSignUpState],
+    (signUp) => signUp.passwordHide);
 
 export const getIsValidPassword = createSelector(
     [getSignUpState],
@@ -60,8 +64,7 @@ export const getPasswordConfirmation = createSelector(
 
 export const getIsValidPasswordConfirmation = createSelector(
     [getSignUpState],
-    (signUp) => signUp.isValidPasswordConfirmation);
-
+    (signUp) => signUp.isSamePassword);
 
 export const getBirthday = createSelector(
     [getSignUpState],
@@ -71,3 +74,10 @@ export const getIsValidBirthday = createSelector(
     [getSignUpState],
     (signUp) => signUp.isValidBirthday);
 
+export const getIsValidFullAddress = createSelector(
+    [getSignUpState],
+    (signUp) => signUp.isValidFullAddress);
+
+export const getListOfProfessionalStatus = createSelector(
+    [getSignUpState],
+    (signUp) => signUp.listOfProfessionalStatus);
