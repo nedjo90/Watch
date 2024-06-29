@@ -10,7 +10,8 @@ import {ErrorForm} from './errorform.jsx';
 import {
     getUsername,
     getIsSubmit,
-    getIsValidUsername
+    getIsValidUsername,
+    getErrorUsernameMessage
 } from '../../reducer/signup/signupselectors.js';
 import {FormSubField} from '../../styles/styled-components.js';
 
@@ -19,6 +20,7 @@ export const UsernameInput = () =>
     const dispatch = useDispatch();
     const username = useSelector(getUsername);
     const isValidUsername = useSelector(getIsValidUsername);
+    const errorMessage = useSelector(getErrorUsernameMessage);
     const isSubmit = useSelector(getIsSubmit);
 
     return (
@@ -36,7 +38,7 @@ export const UsernameInput = () =>
                 </Form.Control>
             </Form.Group>
             <ErrorForm isValid={isValidUsername} isSubmit={isSubmit}
-                       message="Please enter between 2 and 50 characters"></ErrorForm>
+                       message={errorMessage}></ErrorForm>
         </FormSubField>
     );
 };

@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import {current} from '@reduxjs/toolkit';
 
 export const isValidUsername = (username) =>
 {
@@ -25,7 +26,7 @@ export const isValidEmail = (email) =>
 
 export const isValidPassword = (password) =>
 {
-    const test = password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/);
+    const test = password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/);
     return !!test;
 };
 export const isValidBirthday = (date) =>
@@ -34,9 +35,12 @@ export const isValidBirthday = (date) =>
     .isValid();
 };
 
-export const isValidProfessionalStatusId = (list, id) => {
-    return !!(list.find(pro => pro.id === id));
-}
+export const isValidProfessionalStatusId = (list, id) =>
+{
+    console.log('list', list);
+    console.log('id', id);
+    return !!(id !== '0' && list.find(pro => pro.id === id));
+};
 
 export const isValidFullAddress = (fullAddress) =>
 {

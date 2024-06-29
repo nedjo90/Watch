@@ -20,8 +20,7 @@ export const EmailConfirmationInput = () =>
     const isValidEmailConfirmation = useSelector(getIsValidEmailConfirmation);
     const isSubmit = useSelector(getIsSubmit);
 
-    return (
-        <div>
+    return (<div>
             <Form.Group className={formStyles.formGroup}>
                 <Form.Label className={formStyles.formLabel}>
                     E-mail confirmation</Form.Label>
@@ -31,11 +30,10 @@ export const EmailConfirmationInput = () =>
                               placeholder="e-mail confirmation"
                               className={formStyles.formTextInput}
                               type="email"
-                              pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,15}">
+                >
                 </Form.Control>
             </Form.Group>
             <ErrorForm isValid={isValidEmailConfirmation} isSubmit={isSubmit}
                        message="Email confirmation does not match"></ErrorForm>
-        </div>
-    );
+        </div>);
 };

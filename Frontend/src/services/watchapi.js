@@ -9,6 +9,12 @@ const getAllProfessionalStatus = async () =>
     return response.data;
 };
 
+export const createUser = async (body) =>
+{
+    return await axios.post(`${baseUrl}authentication`, body);
+};
+
 export default {
-    getAllProfessionalStatus
+    getAllProfessionalStatus,
+    createUser
 };

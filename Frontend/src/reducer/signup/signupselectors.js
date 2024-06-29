@@ -26,6 +26,10 @@ export const getUsername = createSelector(
     [getSignUpState],
     (signUp) => signUp.username);
 
+export const getErrorUsernameMessage = createSelector(
+    [getSignUpState],
+    (signUp) => signUp.errorUsernameMessage);
+
 export const getIsValidUsername = createSelector(
     [getSignUpState],
     (signUp) => signUp.isValidUsername);
@@ -37,6 +41,10 @@ export const getEmail = createSelector(
 export const getIsValidEmail = createSelector(
     [getSignUpState],
     (signUp) => signUp.isValidEmail);
+
+export const getErrorEmailMessage = createSelector(
+    [getSignUpState],
+    (signUp) => signUp.errorEmailMessage);
 
 export const getEmailConfirmation = createSelector(
     [getSignUpState],
@@ -81,3 +89,11 @@ export const getIsValidFullAddress = createSelector(
 export const getListOfProfessionalStatus = createSelector(
     [getSignUpState],
     (signUp) => signUp.listOfProfessionalStatus);
+
+export const getProfessionalStatusId = createSelector(
+    [getSignUpState],
+    (signUp) => signUp.isProfessionalStatusId);
+
+export const getIsValidProfessionalStatusId = createSelector(
+    [getSignUpState],
+    (signUp) => signUp.isValidProfessionalStatusId);

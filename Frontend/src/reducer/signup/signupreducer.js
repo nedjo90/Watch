@@ -20,8 +20,10 @@ const signUpSlice = createSlice({
                                     initialState: {
                                         username: '',
                                         isValidUsername: false,
+                                        errorUsernameMessage: '',
                                         email: '',
                                         isValidEmail: false,
+                                        errorEmailMessage: '',
                                         emailConfirmation: '',
                                         isSameEmail: false,
                                         password: '',
@@ -36,7 +38,7 @@ const signUpSlice = createSlice({
                                         birthday: '',
                                         isValidBirthday: false,
                                         listOfProfessionalStatus: [],
-                                        professionalStatusId: '',
+                                        professionalStatusId: '0',
                                         isValidProfessionalStatusId: false,
                                         fullAddress: {
                                             address: '',
@@ -51,18 +53,32 @@ const signUpSlice = createSlice({
                                     reducers: {
                                         setUsername(state, action)
                                         {
+                                            state.errorUsernameMessage = 'Please enter between 2 and 50 characters';
                                             state.username = action.payload.toString();
                                             state.isValidUsername = isValidUsername(
                                                 state.username);
-                                            // console.log(current(state));
+                                        },
+                                        setErrorUsernameMessage(state, action){
+                                            console.log("changed");
+                                            state.errorUsernameMessage = action.payload;
+                                            state.username = '';
+                                            state.isValidUsername = false;
                                         },
                                         setEmail(state, action)
                                         {
+                                            state.errorEmailMessage = 'Please enter a valid email format';
                                             state.email = action.payload.toString();
+                                            state.isSameEmail = state.emailConfirmation === state.email;
                                             state.isValidEmail = isValidEmail(
                                                 state.email);
-                                            // console.log(current(state));
                                         },
+                                        setErrorEmailMessage(state, action)
+                                        {
+                                            state.errorEmailMessage = action.payload;
+                                            state.email = '';
+                                            state.isValidEmail = false;
+                                        }
+                                        ,
                                         setEmailConfirmation(state, action)
                                         {
                                             state.emailConfirmation = action.payload.toString();
@@ -72,6 +88,7 @@ const signUpSlice = createSlice({
                                         setPassword(state, action)
                                         {
                                             state.password = action.payload.toString();
+                                            state.isSamePassword = state.passwordConfirmation === state.password;
                                             state.isValidPassword = isValidPassword(
                                                 state.password);
                                             // console.log(current(state));
@@ -128,8 +145,10 @@ const signUpSlice = createSlice({
                                         },
                                         setProfessionalStatusId(state, action)
                                         {
-                                            state.professionalStatusId = action.payload.id;
+                                            state.professionalStatusId = action.payload;
                                             state.isValidProfessionalStatusId = isValidProfessionalStatusId(
+                                                current(
+                                                    state.listOfProfessionalStatus),
                                                 state.professionalStatusId);
                                         }
                                     }
@@ -161,7 +180,9 @@ export const {
     setFullAddress,
     submitForm,
     loadProfessionalStatus,
-    setProfessionalStatusId
+    setProfessionalStatusId,
+    setErrorEmailMessage,
+    setErrorUsernameMessage
 } = signUpSlice.actions;
 
 export default signUpSlice.reducer;
@@ -171,6 +192,10 @@ export const initializeProfessionalStatus = () =>
     return async dispatch =>
     {
         const data = await WatchApiServices.getAllProfessionalStatus();
-        dispatch(loadProfessionalStatus(data));
+        const placeholder = [{
+            id: '0',
+            label: 'Please select a' + ' professional status'
+        }];
+        dispatch(loadProfessionalStatus(placeholder.concat(data)));
     };
 };

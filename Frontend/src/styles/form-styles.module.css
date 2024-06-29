@@ -1,20 +1,27 @@
 .formContainer {
-    padding: 5em 5em;
+    padding: 1em 5em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    width: 100vw;
+}
+
+.formSignInContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     width: 100vw;
 }
 
 .formTitle {
-    margin-bottom: 2em;
+    text-align: center;
+    margin-bottom: 1em;
 }
 
 .form {
-    max-height: 100%;
-    max-width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,17 +31,21 @@
 .formFields {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: row;
     margin-bottom: 4em;
     width: 100%;
 }
 
-.formGroup {
+.formGroup, .formButtonCard {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin: 0 0 0 0;
+}
+
+.formButtonCard{
+    justify-content: flex-end;
 }
 
 .formLabel {
@@ -50,14 +61,13 @@
     min-height: 3em;
 }
 
-.warningInput{
+.warningInput {
     color: red
 }
 
 
-
 .formButton {
-    width: 23em;
+    width: 35em;
     border-radius: 20px;
     height: 4em;
     font-size: 14px;
@@ -72,6 +82,7 @@
     }
 }
 
+
 @media (max-width: 1100px) {
     .formContainer {
         padding: 5em 0;
@@ -79,7 +90,7 @@
 
     .formFields {
         flex-direction: column;
-
+        align-items: center;
         gap: 0;
         margin-bottom: 6em;
     }
@@ -91,12 +102,17 @@
         margin: 2em 0 0 0;
     }
 
+    .formButton {
+        margin-top: 4em;
+        width: 23em;
+    }
+
     .formTextInput {
 
     }
 }
 
-.passwordIcon{
+.passwordIcon {
     color: black;
     position: absolute;
     top: 35%;

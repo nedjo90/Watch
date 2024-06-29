@@ -9,6 +9,7 @@ import {setEmail} from '../../reducer/signup/signupreducer.js';
 import {ErrorForm} from './errorform.jsx';
 import {
     getEmail,
+    getErrorEmailMessage,
     getIsSubmit,
     getIsValidEmail
 } from '../../reducer/signup/signupselectors.js';
@@ -18,6 +19,7 @@ export const EmailInput = () =>
     const dispatch = useDispatch();
     const email = useSelector(getEmail);
     const isValidEmail = useSelector(getIsValidEmail);
+    const errorMessage = useSelector(getErrorEmailMessage);
     const isSubmit = useSelector(getIsSubmit);
 
     return (
@@ -34,7 +36,7 @@ export const EmailInput = () =>
                 </Form.Control>
             </Form.Group>
             <ErrorForm isValid={isValidEmail} isSubmit={isSubmit}
-                       message="Please enter a valid email format"></ErrorForm>
+                       message={errorMessage}></ErrorForm>
         </div>
     );
 };
