@@ -11,15 +11,15 @@ import {
 } from 'react-redux';
 import formStyles from '../../styles/form-styles.module.css';
 import {
+    CANDIDATE_DASHBOARD,
+    HOME,
     SIGN_IN,
     SIGN_UP
 } from '../../routes/routespath.jsx';
 import {
-    setAccessToken,
     setConnectionFailed,
     setLoginPassword,
     setLoginUsername,
-    setRefreshToken,
     submitLogin
 } from '../../reducer/signin/signinreducer.js';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -30,7 +30,7 @@ import {
 import {ErrorForm} from '../form/errorform.jsx';
 import {useNavigate} from 'react-router-dom';
 import Watchapi from '../../services/watchapi.js';
-import {current} from '@reduxjs/toolkit';
+import {setIsConnected} from '../../reducer/signin/sessionReducer.js';
 
 export const SignInForm = () =>
 {
@@ -51,11 +51,9 @@ export const SignInForm = () =>
                 Watchapi.login(dataForApi)
                 .then(response =>
                       {
-                          console.log("token", response.data.accessToken);
-                          dispatch(setAccessToken(response.data.accessToken));
-                          dispatch(setRefreshToken(response.data.refreshToken));
+                          dispatch(setIsConnected())
+                          navigate(HOME);
                           console.log("success",response);
-                          console.log(current(data));
                       })
                 .catch(
                     error =>

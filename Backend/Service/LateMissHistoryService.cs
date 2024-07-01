@@ -2,6 +2,7 @@ using AutoMapper;
 using Contracts;
 using Entities.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransfertObject.LateMissHistory;
 using Shared.DataTransfertObject.LateMissStatus;
@@ -10,8 +11,8 @@ namespace Service;
 
 internal class LateMissHistoryService: ServiceBase, ILateMissHistoryService
 {
-    public LateMissHistoryService(IHttpContextAccessor httpContextAccessor,IServiceManager serviceManager, IRepositoryManager repositoryManager,
-        ILoggerManager loggerManager, IMapper mapper) : base(httpContextAccessor, serviceManager, repositoryManager,loggerManager, mapper)
+    public LateMissHistoryService(UserManager<User?> userManager,IHttpContextAccessor httpContextAccessor,IServiceManager serviceManager, IRepositoryManager repositoryManager,
+        ILoggerManager loggerManager, IMapper mapper) : base(userManager, httpContextAccessor, serviceManager, repositoryManager,loggerManager, mapper)
     {
     }
 

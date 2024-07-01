@@ -31,10 +31,3 @@ export const getIsSubmit = createSelector(
     (signIn) => signIn.isSubmit);
 
 
-export const getToken = createSelector(
-    [getSignInState],
-    (signIn) => signIn.token);
-
-export const getRefreshToken = createSelector(
-    [getSignInState],
-    (signIn) => signIn.refreshToken);

@@ -16,8 +16,6 @@ const signInSlice = createSlice({
                                         password: '',
                                         isValidPassword: false,
                                         errorPasswordMessage: 'At least one digit, one lowercase letter, and one uppercase letter, and be at least 10 characters long',
-                                        accessToken: '',
-                                        refreshToken: '',
                                         allInputAreValid: false,
                                         errorConnectionMessage: 'Invalid' +
                                             ' username or password',
@@ -58,12 +56,6 @@ const signInSlice = createSlice({
                                         setConnectionFailed(state)
                                         {
                                             state.isConnectionFailed = false;
-                                        },
-                                        setAccessToken(state, action){
-                                            state.accessToken = action.payload
-                                        },
-                                        setRefreshToken(state, action){
-                                            state.refreshToken = action.payload
                                         }
                                     }
                                 });
@@ -73,8 +65,6 @@ export const {
     setLoginPassword,
     submitLogin,
     setConnectionFailed,
-    setAccessToken,
-    setRefreshToken
 } = signInSlice.actions;
 
 export default signInSlice.reducer;

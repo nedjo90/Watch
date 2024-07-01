@@ -1,4 +1,5 @@
 using Main.Presentation.ActionFilter;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransfertObject.Authentication;

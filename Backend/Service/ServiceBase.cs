@@ -9,11 +9,14 @@ namespace Service;
 
 internal abstract class ServiceBase
 {
+    private readonly UserManager<User> _userManager;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IRepositoryManager _repositoryManager;
     private readonly ILoggerManager _loggerManager;
     private readonly IMapper _mapper;
     private readonly IServiceManager _serviceManager;
+    
+    protected UserManager<User> UserManager => _userManager;
     protected IRepositoryManager RepositoryManager => _repositoryManager;
     protected ILoggerManager LoggerManager => _loggerManager;
     protected IMapper Mapper => _mapper;
@@ -21,12 +24,20 @@ internal abstract class ServiceBase
     protected IServiceManager ServiceManager => _serviceManager;
     
     
-    protected ServiceBase(IHttpContextAccessor httpContextAccessor, IServiceManager serviceManager, IRepositoryManager repositoryManager, ILoggerManager loggerManager, IMapper mapper)
+    protected ServiceBase(UserManager<User> userManager,IHttpContextAccessor httpContextAccessor, IServiceManager serviceManager, IRepositoryManager repositoryManager, ILoggerManager loggerManager, IMapper mapper)
     {
+        _userManager = userManager;
         _httpContextAccessor = httpContextAccessor;
         _repositoryManager = repositoryManager;
         _loggerManager = loggerManager;
         _mapper = mapper;
         _serviceManager = serviceManager;
+    }
+
+    
+    
+    protected async Task<string> GetCurrentUserIdAsync()
+    {
+        return await ServiceManager.UserService.GetUserIdByUserName();
     }
 }

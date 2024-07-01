@@ -3,6 +3,7 @@ using Contracts;
 using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransfertObject.Notification;
 using Shared.DataTransfertObject.NotificationType;
@@ -11,8 +12,8 @@ namespace Service;
 
 internal class NotificationService: ServiceBase, INotificationService
 {
-    public NotificationService(IHttpContextAccessor httpContextAccessor,IServiceManager serviceManager, IRepositoryManager repositoryManager,
-        ILoggerManager loggerManager, IMapper mapper) : base(httpContextAccessor, serviceManager, repositoryManager,loggerManager, mapper)
+    public NotificationService(UserManager<User?> userManager,IHttpContextAccessor httpContextAccessor,IServiceManager serviceManager, IRepositoryManager repositoryManager,
+        ILoggerManager loggerManager, IMapper mapper) : base(userManager, httpContextAccessor, serviceManager, repositoryManager,loggerManager, mapper)
     {
     }
 

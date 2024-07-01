@@ -176,7 +176,7 @@ public static class ServiceExtensions
                 o.Password.RequireLowercase = true;
                 o.Password.RequireUppercase = true;
                 o.Password.RequireNonAlphanumeric = false;
-                o.Password.RequiredLength = 10;
+                o.Password.RequiredLength = 8;
                 o.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<RepositoryContext>()

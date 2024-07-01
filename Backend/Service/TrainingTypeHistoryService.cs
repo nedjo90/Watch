@@ -2,6 +2,7 @@ using AutoMapper;
 using Contracts;
 using Entities.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransfertObject.TrainingTypeHistory;
 
@@ -9,8 +10,8 @@ namespace Service;
 
 internal class TrainingTypeHistoryService: ServiceBase, ITrainingTypeHistoryService
 {
-    public TrainingTypeHistoryService(IHttpContextAccessor httpContextAccessor,IServiceManager serviceManager, IRepositoryManager repositoryManager,
-        ILoggerManager loggerManager, IMapper mapper) : base(httpContextAccessor, serviceManager, repositoryManager,loggerManager, mapper)
+    public TrainingTypeHistoryService(UserManager<User?> userManager,IHttpContextAccessor httpContextAccessor,IServiceManager serviceManager, IRepositoryManager repositoryManager,
+        ILoggerManager loggerManager, IMapper mapper) : base(userManager, httpContextAccessor, serviceManager, repositoryManager,loggerManager, mapper)
     {
     }
     

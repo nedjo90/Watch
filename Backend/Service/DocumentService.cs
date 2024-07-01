@@ -1,16 +1,23 @@
+using System.Security.Claims;
 using AutoMapper;
 using Contracts;
 using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransfertObject.Document;
 
 namespace Service;
+
 internal class DocumentService : ServiceBase, IDocumentService
 {
-    public DocumentService(IHttpContextAccessor httpContextAccessor,IServiceManager serviceManager, IRepositoryManager repositoryManager,
-        ILoggerManager loggerManager, IMapper mapper) : base(httpContextAccessor, serviceManager, repositoryManager,loggerManager, mapper)
+    public DocumentService(UserManager<User?> userManager, IHttpContextAccessor httpContextAccessor,
+        IServiceManager serviceManager,
+        IRepositoryManager repositoryManager,
+        ILoggerManager loggerManager, IMapper mapper) : base(userManager, httpContextAccessor, serviceManager,
+        repositoryManager,
+        loggerManager, mapper)
     {
     }
 
@@ -45,7 +52,9 @@ internal class DocumentService : ServiceBase, IDocumentService
     public async Task<DocumentDto> CreateAsync(DocumentForCreationDto documentForCreationDto)
     {
         await ThrowIfDocumentForCreationIsNotValid(documentForCreationDto);
+        string userId = await GetCurrentUserIdAsync();
         Document document = Mapper.Map<Document>(documentForCreationDto);
+        document.UserId = userId;
         RepositoryManager.DocumentRepository.CreateAsync(document);
         await ServiceManager.DocumentHistoryService.RegisterModification(document,
             TypeOfModification.Created.ToString());
@@ -54,16 +63,21 @@ internal class DocumentService : ServiceBase, IDocumentService
         return documentDto;
     }
 
-    public async Task<IEnumerable<DocumentDto>> CreateCollectionAsync(IEnumerable<DocumentForCreationDto> documentForCreationDtos)
+    public async Task<IEnumerable<DocumentDto>> CreateCollectionAsync(
+        IEnumerable<DocumentForCreationDto> documentForCreationDtos)
     {
         await ThrowIfListOfDocumentForCreationIsNotValid(documentForCreationDtos);
         IEnumerable<Document?> document =
             Mapper.Map<IEnumerable<Document>>(documentForCreationDtos);
+        string userId = await GetCurrentUserIdAsync();
         foreach (Document entity in document)
         {
+            entity.UserId = userId;
             RepositoryManager.DocumentRepository.CreateAsync(entity);
-            await ServiceManager.DocumentHistoryService.RegisterModification(entity, TypeOfModification.Created.ToString());
+            await ServiceManager.DocumentHistoryService.RegisterModification(entity,
+                TypeOfModification.Created.ToString());
         }
+
         await RepositoryManager.SaveAsync();
         IEnumerable<DocumentDto> documentDtos =
             Mapper.Map<IEnumerable<DocumentDto>>(document);
@@ -72,27 +86,36 @@ internal class DocumentService : ServiceBase, IDocumentService
 
     private async Task ThrowIfDocumentForCreationIsNotValid(DocumentForCreationDto documentForCreationDto)
     {
-        List<object> errors = new ();
-        if(await ServiceManager.DocumentStatusService.CheckIfIdExist(documentForCreationDto.DocumentStatusId, false) == null)
+        List<object> errors = new();
+        if (await ServiceManager.DocumentStatusService.CheckIfIdExist(documentForCreationDto.DocumentStatusId, false) ==
+            null)
             errors.Add("Document Status Id doesn't exist.");
-        if (await ServiceManager.DocumentTypeService.CheckIfIdExist(documentForCreationDto.DocumentTypeId, false) == null)
+        if (await ServiceManager.DocumentTypeService.CheckIfIdExist(documentForCreationDto.DocumentTypeId, false) ==
+            null)
             errors.Add("Document Type Id doesn't exist.");
         if (errors.Count > 0)
             throw new BadRequestMultipleException("Non-existent ID(s) detected. Please provide valid ID(s).", errors);
     }
-    private async Task ThrowIfListOfDocumentForCreationIsNotValid(IEnumerable<DocumentForCreationDto> documentForCreationDtos)
+
+    private async Task ThrowIfListOfDocumentForCreationIsNotValid(
+        IEnumerable<DocumentForCreationDto> documentForCreationDtos)
     {
-        Dictionary<object, object> errors = new ();
+        Dictionary<object, object> errors = new();
         foreach (DocumentForCreationDto documentForCreationDto in documentForCreationDtos)
         {
-            List<object> specificErrors = new ();
-            if(await ServiceManager.DocumentStatusService.CheckIfIdExist(documentForCreationDto.DocumentStatusId, false) == null)
-                specificErrors.Add(new{ documentForCreationDto.DocumentStatusId, Detail = "Document Status Id doesn't exist."} );
-            if (await ServiceManager.DocumentTypeService.CheckIfIdExist(documentForCreationDto.DocumentTypeId, false) == null)
-                specificErrors.Add(new{ documentForCreationDto.DocumentTypeId, Detail = "Document Type Id doesn't exist."});
+            List<object> specificErrors = new();
+            if (await ServiceManager.DocumentStatusService.CheckIfIdExist(documentForCreationDto.DocumentStatusId,
+                    false) == null)
+                specificErrors.Add(new
+                    { documentForCreationDto.DocumentStatusId, Detail = "Document Status Id doesn't exist." });
+            if (await ServiceManager.DocumentTypeService.CheckIfIdExist(documentForCreationDto.DocumentTypeId, false) ==
+                null)
+                specificErrors.Add(new
+                    { documentForCreationDto.DocumentTypeId, Detail = "Document Type Id doesn't exist." });
             if (specificErrors.Count > 0)
                 errors.Add(documentForCreationDto, specificErrors);
         }
+
         if (errors.Count > 0)
             throw new BadRequestMultipleException(
                 "Invalid document information detected. Please provide valid informations.", errors);

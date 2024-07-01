@@ -2,6 +2,7 @@ using AutoMapper;
 using Contracts;
 using Entities.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransfertObject.DocumentStatusHistory;
 
@@ -9,8 +10,8 @@ namespace Service;
 
 internal class DocumentStatusHistoryService: ServiceBase, IDocumentStatusHistoryService
 {
-    public DocumentStatusHistoryService(IHttpContextAccessor httpContextAccessor,IServiceManager serviceManager, IRepositoryManager repositoryManager,
-        ILoggerManager loggerManager, IMapper mapper) : base(httpContextAccessor, serviceManager, repositoryManager,loggerManager, mapper)
+    public DocumentStatusHistoryService(UserManager<User?> userManager,IHttpContextAccessor httpContextAccessor,IServiceManager serviceManager, IRepositoryManager repositoryManager,
+        ILoggerManager loggerManager, IMapper mapper) : base(userManager,httpContextAccessor, serviceManager, repositoryManager,loggerManager, mapper)
     {
     }
 

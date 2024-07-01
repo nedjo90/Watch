@@ -20,14 +20,14 @@ public class AuthenticationService : IAuthenticationService
 {
     private readonly ILoggerManager _logger;
     private readonly IMapper _mapper;
-    private readonly UserManager<User> _userManager;
+    private readonly UserManager<User?> _userManager;
     private readonly RoleManager<Role> _roleManager;
     private readonly IOptions<JwtConfiguration> _configuration;
     private readonly JwtConfiguration _jwtConfiguration;
 
     private User? _user;
 
-    public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<User> userManager, RoleManager<Role> roleManager, IOptions<JwtConfiguration> configuration)
+    public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<User?> userManager, RoleManager<Role> roleManager, IOptions<JwtConfiguration> configuration)
     {
         _logger = logger;
         _mapper = mapper;
@@ -43,7 +43,7 @@ public class AuthenticationService : IAuthenticationService
         {
             if (!await _roleManager.RoleExistsAsync(role))
                 throw new RoleBadRequestException($"{role} is not a valid role");
-            if (role != "Candidate")
+            if (role != "Candidateprofile")
                 throw new ForbiddenForRegistrationRole();
         }
         User? user = _mapper.Map<User>(userForRegistration);
@@ -56,7 +56,8 @@ public class AuthenticationService : IAuthenticationService
         }
         return result;
     }
-
+    
+    
     public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
     {
         _user = await _userManager.FindByNameAsync(userForAuth.UserName);

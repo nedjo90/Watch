@@ -21,7 +21,7 @@ public record UserForRegistrationDto
     public string? UserName { get; init; }
 
     [Required(ErrorMessage = "Password is required")]
-    public string? Password { get; init; }
+    public string Password { get; init; }
 
     [Required(ErrorMessage = "Password is required")]
     [Compare(nameof(Password), ErrorMessage = "The password and confirmation password do not match.")]
@@ -64,5 +64,5 @@ public record UserForRegistrationDto
     [Required] public Guid ProfessionalStatusId { get; init; }
 
     [Required(ErrorMessage = "Roles is required")]
-    public ICollection<string>? Roles { get; init; } = new List<string> { "Candidate" };
+    public ICollection<string>? Roles { get; init; } = new List<string> { "Candidateprofile" };
 }

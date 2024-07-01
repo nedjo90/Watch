@@ -17,6 +17,6 @@ public record DocumentForManipulationDto
     [Required(ErrorMessage = "Document Type Id is a required field.")]
     public Guid? DocumentStatusId { get; init; }
 
-    [Required(ErrorMessage = "User Id is a required field.")]
-    public string? UserId { get; init; }
+    //[Required(ErrorMessage = "User Id is a required field.")]
+    public string? UserId { get; init; } = "";
 }

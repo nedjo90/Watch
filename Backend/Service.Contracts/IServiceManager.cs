@@ -1,3 +1,6 @@
+using Entities.Models;
+using Microsoft.AspNetCore.Identity;
+
 namespace Service.Contracts;
 
 public interface IServiceManager
@@ -29,5 +32,4 @@ public interface IServiceManager
     ITrainingTypeService TrainingTypeService { get; }
     IUserHistoryService UserHistoryService { get; }
     IUserService UserService { get; }
-
 }

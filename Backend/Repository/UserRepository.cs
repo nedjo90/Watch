@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Repository;
 
-public class UserRepository: RepositoryBase<User>, IUserRepository
+public class UserRepository : RepositoryBase<User>, IUserRepository
 {
     public UserRepository(RepositoryContext repositoryContext) : base(repositoryContext)
     {
@@ -14,6 +14,7 @@ public class UserRepository: RepositoryBase<User>, IUserRepository
     {
         return await FindAll(trackChanges).ToListAsync();
     }
+    
 
     public async Task<string?> GetUserIdByName(string? username, bool trackChanges)
     {

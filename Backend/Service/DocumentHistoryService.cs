@@ -2,6 +2,8 @@ using AutoMapper;
 using Contracts;
 using Entities.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransfertObject.DocumentHistory;
 
@@ -9,8 +11,8 @@ namespace Service;
 
 internal class DocumentHistoryService :ServiceBase, IDocumentHistoryService
 {
-    public DocumentHistoryService(IHttpContextAccessor httpContextAccessor,IServiceManager serviceManager, IRepositoryManager repositoryManager,
-        ILoggerManager loggerManager, IMapper mapper) : base(httpContextAccessor, serviceManager, repositoryManager,loggerManager, mapper)
+    public DocumentHistoryService(UserManager<User?> userManager,IHttpContextAccessor httpContextAccessor,IServiceManager serviceManager, IRepositoryManager repositoryManager,
+        ILoggerManager loggerManager, IMapper mapper) : base( userManager,httpContextAccessor, serviceManager, repositoryManager,loggerManager, mapper)
     {
     }
 
@@ -23,10 +25,11 @@ internal class DocumentHistoryService :ServiceBase, IDocumentHistoryService
         return documentHistoryDtos;
     }
 
-    public async Task RegisterModification(Document document, string typeOfModification)
+    public async Task RegisterModification(Document document, string typeOfModification, string? userId = null)
     {
         DocumentHistory documentHistory = Mapper.Map<DocumentHistory>(document);
-        documentHistory.ModifierUserId = await ServiceManager.UserService.GetUserIdByUserName();
+        if (userId.IsNullOrEmpty())
+            documentHistory.ModifierUserId = await ServiceManager.UserService.GetUserIdByUserName();
         documentHistory.Label = document.Label!;
         documentHistory.DocumentId = document.Id;
         documentHistory.TypeOfModification = typeOfModification;

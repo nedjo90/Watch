@@ -36,7 +36,7 @@ new Role
             },
             new Role
             {
-                Name = "Candidate",
+                Name = "Candidateprofile",
                 NormalizedName = "CANDIDATE",
                 ConcurrencyStamp = Guid.NewGuid().ToString()
             }

@@ -2,6 +2,7 @@ using System.Reflection;
 using Entities.LinkModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Logging;
 
 namespace Main.Presentation.Controllers;
 
@@ -11,7 +12,7 @@ public class RootController : ControllerBase
 {
     private readonly LinkGenerator _linkGenerator;
     private const string Baseurl = $"https://localhost:7184/api";
-    
+
     public RootController(LinkGenerator linkGenerator)
     {
         _linkGenerator = linkGenerator;
@@ -26,7 +27,7 @@ public class RootController : ControllerBase
             {
                 new Link
                 {
-                    Href = _linkGenerator.GetUriByAction(HttpContext, "GetRoot","Root", new {}),
+                    Href = _linkGenerator.GetUriByAction(HttpContext, "GetRoot", "Root", new { }),
                     Rel = "self",
                     Method = "GET"
                 }
@@ -34,14 +35,15 @@ public class RootController : ControllerBase
             BasicGenericLinks().ForEach((e) => list.Add(e));
             return Ok(list);
         }
+
         return NoContent();
     }
 
     private List<Link> BasicGenericLinks()
     {
         List<Link> list = new List<Link>();
-        IEnumerable<Type> types = GetChildControllers(typeof(Assembly));
-        
+        IEnumerable<Type> types = GetChildControllers(typeof(ControllerBase));
+
         foreach (Type type in types)
         {
             string url = type.Name.Replace("Controller", "").ToLower();
@@ -57,27 +59,39 @@ public class RootController : ControllerBase
                 Rel = $"create_{url}",
                 Method = "POST"
             });
+            list.Add(new Link
+            {
+                Href = $"{Baseurl}/{url}",
+                Rel = $"remove_{url}",
+                Method = "DELETE"
+            });
+            list.Add(new Link
+            {
+                Href = $"{Baseurl}/{url}",
+                Rel = $"update_{url}",
+                Method = "PUT"
+            });
+            
         }
+
         return list;
     }
-    
+
     private IEnumerable<Type> GetChildControllers(Type parentControllerType)
     {
-        Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        //Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        Assembly assembly = Assembly.GetExecutingAssembly();
         List<Type> children = new List<Type>();
-        foreach (var assembly in assemblies)
+        foreach (Type type in assembly.GetTypes())
         {
-            foreach (Type type in assembly.GetTypes())
+            if (type.BaseType != null && type.IsClass && type.BaseType == parentControllerType)
             {
-                if (type.BaseType != null && type.IsClass && type.BaseType.Name.Equals(parentControllerType.Name))
-                {
-                    children.Add(type);
-                }
+                children.Add(type);
             }
         }
         return children;
     }
-    
+
     [HttpOptions]
     public IActionResult GetOptions()
     {
