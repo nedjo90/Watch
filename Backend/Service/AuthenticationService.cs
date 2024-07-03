@@ -20,21 +20,19 @@ public class AuthenticationService : IAuthenticationService
 {
     private readonly ILoggerManager _logger;
     private readonly IMapper _mapper;
-    private readonly UserManager<User?> _userManager;
+    private readonly UserManager<User> _userManager;
     private readonly RoleManager<Role> _roleManager;
-    private readonly IOptions<JwtConfiguration> _configuration;
     private readonly JwtConfiguration _jwtConfiguration;
 
     private User? _user;
 
-    public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<User?> userManager, RoleManager<Role> roleManager, IOptions<JwtConfiguration> configuration)
+    public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<User> userManager, RoleManager<Role> roleManager, IOptions<JwtConfiguration> configuration)
     {
         _logger = logger;
         _mapper = mapper;
         _userManager = userManager;
         _roleManager = roleManager;
-        _configuration = configuration;
-        _jwtConfiguration = _configuration.Value;
+        _jwtConfiguration = configuration.Value;
     }
 
     public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
@@ -74,8 +72,8 @@ public class AuthenticationService : IAuthenticationService
         JwtSecurityToken tokenOptions = GenerateTokenOptions(signingCredentials, claims);
         string refreshToken = GenerateRefreshToken();
         _user.RefreshToken = refreshToken;
-        if(populateExp)
-            _user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+        if (populateExp)
+            _user.RefreshTokenExpiryTime = DateTime.Now.AddSeconds(_jwtConfiguration.RefreshTokenDurationTime);
         await _userManager.UpdateAsync(_user);
         string? accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         return new TokenDto(accessToken, refreshToken);
@@ -120,7 +118,7 @@ public class AuthenticationService : IAuthenticationService
             issuer: _jwtConfiguration.ValidIssuer,
             audience: _jwtConfiguration.ValidAudience,
             claims: claims,
-            expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtConfiguration.Expires)),
+            expires: DateTime.Now.AddSeconds(_jwtConfiguration.AccessTokenDurationTime),
             signingCredentials: signingCredentials
         );
         return tokenOptions;

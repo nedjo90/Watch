@@ -19,6 +19,6 @@ public record LateMissForManipulationDto
     [Required(ErrorMessage = "Late or Miss Status Id is a required field.")]
     public Guid? LateMissStatusId { get; init; }
     
-    [Required(ErrorMessage = "Late or Miss Status User Id is a required field.")]
+    //[Required(ErrorMessage = "Late or Miss Status User Id is a required field.")]
     public string? UserId { get; set; }
 }

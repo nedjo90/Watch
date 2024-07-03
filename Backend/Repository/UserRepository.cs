@@ -22,6 +22,7 @@ public class UserRepository : RepositoryBase<User>, IUserRepository
             .FirstOrDefaultAsync();
         return user?.Id;
     }
+    
 
     public async Task<User?> GetUserByIdAsync(string? id, bool trackChanges)
     {

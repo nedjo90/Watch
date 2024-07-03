@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'https://localhost:7184/api/';
+const baseUrl = 'https://localhost:7184/api';
 
 const apiClient = axios.create({
                                    headers: {
@@ -11,7 +11,7 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(request =>
                                    {
                                        const accessToken = localStorage.getItem(
-                                           'accessToken');
+                                           'watchApiAccessToken');
                                        if (accessToken)
                                        {
                                            request.headers['Authorization'] = `Bearer ${accessToken}`;
@@ -33,11 +33,11 @@ apiClient.interceptors.response.use(
             originalRequest._retry = true;
             try
             {
-                const refresh = localStorage.getItem('refreshToken');
-                const access = localStorage.getItem('accessToken');
+                const refresh = localStorage.getItem('watchApiRefreshToken');
+                const access = localStorage.getItem('watchApiAccessToken');
                 console.log('refresh', refresh);
                 console.log('access', access);
-                const response = await axios.post(`${baseUrl}token/refresh`, {
+                const response = await axios.post(`${baseUrl}/token/refresh`, {
                     accessToken: access,
                     refreshToken: refresh
                 });
@@ -45,16 +45,17 @@ apiClient.interceptors.response.use(
                     accessToken,
                     refreshToken
                 } = response.data;
-                localStorage.setItem('accessToken', accessToken);
-                localStorage.setItem('refreshToken', refreshToken);
+                localStorage.setItem('watchApiAccessToken', accessToken);
+                localStorage.setItem('watchApiRefreshToken', refreshToken);
                 apiClient.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+                originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
                 return apiClient(originalRequest);
             }
             catch (refreshError)
             {
                 console.log('Token refresh failed', refreshError);
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
+                localStorage.removeItem('watchApiAccessToken');
+                localStorage.removeItem('watchApiRefreshToken');
                 return Promise.reject(refreshError);
             }
         }
@@ -62,41 +63,57 @@ apiClient.interceptors.response.use(
     }
 );
 
+const getRoot = async () =>{
+    return await apiClient.get(baseUrl);
+}
+
+const optionRoot = async () =>{
+    return await apiClient.options(`${baseUrl}`);
+}
+
 const getDocument = async () =>
 {
-    return await apiClient.get(`${baseUrl}document`);
+    return await apiClient.get(`${baseUrl}/document`);
 };
 
 const getRoles = async () =>
 {
-    return await apiClient.get(`${baseUrl}user/roles`);
+    return await apiClient.get(`${baseUrl}/user/roles`);
+};
+
+const getUserInfo = async () =>
+{
+    return await apiClient.get(`${baseUrl}/user`);
 };
 
 const getAllProfessionalStatus = async () =>
 {
     const response = await axios.get(
-        `${baseUrl}professionalstatus`);
+        `${baseUrl}/professionalstatus`);
     return response.data;
 };
 
 export const createUser = async (body) =>
 {
-    return await axios.post(`${baseUrl}authentication`, body);
+    return await axios.post(`${baseUrl}/authentication`, body);
 };
 
 export const login = async (body) =>
 {
     const response = await axios.post(
-        `${baseUrl}authentication/login`, body
+        `${baseUrl}/authentication/login`, body
     );
     console.log('response data', response.data);
-    localStorage.setItem('accessToken', response.data.accessToken);
-    localStorage.setItem('refreshToken', response.data.refreshToken);
+    localStorage.setItem('watchApiAccessToken', response.data.accessToken);
+    localStorage.setItem('watchApiRefreshToken', response.data.refreshToken);
 };
 
 export default {
     getAllProfessionalStatus,
     createUser,
     login,
-    getDocument
+    getDocument,
+    getRoles,
+    getUserInfo,
+    optionRoot
 };

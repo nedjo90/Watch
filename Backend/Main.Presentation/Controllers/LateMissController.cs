@@ -1,5 +1,6 @@
 using Entities.Models;
 using Main.Presentation.ActionFilter;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransfertObject.LateMiss;
@@ -8,6 +9,7 @@ namespace Main.Presentation.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class LateMissController : ControllerBase
 {
     private readonly IServiceManager _service;

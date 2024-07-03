@@ -44,9 +44,10 @@ public static class ExceptionMiddlewareExtensions
                     {
                         context.Response.StatusCode = contextFeature.Error switch
                         {
-                            NotFoundException => StatusCodes.Status404NotFound,
                             BadRequestException => StatusCodes.Status400BadRequest,
                             ForbiddenRequestException => StatusCodes.Status403Forbidden,
+                            NotFoundException => StatusCodes.Status404NotFound,
+                            NotAllowedException => StatusCodes.Status405MethodNotAllowed,
                             _ => StatusCodes.Status500InternalServerError
                         };
                         await context.Response.WriteAsync(

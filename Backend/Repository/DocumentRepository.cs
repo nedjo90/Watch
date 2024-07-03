@@ -26,6 +26,15 @@ public class DocumentRepository : RepositoryBase<Document>, IDocumentRepository
         return await FindByCondition(e => ids.Contains(e.Id), trackChanges).ToListAsync();
     }
 
+    public async Task<IEnumerable<Document>> GetUserDocumentsAsync(string userId, bool trackChanges)
+    {
+        return await FindByCondition(
+            e => e.UserId.Equals(userId), trackChanges)
+            .Include(document => document.DocumentType)
+            .Include(document => document.DocumentStatus)
+            .ToListAsync();
+    }
+
     public void CreateAsync(Document document)
     {
         Create(document);

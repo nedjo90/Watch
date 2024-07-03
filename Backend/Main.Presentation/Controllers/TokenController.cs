@@ -16,6 +16,7 @@ public class TokenController : ControllerBase
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> Refresh([FromBody]TokenDto tokenDto)
     {
+        Console.WriteLine("coucou j'ai fait un rfresh token");
         var tokenDtoToReturn = await
             _service.AuthenticationService.RefreshToken(tokenDto);
         return Ok(tokenDtoToReturn);

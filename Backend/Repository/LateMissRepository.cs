@@ -26,6 +26,16 @@ public class LateMissRepository: RepositoryBase<LateMiss>, ILateMissRepository
         return await FindByCondition(e => ids.Contains(e.Id), trackChanges).ToListAsync();
     }
 
+    public async Task<IEnumerable<LateMiss>> GetUserLateMissesAsync(string userId, bool trackChanges)
+    {
+        return await FindByCondition(
+                e => e.UserId.Equals(userId), trackChanges)
+            .Include(e => e.LateMissDocuments)
+            .Include(e => e.LateMissStatus)
+            .Include(e => e.LateMissType)
+            .ToListAsync();
+    }
+
     public void CreateAsync(LateMiss lateMiss)
     {
         Create(lateMiss);

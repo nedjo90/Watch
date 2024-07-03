@@ -5,6 +5,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransfertObject.LateMiss;
 
@@ -12,7 +13,7 @@ namespace Service;
 
 internal class LateMissService: ServiceBase, ILateMissService
 {
-    public LateMissService(UserManager<User?> userManager,IHttpContextAccessor httpContextAccessor,IServiceManager serviceManager, IRepositoryManager repositoryManager,
+    public LateMissService(UserManager<User> userManager,IHttpContextAccessor httpContextAccessor,IServiceManager serviceManager, IRepositoryManager repositoryManager,
         ILoggerManager loggerManager, IMapper mapper) : base(userManager, httpContextAccessor, serviceManager, repositoryManager,loggerManager, mapper)
     {
     }
@@ -47,6 +48,13 @@ internal class LateMissService: ServiceBase, ILateMissService
 
     public async Task<LateMissDto> CreateAsync(LateMissForCreationDto lateMissForCreationDto)
     {
+        if (lateMissForCreationDto.UserId.IsNullOrEmpty())
+        {
+            User? user = ServiceManager.UserService.GetCurrentUser();
+            if(user is null)
+                throw new NotConnectedException();
+            lateMissForCreationDto.UserId = user.Id;
+        }
         await ThrowIfLateMissForCreationIsNotValid(lateMissForCreationDto);
         LateMiss lateMiss = Mapper.Map<LateMiss>(lateMissForCreationDto);
         lateMiss.DeclarationDate = DateTime.UtcNow;

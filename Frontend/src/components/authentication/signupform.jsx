@@ -103,6 +103,7 @@ export const SignUpForm = () =>
         dispatch(submitForm());
     };
 
+
     return (<div className={formStyles.formContainer}>
         <div className={formStyles.formTitle}>
             <h1>Registration</h1>

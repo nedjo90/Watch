@@ -33,6 +33,7 @@ public class RootController : ControllerBase
                 }
             };
             BasicGenericLinks().ForEach((e) => list.Add(e));
+            Console.WriteLine("root sent");
             return Ok(list);
         }
 

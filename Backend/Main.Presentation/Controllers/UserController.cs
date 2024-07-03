@@ -2,6 +2,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
+using Shared.DataTransfertObject.User;
 
 namespace Main.Presentation.Controllers;
 
@@ -16,6 +17,12 @@ public class UserController : ControllerBase
     {
         _service = service;
     }
+    [HttpGet]
+    public async Task<IActionResult> GetUserInfo()
+    {
+        UserInfoDto userInfoDto =  await _service.UserService.GetCurrentUserInfo();
+        return Ok(userInfoDto);
+    }
     
     [HttpGet("roles")]
     public async Task<IActionResult> GetCurrentUserRoles()
@@ -23,6 +30,7 @@ public class UserController : ControllerBase
         IList<string> roles = await _service.UserService.GetCurrentUserRoles();
         return Ok(roles);
     }
+    
     
     [HttpOptions]
     public IActionResult GetOptions()

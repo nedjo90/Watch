@@ -11,7 +11,7 @@ import {
 } from 'react-redux';
 import formStyles from '../../styles/form-styles.module.css';
 import {
-    CANDIDATE_DASHBOARD,
+    PROFILE,
     HOME,
     SIGN_IN,
     SIGN_UP
@@ -30,7 +30,7 @@ import {
 import {ErrorForm} from '../form/errorform.jsx';
 import {useNavigate} from 'react-router-dom';
 import Watchapi from '../../services/watchapi.js';
-import {setIsConnected} from '../../reducer/signin/sessionReducer.js';
+import {setIsConnected} from '../../reducer/session/sessionReducer.js';
 
 export const SignInForm = () =>
 {

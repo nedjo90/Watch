@@ -1,4 +1,4 @@
-const ProfDashboard = () =>
+const Profdashboard = () =>
 {
 
     return (
@@ -6,4 +6,4 @@ const ProfDashboard = () =>
     );
 };
 
-export default ProfDashboard
+export default Profdashboard
